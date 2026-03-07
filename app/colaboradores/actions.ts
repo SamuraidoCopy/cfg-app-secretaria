@@ -1,0 +1,45 @@
+"use server";
+
+import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
+
+export async function getEmployees() {
+    return await prisma.employee.findMany({
+        orderBy: { name: "asc" },
+    });
+}
+
+export async function addEmployee(formData: FormData) {
+    const name = formData.get("name") as string;
+    const cpf = formData.get("cpf") as string;
+    const type = formData.get("type") as string;
+    const role = formData.get("role") as string;
+    const baseSalary = parseFloat(formData.get("baseSalary") as string);
+    const transportDailyRaw = formData.get("transportDaily") as string;
+    const transportDaily = transportDailyRaw ? parseFloat(transportDailyRaw) : null;
+    const gasAssistanceRaw = formData.get("gasAssistance") as string;
+    const gasAssistance = gasAssistanceRaw ? parseFloat(gasAssistanceRaw) : null;
+    const pixKey = (formData.get("pixKey") as string) || null;
+
+    await prisma.employee.create({
+        data: {
+            name,
+            cpf,
+            type,
+            role,
+            baseSalary,
+            transportDaily,
+            gasAssistance,
+            pixKey,
+        },
+    });
+
+    revalidatePath("/colaboradores");
+}
+
+export async function deleteEmployee(id: string) {
+    await prisma.employee.delete({
+        where: { id },
+    });
+    revalidatePath("/colaboradores");
+}

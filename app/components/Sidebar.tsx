@@ -1,0 +1,76 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { LayoutDashboard, Users, FileText, Wallet, FileSignature, ShieldAlert } from "lucide-react";
+import { useSession } from "next-auth/react";
+import LogoutButton from "./LogoutButton";
+
+export default function Sidebar() {
+    const { data: session } = useSession();
+
+    const navItems = [
+        { label: "Dashboard", href: "/", icon: <LayoutDashboard className="w-5 h-5" /> },
+        { label: "Colaboradores", href: "/colaboradores", icon: <Users className="w-5 h-5" /> },
+        { label: "Folha de Pagamento", href: "/folha", icon: <FileText className="w-5 h-5" /> },
+        { label: "Financeiro", href: "/financeiro", icon: <Wallet className="w-5 h-5" /> },
+        { label: "Contratos", href: "/contratos", icon: <FileSignature className="w-5 h-5" /> },
+    ];
+
+    return (
+        <aside className="w-64 flex-shrink-0 h-screen overflow-y-auto overflow-x-hidden scrollbar-hide bg-gradient-to-b from-wine-950 to-wine-900 text-cream-50 flex flex-col items-center py-8 shadow-[8px_0_30px_rgba(0,0,0,0.12)] relative z-50">
+            <div className="w-full px-6 mb-12 flex flex-col items-center group cursor-default">
+                <div className="w-32 h-auto bg-white rounded-2xl shadow-premium p-3 flex items-center justify-center mb-4 transform group-hover:scale-105 transition-transform duration-500 border border-wine-800/30">
+                    <Image
+                        src="/logo.jpg"
+                        alt="Logo Colégio Frei Galvão"
+                        width={120}
+                        height={120}
+                        className="w-full h-auto object-contain mix-blend-multiply"
+                    />
+                </div>
+                <p className="text-wine-300 text-[10px] mt-1 uppercase tracking-[0.2em] font-bold">Secretaria</p>
+            </div>
+
+            <nav className="w-full flex-1 px-4 space-y-2">
+                {navItems.map((item) => (
+                    <Link
+                        key={item.href}
+                        href={item.href}
+                        className="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 text-wine-100/70 hover:bg-wine-800/50 hover:text-white hover:shadow-lg hover:shadow-black/10 hover:-translate-y-0.5 active:translate-y-0 group border border-transparent hover:border-wine-800/50"
+                    >
+                        <div className="text-wine-400 group-hover:text-emerald-400 transition-colors duration-300">
+                            {item.icon}
+                        </div>
+                        <span className="font-medium text-sm">{item.label}</span>
+                    </Link>
+                ))}
+
+                {session?.user?.role === "ADMIN" && (
+                    <div className="mt-6 border-t border-wine-800/30 pt-4">
+                        <div className="px-4 mb-3">
+                            <p className="text-[10.5px] font-black uppercase tracking-[0.2em] text-wine-400/60">Administração</p>
+                        </div>
+                        <Link
+                            href="/admin/usuarios"
+                            className="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 text-wine-100/70 hover:bg-wine-800/50 hover:text-white hover:shadow-lg hover:shadow-black/10 hover:-translate-y-0.5 active:translate-y-0 group border border-transparent hover:border-wine-800/50"
+                        >
+                            <div className="text-wine-400 group-hover:text-amber-400 transition-colors duration-300">
+                                <ShieldAlert className="w-5 h-5" />
+                            </div>
+                            <span className="font-medium text-sm">Controle de Acessos</span>
+                        </Link>
+                    </div>
+                )}
+            </nav>
+
+            <div className="w-full px-4 mt-auto pt-8 pb-6">
+                <LogoutButton />
+                <div className="pt-6 mt-6 border-t border-wine-800/30 flex flex-col items-center opacity-50">
+                    <p className="text-[10px] font-medium tracking-wide">© {new Date().getFullYear()} Colégio Frei Galvão</p>
+                    {session?.user?.name && <p className="text-[9px] mt-1.5 font-bold text-wine-300">{session.user.name}</p>}
+                </div>
+            </div>
+        </aside>
+    );
+}
