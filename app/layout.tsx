@@ -3,7 +3,6 @@ import { Inter, Outfit, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { ClientLayout } from "./ClientLayout";
-import Sidebar from "./components/Sidebar";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -40,7 +39,7 @@ export default function RootLayout({
         className={`${inter.variable} ${outfit.variable} ${geistMono.variable} antialiased font-sans flex min-h-screen bg-cream-100 text-wine-950`}
       >
         <Providers>
-          <ClientLayout sidebar={<Sidebar />}>
+          <ClientLayout>
             {children}
           </ClientLayout>
         </Providers>

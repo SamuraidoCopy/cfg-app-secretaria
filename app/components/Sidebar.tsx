@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { LayoutDashboard, Users, FileText, Wallet, FileSignature, ShieldAlert } from "lucide-react";
+import { LayoutDashboard, Users, FileText, Wallet, FileSignature, ShieldAlert, X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import LogoutButton from "./LogoutButton";
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
     const { data: session } = useSession();
 
     const navItems = [
@@ -18,7 +18,16 @@ export default function Sidebar() {
     ];
 
     return (
-        <aside className="w-64 flex-shrink-0 h-screen overflow-y-auto overflow-x-hidden scrollbar-hide bg-gradient-to-b from-wine-950 to-wine-900 text-cream-50 flex flex-col items-center py-8 shadow-[8px_0_30px_rgba(0,0,0,0.12)] relative z-50">
+        <aside className={`fixed inset-y-0 left-0 z-50 w-64 flex-shrink-0 h-screen overflow-y-auto overflow-x-hidden scrollbar-hide bg-gradient-to-b from-wine-950 to-wine-900 text-cream-50 flex flex-col items-center py-8 shadow-[8px_0_30px_rgba(0,0,0,0.12)] transition-transform duration-300 md:relative md:translate-x-0 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
+            {/* Mobile Close Button */}
+            <button
+                onClick={onClose}
+                className="md:hidden absolute top-4 right-4 p-2 text-wine-300 hover:text-white hover:bg-wine-800/50 rounded-lg transition-colors"
+                title="Fechar Menu"
+            >
+                <X className="w-5 h-5" />
+            </button>
+
             <div className="w-full px-6 mb-12 flex flex-col items-center group cursor-default">
                 <div className="w-32 h-auto bg-white rounded-2xl shadow-premium p-3 flex items-center justify-center mb-4 transform group-hover:scale-105 transition-transform duration-500 border border-wine-800/30">
                     <Image
@@ -37,6 +46,7 @@ export default function Sidebar() {
                     <Link
                         key={item.href}
                         href={item.href}
+                        onClick={onClose}
                         className="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 text-wine-100/70 hover:bg-wine-800/50 hover:text-white hover:shadow-lg hover:shadow-black/10 hover:-translate-y-0.5 active:translate-y-0 group border border-transparent hover:border-wine-800/50"
                     >
                         <div className="text-wine-400 group-hover:text-emerald-400 transition-colors duration-300">
@@ -53,6 +63,7 @@ export default function Sidebar() {
                         </div>
                         <Link
                             href="/admin/usuarios"
+                            onClick={onClose}
                             className="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 text-wine-100/70 hover:bg-wine-800/50 hover:text-white hover:shadow-lg hover:shadow-black/10 hover:-translate-y-0.5 active:translate-y-0 group border border-transparent hover:border-wine-800/50"
                         >
                             <div className="text-wine-400 group-hover:text-amber-400 transition-colors duration-300">
