@@ -27,6 +27,8 @@ export const metadata: Metadata = {
   description: "Sistema interno de folha de pagamento e financeiro empresarial.",
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({
   children,
 }: Readonly<{
