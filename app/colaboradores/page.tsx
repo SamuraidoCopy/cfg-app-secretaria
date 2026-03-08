@@ -7,12 +7,14 @@ export default async function ColaboradoresPage() {
 
     return (
         <div className="w-full h-full pb-10">
-            <header className="mb-8 flex items-center justify-between">
+            <header className="mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-wine-950">Colaboradores</h1>
                     <p className="text-wine-800/70 mt-1">Gerencie a equipe e dados contratuais</p>
                 </div>
-                <AddEmployeeModal />
+                <div className="w-full md:w-auto">
+                    <AddEmployeeModal />
+                </div>
             </header>
 
             <div className="bg-white rounded-[24px] shadow-premium border border-wine-100/50 overflow-hidden">

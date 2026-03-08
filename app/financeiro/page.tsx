@@ -21,12 +21,12 @@ export default async function FinanceiroPage({
 
     return (
         <div className="w-full h-full pb-10">
-            <header className="mb-8 flex items-center justify-between">
+            <header className="mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-wine-950">Financeiro</h1>
                     <p className="text-wine-800/70 mt-1">Controle de receitas, despesas e saldo do mês</p>
                 </div>
-                <div className="flex gap-4 items-center">
+                <div className="flex flex-wrap gap-3 items-center w-full md:w-auto">
                     <MonthPicker currentMonth={currentMonth} currentYear={currentYear} />
                     <AddTransactionModal />
                 </div>

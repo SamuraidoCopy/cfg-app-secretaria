@@ -27,12 +27,12 @@ export default function FolhaView({
 
     return (
         <div className="w-full h-full pb-10">
-            <header className="mb-8 flex items-center justify-between">
+            <header className="mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-wine-950">Folha de Pagamento</h1>
                     <p className="text-wine-800/70 mt-1">Gerencie os holerites e recibos do mês selecionado</p>
                 </div>
-                <div className="flex gap-4 items-center">
+                <div className="flex flex-wrap gap-3 items-center w-full md:w-auto">
                     <MonthPicker currentMonth={currentMonth} currentYear={currentYear} />
                     <GeneratePayrollModal employees={employees} currentMonth={currentMonth} currentYear={currentYear} />
                 </div>
@@ -43,7 +43,7 @@ export default function FolhaView({
                 <div className="bg-gradient-to-br from-wine-950 to-wine-900 text-white p-6 flex flex-col md:col-span-2 rounded-[24px] shadow-premium hover:shadow-premium-hover transition-all duration-300 border border-wine-800/50 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -z-0 group-hover:bg-white/10 transition-colors duration-500"></div>
                     <h3 className="text-xs font-bold uppercase tracking-widest text-wine-200/80 z-10 mb-2">Total Líquido da Folha</h3>
-                    <span className="text-5xl font-black tracking-tight font-display z-10">
+                    <span className="text-4xl md:text-5xl font-black tracking-tight font-display z-10 break-words line-clamp-1">
                         {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
                             payrolls.reduce((sum: number, p: any) => sum + p.netTotal, 0)
                         )}
