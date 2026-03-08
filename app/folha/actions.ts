@@ -19,6 +19,7 @@ export async function generatePayrollForEmployee(formData: FormData) {
     const workingDays = formData.get("workingDays") ? parseInt(formData.get("workingDays") as string) : 0;
     const totalDays = formData.get("totalDays") ? parseInt(formData.get("totalDays") as string) : 30; // Padrão 30 para cálculo base
     const absences = formData.get("absences") ? parseInt(formData.get("absences") as string) : 0;
+    const absencesVT = formData.get("absencesVT") ? parseInt(formData.get("absencesVT") as string) : 0;
     const otherDeductions = formData.get("otherDeductions") ? parseFloat(formData.get("otherDeductions") as string) : 0;
     const bonuses = formData.get("bonuses") ? parseFloat(formData.get("bonuses") as string) : 0;
 
@@ -32,12 +33,17 @@ export async function generatePayrollForEmployee(formData: FormData) {
 
     const dailyRate = baseSalary / totalDays;
     const absenceDeduction = absences * dailyRate;
+    let transportDeduction = 0;
 
     if (employee.type === "PJ") {
         salaryProportional = baseSalary - absenceDeduction;
 
         if (employee.transportDaily && workingDays > 0) {
             transportTotal = workingDays * employee.transportDaily;
+            if (absencesVT > 0) {
+                transportDeduction = absencesVT * employee.transportDaily;
+                transportTotal = transportTotal - transportDeduction;
+            }
         }
         if (employee.gasAssistance) {
             totalBonuses += employee.gasAssistance;
@@ -60,6 +66,8 @@ export async function generatePayrollForEmployee(formData: FormData) {
             transportTotal,
             absences,
             absenceDeduction,
+            absencesVT,
+            transportDeduction,
             otherDeductions,
             bonuses: totalBonuses,
             netTotal,
@@ -73,6 +81,8 @@ export async function generatePayrollForEmployee(formData: FormData) {
             transportTotal,
             absences,
             absenceDeduction,
+            absencesVT,
+            transportDeduction,
             otherDeductions,
             bonuses: totalBonuses,
             netTotal,

@@ -62,7 +62,7 @@ export default function FolhaView({
                     <h3 className="text-[10px] font-bold uppercase tracking-widest text-rose-400 mb-2">Faltas & Descontos</h3>
                     <span className="text-3xl font-bold text-rose-600 tracking-tight font-display">
                         {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
-                            payrolls.reduce((sum: number, p: any) => sum + p.absenceDeduction + p.otherDeductions, 0)
+                            payrolls.reduce((sum: number, p: any) => sum + p.absenceDeduction + (p.transportDeduction || 0) + p.otherDeductions, 0)
                         )}
                     </span>
                 </div>
@@ -108,7 +108,7 @@ export default function FolhaView({
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-rose-600 font-medium text-sm text-right">
-                                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(p.absenceDeduction + p.otherDeductions)}
+                                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(p.absenceDeduction + (p.transportDeduction || 0) + p.otherDeductions)}
                                         </td>
                                         <td className="px-6 py-4 text-emerald-600 font-medium text-sm text-right">
                                             {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format((p.transportTotal || 0) + p.bonuses)}

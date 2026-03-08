@@ -155,8 +155,15 @@ export default function GeneratePayrollModal({
                                 </div>
 
                                 <div className="col-span-1">
-                                    <label className="block text-sm font-medium text-wine-900 mb-1">Faltas (Dias)</label>
+                                    <label className="block text-sm font-medium text-wine-900 mb-1">Faltas no Mês Base</label>
                                     <input name="absences" type="number" defaultValue="0" min="0" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-wine-500/50 text-rose-600 font-bold bg-rose-50/50 shadow-sm" />
+                                    <span className="text-[10px] text-wine-700">Desconta do Salário</span>
+                                </div>
+
+                                <div className="col-span-1">
+                                    <label className="block text-sm font-medium text-wine-900 mb-1">Faltas no Período VT</label>
+                                    <input name="absencesVT" type="number" defaultValue="0" min="0" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-wine-500/50 text-amber-600 font-bold bg-amber-50/50 shadow-sm" />
+                                    <span className="text-[10px] text-wine-700">Desconta do VT Pago</span>
                                 </div>
 
                                 <div className="col-span-1">
@@ -164,7 +171,7 @@ export default function GeneratePayrollModal({
                                     <input name="otherDeductions" type="number" step="0.01" defaultValue="0" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-wine-500/50 text-rose-600 font-bold bg-rose-50/50 shadow-sm" />
                                 </div>
 
-                                <div className="col-span-2">
+                                <div className="col-span-1">
                                     <label className="block text-sm font-medium text-wine-900 mb-1">Bônus / Acréscimos (R$)</label>
                                     <input name="bonuses" type="number" step="0.01" defaultValue="0" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-wine-500/50 text-emerald-600 font-bold bg-emerald-50/50 shadow-sm" />
                                 </div>

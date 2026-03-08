@@ -49,10 +49,12 @@ model Payroll {
   
   // Detalhes do cálculo
   baseSalary     Float
-  workingDays    Int?      // Dias úteis no mês
-  transportTotal Float?    // workingDays * transportDaily
-  absences       Int       @default(0) // Faltas
+  workingDays    Int?      // Dias úteis no mês (para folha base se necessário) ou VT
+  transportTotal Float?    // (workingDays - absencesVT) * transportDaily
+  absences       Int       @default(0) // Faltas (Salário Mês fechado)
   absenceDeduction Float   @default(0) // Desconto por faltas: (baseSalary/30) * absences
+  absencesVT     Int       @default(0) // Faltas (Período VT 08 a 07)
+  transportDeduction Float @default(0) // Desconto de VT: absencesVT * transportDaily
   otherDeductions Float    @default(0) // Outros descontos gerais
   bonuses        Float     @default(0) // Acréscimos
   
