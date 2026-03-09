@@ -11,6 +11,10 @@ type Employee = {
     baseSalary: number;
     transportDaily: number | null;
     gasAssistance: number | null;
+    recurringDeductions: number;
+    temporaryDeductions: number;
+    temporaryDeductionsDesc: string | null;
+    temporaryDeductionsExpiration: string | null;
 };
 
 function getWeekdaysBetween(startDate: string, endDate: string) {
@@ -54,6 +58,13 @@ export default function GeneratePayrollModal({
     const nextMonth = currentMonth === 12 ? 1 : currentMonth + 1;
     const nextYear = currentMonth === 12 ? currentYear + 1 : currentYear;
     const defaultEnd = `${nextYear}-${String(nextMonth).padStart(2, '0')}-07`;
+
+    const isTempDeductionActive = (emp: Employee | null) => {
+        if (!emp || !emp.temporaryDeductions) return false;
+        if (!emp.temporaryDeductionsExpiration) return true; // Sem expiração, sempre ativo
+        const currentPeriod = `${currentYear}-${String(currentMonth).padStart(2, '0')}`;
+        return currentPeriod <= emp.temporaryDeductionsExpiration;
+    };
 
     const [startDate, setStartDate] = useState(defaultStart);
     const [endDate, setEndDate] = useState(defaultEnd);
@@ -168,7 +179,7 @@ export default function GeneratePayrollModal({
 
                                 <div className="col-span-1">
                                     <label className="block text-sm font-medium text-wine-900 mb-1">Outros Descontos (R$)</label>
-                                    <input name="otherDeductions" type="number" step="0.01" defaultValue="0" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-wine-500/50 text-rose-600 font-bold bg-rose-50/50 shadow-sm" />
+                                    <input name="otherDeductions" type="number" step="0.01" defaultValue={(selectedUser?.recurringDeductions || 0) + (isTempDeductionActive(selectedUser) ? (selectedUser?.temporaryDeductions || 0) : 0)} key={`deduction-${selectedUser?.id || 'none'}`} className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-wine-500/50 text-rose-600 font-bold bg-rose-50/50 shadow-sm" />
                                 </div>
 
                                 <div className="col-span-1">
@@ -184,7 +195,20 @@ export default function GeneratePayrollModal({
                                         {selectedUser.type === "PJ" && (
                                             <>
                                                 <strong className="text-wine-950 font-bold">VT Diário:</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.transportDaily || 0)}<br />
-                                                <strong className="text-wine-950 font-bold">Ajuda Gasolina (Fixo):</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.gasAssistance || 0)}
+                                                <strong className="text-wine-950 font-bold">Ajuda Gasolina (Fixo):</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.gasAssistance || 0)}<br />
+                                            </>
+                                        )}
+                                        {selectedUser.recurringDeductions > 0 && (
+                                            <><strong className="text-wine-950 font-bold">Desc. Fixo Padrão:</strong> <span className="text-rose-600">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.recurringDeductions)}</span><br /></>
+                                        )}
+                                        {selectedUser.temporaryDeductions > 0 && (
+                                            <>
+                                                <strong className="text-wine-950 font-bold">Desc. Temp Padrão:</strong>{' '}
+                                                <span className={isTempDeductionActive(selectedUser) ? "text-orange-600" : "text-gray-400 line-through"}>
+                                                    {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.temporaryDeductions)} {selectedUser.temporaryDeductionsDesc ? `(${selectedUser.temporaryDeductionsDesc})` : ''}
+                                                </span>
+                                                {!isTempDeductionActive(selectedUser) && <span className="text-gray-500 text-[10px] ml-1 font-bold uppercase">(Expirado - não somado)</span>}
+                                                <br />
                                             </>
                                         )}
                                     </p>

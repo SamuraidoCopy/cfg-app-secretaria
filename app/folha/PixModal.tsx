@@ -10,9 +10,10 @@ interface PixModalProps {
     onClose: () => void;
     pixKey: string;
     amount: number;
+    onConfirmPayment: () => void;
 }
 
-export default function PixModal({ isOpen, onClose, pixKey, amount }: PixModalProps) {
+export default function PixModal({ isOpen, onClose, pixKey, amount, onConfirmPayment }: PixModalProps) {
     const [copied, setCopied] = useState(false);
 
     if (!isOpen) return null;
@@ -105,7 +106,7 @@ export default function PixModal({ isOpen, onClose, pixKey, amount }: PixModalPr
                 {/* Footer */}
                 <div className="w-full px-8 pb-8">
                     <button
-                        onClick={onClose}
+                        onClick={onConfirmPayment}
                         className="w-full py-3.5 text-wine-800 font-bold text-xs uppercase tracking-wider bg-transparent hover:bg-wine-50 rounded-2xl transition-colors"
                     >
                         Já realizei o pagamento

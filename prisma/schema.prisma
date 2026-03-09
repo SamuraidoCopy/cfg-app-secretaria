@@ -32,6 +32,10 @@ model Employee {
   transportDaily Float?    // Valor diário do VT (geralmente usado pro PJ)
   gasAssistance  Float?    // Ajuda de Custo (Gasolina) Fixo por mês
   pixKey         String?   // Chave Pix do colaborador
+  recurringDeductions Float @default(0) // Descontos perenes/fixos (ex: Plano de saúde)
+  temporaryDeductions Float @default(0) // Descontos por período determinado (ex: Adiantamento)
+  temporaryDeductionsDesc String?       // Descrição do desconto temporário (ex: "Adiantamento 1/3")
+  temporaryDeductionsExpiration String? // Mês de expiração no formato "YYYY-MM"
   active         Boolean   @default(true)
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt

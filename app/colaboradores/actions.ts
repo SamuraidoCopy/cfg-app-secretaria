@@ -20,6 +20,12 @@ export async function addEmployee(formData: FormData) {
     const gasAssistanceRaw = formData.get("gasAssistance") as string;
     const gasAssistance = gasAssistanceRaw ? parseFloat(gasAssistanceRaw) : null;
     const pixKey = (formData.get("pixKey") as string) || null;
+    const recurringDeductionsRaw = formData.get("recurringDeductions") as string;
+    const recurringDeductions = recurringDeductionsRaw ? parseFloat(recurringDeductionsRaw) : 0;
+    const temporaryDeductionsRaw = formData.get("temporaryDeductions") as string;
+    const temporaryDeductions = temporaryDeductionsRaw ? parseFloat(temporaryDeductionsRaw) : 0;
+    const temporaryDeductionsDesc = (formData.get("temporaryDeductionsDesc") as string) || null;
+    const temporaryDeductionsExpiration = (formData.get("temporaryDeductionsExpiration") as string) || null;
 
     await prisma.employee.create({
         data: {
@@ -31,6 +37,50 @@ export async function addEmployee(formData: FormData) {
             transportDaily,
             gasAssistance,
             pixKey,
+            recurringDeductions,
+            temporaryDeductions,
+            temporaryDeductionsDesc,
+            temporaryDeductionsExpiration,
+        },
+    });
+
+    revalidatePath("/colaboradores");
+}
+
+export async function updateEmployee(formData: FormData) {
+    const id = formData.get("id") as string;
+    const name = formData.get("name") as string;
+    const cpf = formData.get("cpf") as string;
+    const type = formData.get("type") as string;
+    const role = formData.get("role") as string;
+    const baseSalary = parseFloat(formData.get("baseSalary") as string);
+    const transportDailyRaw = formData.get("transportDaily") as string;
+    const transportDaily = transportDailyRaw ? parseFloat(transportDailyRaw) : null;
+    const gasAssistanceRaw = formData.get("gasAssistance") as string;
+    const gasAssistance = gasAssistanceRaw ? parseFloat(gasAssistanceRaw) : null;
+    const pixKey = (formData.get("pixKey") as string) || null;
+    const recurringDeductionsRaw = formData.get("recurringDeductions") as string;
+    const recurringDeductions = recurringDeductionsRaw ? parseFloat(recurringDeductionsRaw) : 0;
+    const temporaryDeductionsRaw = formData.get("temporaryDeductions") as string;
+    const temporaryDeductions = temporaryDeductionsRaw ? parseFloat(temporaryDeductionsRaw) : 0;
+    const temporaryDeductionsDesc = (formData.get("temporaryDeductionsDesc") as string) || null;
+    const temporaryDeductionsExpiration = (formData.get("temporaryDeductionsExpiration") as string) || null;
+
+    await prisma.employee.update({
+        where: { id },
+        data: {
+            name,
+            cpf,
+            type,
+            role,
+            baseSalary,
+            transportDaily,
+            gasAssistance,
+            pixKey,
+            recurringDeductions,
+            temporaryDeductions,
+            temporaryDeductionsDesc,
+            temporaryDeductionsExpiration,
         },
     });
 

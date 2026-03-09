@@ -2,9 +2,11 @@
 
 import { useState, use } from "react";
 import GeneratePayrollModal from "./GeneratePayrollModal";
+import EditPayrollModal from "./EditPayrollModal";
 import MonthPicker from "../components/MonthPicker";
 import { markAsPaid, deletePayroll } from "./actions";
-import { DollarSign, CheckCircle, FileText, Trash2 } from "lucide-react";
+import { DollarSign, CheckCircle, FileText, Trash2, Printer } from "lucide-react";
+import Link from "next/link";
 import PixButton from "./PixButton";
 import PixModal from "./PixModal";
 
@@ -21,7 +23,7 @@ export default function FolhaView({
     currentMonth: number;
     currentYear: number;
 }) {
-    const [selectedPix, setSelectedPix] = useState<{ key: string, amount: number } | null>(null);
+    const [selectedPix, setSelectedPix] = useState<{ key: string, amount: number, payrollId: string } | null>(null);
 
     const payrolls = initialData;
 
@@ -119,7 +121,7 @@ export default function FolhaView({
                                         <td className="px-6 py-4 text-center">
                                             <PixButton
                                                 pixKey={p.employee.pixKey || ''}
-                                                onOpen={() => setSelectedPix({ key: p.employee.pixKey, amount: p.netTotal })}
+                                                onOpen={() => setSelectedPix({ key: p.employee.pixKey, amount: p.netTotal, payrollId: p.id })}
                                             />
                                         </td>
                                         <td className="px-6 py-4 text-center">
@@ -135,9 +137,12 @@ export default function FolhaView({
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex justify-center gap-2">
-                                                <button className="p-2 text-wine-700 hover:bg-wine-100 rounded-lg transition-colors" title="Gerar PDF">
-                                                    <FileText className="w-4 h-4" />
-                                                </button>
+                                                <Link href={`/folha/${p.id}/recibo`} target="_blank" className="p-2 text-wine-700 hover:bg-wine-100 rounded-lg transition-colors" title="Gerar PDF">
+                                                    <Printer className="w-4 h-4" />
+                                                </Link>
+                                                {p.status !== "PAID" && (
+                                                    <EditPayrollModal payroll={p} />
+                                                )}
                                                 {p.status !== "PAID" && (
                                                     <form action={markAsPaid.bind(null, p.id)} className="inline-block">
                                                         <button type="submit" className="p-2 text-emerald-600 hover:bg-emerald-100 rounded-lg transition-colors" title="Marcar como Pago">
@@ -166,6 +171,10 @@ export default function FolhaView({
                     onClose={() => setSelectedPix(null)}
                     pixKey={selectedPix.key}
                     amount={selectedPix.amount}
+                    onConfirmPayment={async () => {
+                        await markAsPaid(selectedPix.payrollId);
+                        setSelectedPix(null);
+                    }}
                 />
             )}
         </div>

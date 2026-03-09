@@ -14,7 +14,7 @@ export default async function Page({
 
     const employees = await prisma.employee.findMany({
         where: { active: true },
-        select: { id: true, name: true, type: true, baseSalary: true, transportDaily: true, gasAssistance: true }
+        select: { id: true, name: true, type: true, baseSalary: true, transportDaily: true, gasAssistance: true, recurringDeductions: true, temporaryDeductions: true, temporaryDeductionsDesc: true, temporaryDeductionsExpiration: true }
     });
 
     const payrolls = await getPayrolls(currentMonth, currentYear);

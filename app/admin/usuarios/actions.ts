@@ -64,3 +64,46 @@ export async function deleteUser(id: string) {
         return { error: "Erro ao deletar usuário." }
     }
 }
+
+export async function updateUser(id: string, data: FormData) {
+    const session = await getServerSession(authOptions)
+    if (!session || session.user.role !== "ADMIN") {
+        return { error: "Sem acesso. Apenas administradores podem editar usuários." }
+    }
+
+    const name = data.get("name")?.toString()
+    const email = data.get("email")?.toString()
+    const password = data.get("password")?.toString()
+    const role = data.get("role")?.toString() || "USER"
+
+    if (!name || !email) {
+        return { error: "Nome e email são obrigatórios." }
+    }
+
+    try {
+        const existing = await prisma.user.findUnique({ where: { email } })
+        if (existing && existing.id !== id) {
+            return { error: "Este email já está sendo usado por outro usuário." }
+        }
+
+        const updateData: any = {
+            name,
+            email,
+            role,
+        }
+
+        if (password && password.trim().length > 0) {
+            updateData.password = await bcrypt.hash(password, 10)
+        }
+
+        await prisma.user.update({
+            where: { id },
+            data: updateData
+        })
+
+        revalidatePath("/admin/usuarios")
+        return { success: true }
+    } catch (err: any) {
+        return { error: "Erro ao editar usuário: " + err.message }
+    }
+}

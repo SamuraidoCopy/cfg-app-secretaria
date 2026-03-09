@@ -1,5 +1,6 @@
 import { getEmployees, deleteEmployee } from "./actions";
 import AddEmployeeModal from "./AddEmployeeModal";
+import EditEmployeeModal from "./EditEmployeeModal";
 import { Briefcase, CreditCard, Trash2 } from "lucide-react";
 
 export default async function ColaboradoresPage() {
@@ -57,17 +58,19 @@ export default async function ColaboradoresPage() {
                                             {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(employee.baseSalary)}
                                         </td>
                                         <td className="px-6 py-4 hidden lg:table-cell text-wine-800 text-xs">
-                                            {employee.type === "PJ" ? (
-                                                <div className="flex flex-col gap-1">
-                                                    {employee.transportDaily && <span><strong className="text-wine-950">VT:</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(employee.transportDaily)}/dia</span>}
-                                                    {employee.gasAssistance && <span><strong className="text-wine-950">Gasolina:</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(employee.gasAssistance)}</span>}
-                                                </div>
-                                            ) : <span className="text-wine-400">-</span>}
+                                            <div className="flex flex-col gap-1">
+                                                {employee.type === "PJ" && employee.transportDaily ? <span><strong className="text-wine-950">VT:</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(employee.transportDaily)}/dia</span> : null}
+                                                {employee.type === "PJ" && employee.gasAssistance ? <span><strong className="text-wine-950">Gasolina:</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(employee.gasAssistance)}</span> : null}
+                                                {employee.recurringDeductions > 0 ? <span className="text-rose-600"><strong className="text-wine-950">Desc. Fixo:</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(employee.recurringDeductions)}</span> : null}
+                                                {employee.temporaryDeductions > 0 ? <span className="text-orange-600"><strong className="text-wine-950">Desc. Temp:</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(employee.temporaryDeductions)} {employee.temporaryDeductionsDesc ? `(${employee.temporaryDeductionsDesc})` : ''} {employee.temporaryDeductionsExpiration ? `(Até ${employee.temporaryDeductionsExpiration.split('-').reverse().join('/')})` : ''}</span> : null}
+                                                {employee.type !== "PJ" && !employee.recurringDeductions && !employee.temporaryDeductions ? <span className="text-wine-400">-</span> : null}
+                                            </div>
                                         </td>
                                         <td className="px-6 py-4 hidden xl:table-cell text-wine-800 text-xs font-mono truncate max-w-[150px]">
                                             {employee.pixKey || <span className="text-wine-400 italic font-sans">Não informada</span>}
                                         </td>
-                                        <td className="px-6 py-4 text-right">
+                                        <td className="px-6 py-4 text-right flex items-center justify-end gap-2">
+                                            <EditEmployeeModal employee={employee} />
                                             <form action={deleteEmployee.bind(null, employee.id)} className="inline-block">
                                                 <button type="submit" className="p-2 text-wine-400 hover:bg-rose-50 hover:text-rose-600 rounded-lg transition-colors" title="Remover">
                                                     <Trash2 className="w-4 h-4" />

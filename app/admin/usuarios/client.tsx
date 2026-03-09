@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { createUser, deleteUser } from "./actions"
 import { PlusCircle, Trash2, Mail, Lock, User as UserIcon, Shield } from "lucide-react"
+import EditUserModal from "./EditUserModal"
 
 type UserProps = {
     id: string;
@@ -85,7 +86,8 @@ export default function AdminUsuariosClient({ users }: { users: UserProps[] }) {
                                             {user.role}
                                         </span>
                                     </td>
-                                    <td className="p-5">
+                                    <td className="p-5 flex items-center gap-2">
+                                        <EditUserModal user={user} />
                                         <button
                                             onClick={() => handleDelete(user.id)}
                                             className="text-wine-400 hover:text-rose-500 transition-colors p-2 rounded-lg hover:bg-rose-50"
