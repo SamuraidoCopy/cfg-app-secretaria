@@ -18,7 +18,7 @@ export default function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose:
     ];
 
     return (
-        <aside className={`fixed inset-y-0 left-0 z-50 w-64 flex-shrink-0 h-screen overflow-y-auto overflow-x-hidden scrollbar-hide bg-gradient-to-b from-wine-950 to-wine-900 text-cream-50 flex flex-col items-center py-8 shadow-[8px_0_30px_rgba(0,0,0,0.12)] transition-transform duration-300 md:relative md:translate-x-0 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
+        <aside className={`fixed inset-y-0 left-0 z-50 w-64 flex-shrink-0 h-[100dvh] overflow-y-auto overflow-x-hidden scrollbar-hide bg-gradient-to-b from-wine-950 to-wine-900 text-cream-50 flex flex-col items-center pt-8 pb-16 md:pb-8 shadow-[8px_0_30px_rgba(0,0,0,0.12)] transition-transform duration-300 md:relative md:translate-x-0 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
             {/* Mobile Close Button */}
             <button
                 onClick={onClose}
