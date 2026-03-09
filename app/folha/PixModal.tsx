@@ -8,15 +8,18 @@ import { createStaticPix, hasError } from "pix-utils";
 interface PixModalProps {
     isOpen: boolean;
     onClose: () => void;
-    pixKey: string;
+    employee: any;
     amount: number;
     onConfirmPayment: () => void;
 }
 
-export default function PixModal({ isOpen, onClose, pixKey, amount, onConfirmPayment }: PixModalProps) {
+export default function PixModal({ isOpen, onClose, employee, amount, onConfirmPayment }: PixModalProps) {
     const [copied, setCopied] = useState(false);
 
     if (!isOpen) return null;
+
+    const pixKey = employee.pixKey || '';
+    const isTransfer = employee.paymentMethod === "TRANSFER";
 
     const pix = createStaticPix({
         merchantName: 'Frei Galvao',
@@ -41,7 +44,9 @@ export default function PixModal({ isOpen, onClose, pixKey, amount, onConfirmPay
                 <div className="w-full px-6 py-4 flex justify-between items-center bg-gradient-to-r from-wine-50/50 to-transparent border-b border-wine-100/50">
                     <div className="flex items-center gap-2 text-wine-800 font-bold">
                         <ShieldCheck className="w-5 h-5 text-emerald-600" />
-                        <span className="text-xs uppercase tracking-widest font-bold">Pagamento Seguro</span>
+                        <span className="text-xs uppercase tracking-widest font-bold">
+                            {isTransfer ? "Dados Bancários" : "Pagamento Seguro"}
+                        </span>
                     </div>
                     <button onClick={onClose} className="p-2 bg-white hover:bg-wine-50 rounded-full transition-colors text-wine-400 hover:text-wine-900 shadow-sm border border-wine-100/50">
                         <X className="w-4 h-4" />
@@ -59,48 +64,73 @@ export default function PixModal({ isOpen, onClose, pixKey, amount, onConfirmPay
                         </h4>
                     </div>
 
-                    {/* QR Code Container */}
-                    <div className="relative group mb-8">
-                        <div className="absolute -inset-4 bg-gradient-to-tr from-wine-100 to-transparent rounded-[2.5rem] blur-xl opacity-40 group-hover:opacity-80 transition duration-700"></div>
-                        <div className="relative bg-white p-6 rounded-[2rem] shadow-premium border border-wine-100/50 flex items-center justify-center aspect-square w-[220px] transform group-hover:-translate-y-1 transition-transform duration-500">
-                            <QRCodeSVG
-                                value={pixPayload}
-                                size={180}
-                                fgColor="#350F19"
-                                level="H"
-                                includeMargin={false}
-                                style={{ display: 'block' }}
-                            />
+                    {isTransfer ? (
+                        <div className="w-full bg-white p-6 rounded-2xl border border-wine-100/50 shadow-sm flex flex-col gap-4 mb-6">
+                            <div className="flex flex-col gap-1 border-b border-wine-50 pb-3">
+                                <span className="text-[10px] uppercase font-bold text-wine-400 tracking-wider">Banco Instituição</span>
+                                <span className="font-semibold text-wine-950">{employee.bankName || '-'}</span>
+                            </div>
+                            <div className="flex flex-col gap-1 border-b border-wine-50 pb-3">
+                                <span className="text-[10px] uppercase font-bold text-wine-400 tracking-wider">Tipo de Conta</span>
+                                <span className="font-semibold text-wine-950">{employee.accountType || '-'}</span>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="flex flex-col gap-1">
+                                    <span className="text-[10px] uppercase font-bold text-wine-400 tracking-wider">Agência</span>
+                                    <span className="font-semibold text-wine-950">{employee.agency || '-'}</span>
+                                </div>
+                                <div className="flex flex-col gap-1">
+                                    <span className="text-[10px] uppercase font-bold text-wine-400 tracking-wider">Conta</span>
+                                    <span className="font-semibold text-wine-950">{employee.accountNumber || '-'}</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        <>
+                            {/* QR Code Container */}
+                            <div className="relative group mb-8">
+                                <div className="absolute -inset-4 bg-gradient-to-tr from-wine-100 to-transparent rounded-[2.5rem] blur-xl opacity-40 group-hover:opacity-80 transition duration-700"></div>
+                                <div className="relative bg-white p-6 rounded-[2rem] shadow-premium border border-wine-100/50 flex items-center justify-center aspect-square w-[220px] transform group-hover:-translate-y-1 transition-transform duration-500">
+                                    <QRCodeSVG
+                                        value={pixPayload}
+                                        size={180}
+                                        fgColor="#350F19"
+                                        level="H"
+                                        includeMargin={false}
+                                        style={{ display: 'block' }}
+                                    />
+                                </div>
+                            </div>
 
-                    <p className="text-sm text-wine-800 text-center mb-6 leading-relaxed px-4">
-                        Escaneie o código acima ou copie a chave abaixo para finalizar o pagamento.
-                    </p>
+                            <p className="text-sm text-wine-800 text-center mb-6 leading-relaxed px-4">
+                                Escaneie o código acima ou copie a chave abaixo para finalizar o pagamento.
+                            </p>
 
-                    {/* Pix Key Bar */}
-                    <div className="w-full bg-white p-1.5 rounded-2xl border border-wine-100/50 flex items-center justify-between shadow-sm">
-                        <span className="font-mono text-sm text-wine-900 px-4 truncate max-w-[210px]" title={pixKey}>
-                            {pixKey}
-                        </span>
-                        <button
-                            onClick={copyToClipboard}
-                            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs transition-all shadow-md hover:-translate-y-0.5 active:translate-y-0 ${copied
-                                ? "bg-emerald-600 text-white shadow-emerald-600/20"
-                                : "bg-gradient-to-b from-wine-800 to-wine-900 text-white shadow-wine-900/20"
-                                }`}
-                        >
-                            {copied ? (
-                                <>
-                                    <Check className="w-4 h-4" /> Copiado!
-                                </>
-                            ) : (
-                                <>
-                                    <Copy className="w-4 h-4" /> Copiar
-                                </>
-                            )}
-                        </button>
-                    </div>
+                            {/* Pix Key Bar */}
+                            <div className="w-full bg-white p-1.5 rounded-2xl border border-wine-100/50 flex items-center justify-between shadow-sm">
+                                <span className="font-mono text-sm text-wine-900 px-4 truncate max-w-[210px]" title={pixKey}>
+                                    {pixKey}
+                                </span>
+                                <button
+                                    onClick={copyToClipboard}
+                                    className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs transition-all shadow-md hover:-translate-y-0.5 active:translate-y-0 ${copied
+                                        ? "bg-emerald-600 text-white shadow-emerald-600/20"
+                                        : "bg-gradient-to-b from-wine-800 to-wine-900 text-white shadow-wine-900/20"
+                                        }`}
+                                >
+                                    {copied ? (
+                                        <>
+                                            <Check className="w-4 h-4" /> Copiado!
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Copy className="w-4 h-4" /> Copiar
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                        </>
+                    )}
                 </div>
 
                 {/* Footer */}

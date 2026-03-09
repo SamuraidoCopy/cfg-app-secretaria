@@ -23,7 +23,7 @@ export default function FolhaView({
     currentMonth: number;
     currentYear: number;
 }) {
-    const [selectedPix, setSelectedPix] = useState<{ key: string, amount: number, payrollId: string } | null>(null);
+    const [selectedPayment, setSelectedPayment] = useState<{ employee: any, amount: number, payrollId: string } | null>(null);
 
     const payrolls = initialData;
 
@@ -104,7 +104,11 @@ export default function FolhaView({
                                         </td>
                                         <td className="px-6 py-4 hidden sm:table-cell text-wine-900 font-mono text-sm">{p.employee.cpf}</td>
                                         <td className="px-6 py-4">
-                                            <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-[10px] uppercase tracking-widest font-bold ${p.employee.type === "PJ" ? "bg-amber-100/50 text-amber-800" : "bg-blue-100/50 text-blue-800"
+                                            <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-[10px] uppercase tracking-widest font-bold ${p.employee.type === "PJ"
+                                                    ? "bg-amber-100/50 text-amber-800"
+                                                    : p.employee.type === "VOLUNTARIO"
+                                                        ? "bg-emerald-100/50 text-emerald-800"
+                                                        : "bg-blue-100/50 text-blue-800"
                                                 }`}>
                                                 {p.employee.type}
                                             </span>
@@ -120,8 +124,9 @@ export default function FolhaView({
                                         </td>
                                         <td className="px-6 py-4 text-center">
                                             <PixButton
+                                                paymentMethod={p.employee.paymentMethod}
                                                 pixKey={p.employee.pixKey || ''}
-                                                onOpen={() => setSelectedPix({ key: p.employee.pixKey, amount: p.netTotal, payrollId: p.id })}
+                                                onOpen={() => setSelectedPayment({ employee: p.employee, amount: p.netTotal, payrollId: p.id })}
                                             />
                                         </td>
                                         <td className="px-6 py-4 text-center">
@@ -165,15 +170,15 @@ export default function FolhaView({
                 </div>
             </div>
 
-            {selectedPix && (
+            {selectedPayment && (
                 <PixModal
-                    isOpen={!!selectedPix}
-                    onClose={() => setSelectedPix(null)}
-                    pixKey={selectedPix.key}
-                    amount={selectedPix.amount}
+                    isOpen={!!selectedPayment}
+                    onClose={() => setSelectedPayment(null)}
+                    employee={selectedPayment.employee}
+                    amount={selectedPayment.amount}
                     onConfirmPayment={async () => {
-                        await markAsPaid(selectedPix.payrollId);
-                        setSelectedPix(null);
+                        await markAsPaid(selectedPayment.payrollId);
+                        setSelectedPayment(null);
                     }}
                 />
             )}

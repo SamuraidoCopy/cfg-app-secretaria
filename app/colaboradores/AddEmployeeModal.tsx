@@ -7,6 +7,7 @@ import { addEmployee } from "./actions";
 export default function AddEmployeeModal() {
     const [isOpen, setIsOpen] = useState(false);
     const [type, setType] = useState("PJ");
+    const [paymentMethod, setPaymentMethod] = useState("PIX");
 
     async function handleSubmit(formData: FormData) {
         await addEmployee(formData);
@@ -60,6 +61,7 @@ export default function AddEmployeeModal() {
                                     >
                                         <option value="PJ">PJ (Pessoa Jurídica)</option>
                                         <option value="CLT">CLT</option>
+                                        <option value="VOLUNTARIO">VOLUNTÁRIO</option>
                                     </select>
                                 </div>
 
@@ -68,7 +70,7 @@ export default function AddEmployeeModal() {
                                     <input required name="baseSalary" type="number" step="0.01" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
                                 </div>
 
-                                {type === "PJ" && (
+                                {(type === "PJ" || type === "VOLUNTARIO") && (
                                     <>
                                         <div className="col-span-1">
                                             <label className="block text-sm font-medium text-wine-900 mb-1">VT Diário (R$)</label>
@@ -81,9 +83,56 @@ export default function AddEmployeeModal() {
                                     </>
                                 )}
 
-                                <div className="col-span-1">
-                                    <label className="block text-sm font-medium text-wine-900 mb-1">Chave PIX</label>
-                                    <input name="pixKey" type="text" placeholder="CPF, E-mail, Telefone ou Aleatória" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
+                                <div className="col-span-2 mt-4 pt-4 border-t border-wine-100/50">
+                                    <h3 className="text-sm font-bold text-wine-950 mb-4 uppercase tracking-wider">Dados de Pagamento</h3>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="col-span-2">
+                                            <label className="block text-sm font-medium text-wine-900 mb-1">Método de Recebimento</label>
+                                            <select
+                                                name="paymentMethod"
+                                                value={paymentMethod}
+                                                onChange={(e) => setPaymentMethod(e.target.value)}
+                                                className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500"
+                                            >
+                                                <option value="PIX">PIX</option>
+                                                <option value="TRANSFER">Transferência Bancária / Depósito</option>
+                                            </select>
+                                        </div>
+
+                                        {paymentMethod === "PIX" ? (
+                                            <div className="col-span-2">
+                                                <label className="block text-sm font-medium text-wine-900 mb-1">Chave PIX</label>
+                                                <input name="pixKey" type="text" placeholder="CPF, E-mail, Telefone ou Aleatória" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <div className="col-span-1">
+                                                    <label className="block text-sm font-medium text-wine-900 mb-1">Banco</label>
+                                                    <input required name="bankName" type="text" placeholder="Ex: Nubank, Banco do Brasil" autoComplete="off" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
+                                                </div>
+                                                <div className="col-span-1">
+                                                    <label className="block text-sm font-medium text-wine-900 mb-1">Tipo de Conta</label>
+                                                    <select name="accountType" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500">
+                                                        <option value="Corrente">Conta Corrente</option>
+                                                        <option value="Poupança">Conta Poupança</option>
+                                                        <option value="Salário">Conta Salário</option>
+                                                    </select>
+                                                </div>
+                                                <div className="col-span-1">
+                                                    <label className="block text-sm font-medium text-wine-900 mb-1">Agência</label>
+                                                    <input required name="agency" type="text" placeholder="Ex: 0001" autoComplete="off" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
+                                                </div>
+                                                <div className="col-span-1">
+                                                    <label className="block text-sm font-medium text-wine-900 mb-1">Número da Conta</label>
+                                                    <input required name="accountNumber" type="text" placeholder="Ex: 123456-7" autoComplete="off" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="col-span-2 mt-4 pt-4 border-t border-wine-100/50">
+                                    <h3 className="text-sm font-bold text-wine-950 mb-4 uppercase tracking-wider">Descontos Fixos e Temporários</h3>
                                 </div>
 
                                 <div className="col-span-1">

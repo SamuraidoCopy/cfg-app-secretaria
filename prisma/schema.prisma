@@ -32,6 +32,11 @@ model Employee {
   transportDaily Float?    // Valor diário do VT (geralmente usado pro PJ)
   gasAssistance  Float?    // Ajuda de Custo (Gasolina) Fixo por mês
   pixKey         String?   // Chave Pix do colaborador
+  paymentMethod  String    @default("PIX") // PIX or TRANSFER
+  bankName       String?   // Ex: Nubank, Itaú
+  accountType    String?   // Corrente, Poupança, Salário
+  agency         String?   // Agência
+  accountNumber  String?   // Número da conta
   recurringDeductions Float @default(0) // Descontos perenes/fixos (ex: Plano de saúde)
   temporaryDeductions Float @default(0) // Descontos por período determinado (ex: Adiantamento)
   temporaryDeductionsDesc String?       // Descrição do desconto temporário (ex: "Adiantamento 1/3")

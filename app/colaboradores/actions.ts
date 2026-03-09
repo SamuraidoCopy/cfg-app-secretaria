@@ -27,6 +27,12 @@ export async function addEmployee(formData: FormData) {
     const temporaryDeductionsDesc = (formData.get("temporaryDeductionsDesc") as string) || null;
     const temporaryDeductionsExpiration = (formData.get("temporaryDeductionsExpiration") as string) || null;
 
+    const paymentMethod = (formData.get("paymentMethod") as string) || "PIX";
+    const bankName = (formData.get("bankName") as string) || null;
+    const accountType = (formData.get("accountType") as string) || null;
+    const agency = (formData.get("agency") as string) || null;
+    const accountNumber = (formData.get("accountNumber") as string) || null;
+
     await prisma.employee.create({
         data: {
             name,
@@ -41,6 +47,11 @@ export async function addEmployee(formData: FormData) {
             temporaryDeductions,
             temporaryDeductionsDesc,
             temporaryDeductionsExpiration,
+            paymentMethod,
+            bankName,
+            accountType,
+            agency,
+            accountNumber,
         },
     });
 
@@ -66,6 +77,12 @@ export async function updateEmployee(formData: FormData) {
     const temporaryDeductionsDesc = (formData.get("temporaryDeductionsDesc") as string) || null;
     const temporaryDeductionsExpiration = (formData.get("temporaryDeductionsExpiration") as string) || null;
 
+    const paymentMethod = (formData.get("paymentMethod") as string) || "PIX";
+    const bankName = (formData.get("bankName") as string) || null;
+    const accountType = (formData.get("accountType") as string) || null;
+    const agency = (formData.get("agency") as string) || null;
+    const accountNumber = (formData.get("accountNumber") as string) || null;
+
     await prisma.employee.update({
         where: { id },
         data: {
@@ -81,6 +98,11 @@ export async function updateEmployee(formData: FormData) {
             temporaryDeductions,
             temporaryDeductionsDesc,
             temporaryDeductionsExpiration,
+            paymentMethod,
+            bankName,
+            accountType,
+            agency,
+            accountNumber,
         },
     });
 

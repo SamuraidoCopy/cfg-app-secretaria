@@ -35,7 +35,7 @@ export async function generatePayrollForEmployee(formData: FormData) {
     const absenceDeduction = absences * dailyRate;
     let transportDeduction = 0;
 
-    if (employee.type === "PJ") {
+    if (employee.type === "PJ" || employee.type === "VOLUNTARIO") {
         salaryProportional = baseSalary - absenceDeduction;
 
         if (employee.transportDaily && workingDays > 0) {

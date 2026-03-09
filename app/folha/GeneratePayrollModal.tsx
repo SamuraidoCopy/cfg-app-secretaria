@@ -192,7 +192,7 @@ export default function GeneratePayrollModal({
                                 <div className="bg-gradient-to-r from-wine-50/80 to-transparent p-4 rounded-xl mt-4 border border-wine-100/50 shadow-sm">
                                     <p className="text-xs text-wine-800 leading-relaxed">
                                         <strong className="text-wine-950 font-bold">Salário Base:</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.baseSalary)}<br />
-                                        {selectedUser.type === "PJ" && (
+                                        {(selectedUser.type === "PJ" || selectedUser.type === "VOLUNTARIO") && (
                                             <>
                                                 <strong className="text-wine-950 font-bold">VT Diário:</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.transportDaily || 0)}<br />
                                                 <strong className="text-wine-950 font-bold">Ajuda Gasolina (Fixo):</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.gasAssistance || 0)}<br />
