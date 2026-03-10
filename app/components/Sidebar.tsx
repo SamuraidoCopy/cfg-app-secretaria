@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { LayoutDashboard, Users, FileText, Wallet, FileSignature, ShieldAlert, X } from "lucide-react";
+import { LayoutDashboard, Users, FileText, Wallet, FileSignature, ShieldAlert, X, BarChart2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import LogoutButton from "./LogoutButton";
 
@@ -13,6 +13,7 @@ export default function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose:
         { label: "Dashboard", href: "/", icon: <LayoutDashboard className="w-5 h-5" /> },
         { label: "Colaboradores", href: "/colaboradores", icon: <Users className="w-5 h-5" /> },
         { label: "Folha de Pagamento", href: "/folha", icon: <FileText className="w-5 h-5" /> },
+        { label: "Relatórios", href: "/relatorios", icon: <BarChart2 className="w-5 h-5" /> },
         { label: "Financeiro", href: "/financeiro", icon: <Wallet className="w-5 h-5" /> },
         { label: "Contratos", href: "/contratos", icon: <FileSignature className="w-5 h-5" /> },
     ];
