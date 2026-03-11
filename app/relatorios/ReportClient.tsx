@@ -168,12 +168,22 @@ export default function ReportClient() {
                     </div>
 
                     {/* Printable Area - Mensal */}
-                    <div className="bg-white shadow-premium rounded-[32px] overflow-hidden border border-wine-100/50 p-8 md:p-12 print:shadow-none print:border-none print:p-0">
-                        <div className="hidden print:flex flex-col items-center mb-10 border-b-2 border-wine-900 pb-8 w-full">
-                            <h2 className="text-3xl font-display font-black text-wine-900 uppercase tracking-tighter">
-                                Relatório de Folha de Pagamento
-                            </h2>
-                            <p className="text-wine-600 font-medium uppercase tracking-[0.3em] text-xs mt-2">Colégio Frei Galvão</p>
+                    <div className="bg-white shadow-premium rounded-[32px] overflow-hidden border border-wine-100/50 p-8 md:p-12 print:shadow-none print:border-none print:p-0 print:overflow-visible">
+                        {/* Print Header */}
+                        <div className="hidden print:flex justify-between items-center mb-10 border-b-2 border-wine-900 pb-8 w-full">
+                            <div className="flex items-center gap-4">
+                                <img src="/logo.jpg" alt="Logo Colégio Frei Galvão" className="h-16 w-auto object-contain" />
+                                <div className="text-left">
+                                    <h2 className="text-2xl font-display font-black text-wine-900 uppercase tracking-tight leading-none">
+                                        Colégio Frei Galvão
+                                    </h2>
+                                    <p className="text-wine-600 font-medium text-[10px] uppercase tracking-widest mt-1">Gestão de Folha de Pagamento</p>
+                                </div>
+                            </div>
+                            <div className="text-right">
+                                <h3 className="text-sm font-black uppercase tracking-widest text-wine-900">Relatório Mensal</h3>
+                                <p className="text-wine-600 font-medium text-xs mt-1">{getMonthName(selectedMonth)} / {selectedYear}</p>
+                            </div>
                         </div>
 
                         <div className="flex justify-between items-baseline mb-8 border-b border-wine-100 pb-4 print:border-wine-900">
@@ -196,16 +206,16 @@ export default function ReportClient() {
                                 <p className="text-wine-300 italic text-lg">Nenhum pagamento encontrado para este período.</p>
                             </div>
                         ) : (
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full text-sm">
+                            <div className="overflow-x-auto print:overflow-visible scrollbar-hide">
+                                <table className="min-w-full text-sm print:table-fixed">
                                     <thead>
                                         <tr className="border-b-2 border-wine-900/10 print:border-black">
-                                            <th className="px-4 py-4 text-left font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black">Colaborador</th>
-                                            <th className="px-4 py-4 text-left font-black uppercase tracking-widest text-wine-400 text-[10px] hidden sm:table-cell print:text-black">Cargo</th>
-                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black">Salário Base</th>
-                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black">Adicionais</th>
-                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black">Descontos</th>
-                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-900 text-[10px] print:text-black">Líquido</th>
+                                            <th className="px-4 py-4 text-left font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black print:text-[8pt] print:w-[30%]">Colaborador</th>
+                                            <th className="px-4 py-4 text-left font-black uppercase tracking-widest text-wine-400 text-[10px] hidden sm:table-cell print:table-cell print:text-black print:text-[8pt] print:w-[20%]">Cargo</th>
+                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black print:text-[8pt] print:w-[15%]">Salário</th>
+                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black print:text-[8pt] print:w-[10%]">Extra</th>
+                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black print:text-[8pt] print:w-[10%]">Desc</th>
+                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-900 text-[10px] print:text-black print:text-[8pt] print:w-[15%]">Líquido</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-wine-50 print:divide-gray-200">
@@ -213,24 +223,24 @@ export default function ReportClient() {
                                             const adds = (p.transportTotal || 0) + p.bonuses;
                                             const deducs = p.absenceDeduction + p.transportDeduction + p.otherDeductions;
                                             return (
-                                                <tr key={p.id} className="hover:bg-wine-50/50 transition-colors group">
-                                                    <td className="px-4 py-5 whitespace-nowrap font-bold text-wine-900 group-hover:text-wine-700 print:text-black">{p.employee?.name}</td>
-                                                    <td className="px-4 py-5 whitespace-nowrap text-wine-400 hidden sm:table-cell print:text-black">{p.employee?.role}</td>
-                                                    <td className="px-4 py-5 whitespace-nowrap text-right text-wine-400 font-medium print:text-black">{formatCurrency(p.baseSalary)}</td>
-                                                    <td className="px-4 py-5 whitespace-nowrap text-right text-emerald-600 font-bold">+{formatCurrency(adds)}</td>
-                                                    <td className="px-4 py-5 whitespace-nowrap text-right text-red-500 font-bold">-{formatCurrency(deducs)}</td>
-                                                    <td className="px-4 py-5 whitespace-nowrap text-right font-black text-wine-900 text-lg print:text-black">{formatCurrency(p.netTotal)}</td>
+                                                <tr key={p.id} className="hover:bg-wine-50/50 transition-colors group print:break-inside-avoid">
+                                                    <td className="px-4 py-5 whitespace-nowrap print:whitespace-normal font-bold text-wine-900 group-hover:text-wine-700 print:text-black print:text-[9pt]">{p.employee?.name}</td>
+                                                    <td className="px-4 py-5 whitespace-nowrap print:whitespace-normal text-wine-400 hidden sm:table-cell print:table-cell print:text-black print:text-[9pt]">{p.employee?.role}</td>
+                                                    <td className="px-4 py-5 whitespace-nowrap text-right text-wine-400 font-medium print:text-black print:text-[9pt]">{formatCurrency(p.baseSalary)}</td>
+                                                    <td className="px-4 py-5 whitespace-nowrap text-right text-emerald-600 font-bold print:text-[9pt]">+{formatCurrency(adds)}</td>
+                                                    <td className="px-4 py-5 whitespace-nowrap text-right text-red-500 font-bold print:text-[9pt]">-{formatCurrency(deducs)}</td>
+                                                    <td className="px-4 py-5 whitespace-nowrap text-right font-black text-wine-900 text-lg print:text-black print:text-[11pt]">{formatCurrency(p.netTotal)}</td>
                                                 </tr>
                                             )
                                         })}
                                     </tbody>
                                     <tfoot className="border-t-4 border-wine-900/5 print:border-black">
                                         <tr className="bg-wine-50/30 print:bg-transparent">
-                                            <td colSpan={2} className="px-6 py-8 text-right font-black uppercase tracking-widest text-wine-400 text-xs sm:table-cell hidden">Total Líquido (Qtd: {monthlyData?.totals.count})</td>
-                                            <td colSpan={1} className="px-6 py-8 text-right font-black uppercase tracking-widest text-wine-400 text-xs sm:hidden">Total</td>
-                                            <td className="px-4 py-8 text-right text-wine-300 font-bold hidden sm:table-cell print:hidden">{formatCurrency(monthlyData?.totals.totalBase || 0)}</td>
-                                            <td colSpan={2} className="hidden sm:table-cell"></td>
-                                            <td className="px-4 py-8 text-right text-3xl font-display font-black text-wine-800 print:text-black">{formatCurrency(monthlyData?.totals.totalNet || 0)}</td>
+                                            <td colSpan={2} className="px-6 py-8 text-right font-black uppercase tracking-widest text-wine-400 text-xs sm:table-cell hidden print:table-cell print:text-black">Total Líquido (Qtd: {monthlyData?.totals.count})</td>
+                                            <td colSpan={1} className="px-6 py-8 text-right font-black uppercase tracking-widest text-wine-400 text-xs sm:hidden print:hidden">Total</td>
+                                            <td className="px-4 py-8 text-right text-wine-300 font-bold hidden sm:table-cell print:table-cell print:text-black print:text-[10pt]">{formatCurrency(monthlyData?.totals.totalBase || 0)}</td>
+                                            <td colSpan={2} className="hidden sm:table-cell print:table-cell"></td>
+                                            <td className="px-4 py-8 text-right text-3xl font-display font-black text-wine-800 print:text-black print:text-[20pt]">{formatCurrency(monthlyData?.totals.totalNet || 0)}</td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -272,23 +282,33 @@ export default function ReportClient() {
                     </div>
 
                     {/* Printable Area - Colaborador */}
-                    <div className="bg-white shadow-premium rounded-[32px] overflow-hidden border border-wine-100/50 p-8 md:p-12 print:shadow-none print:border-none print:p-0">
-                        <div className="hidden print:flex flex-col items-center mb-10 border-b-2 border-wine-900 pb-8 w-full uppercase">
-                            <h2 className="text-3xl font-display font-black text-wine-900">
-                                Extrato Individual de Pagamentos
-                            </h2>
-                            <p className="text-wine-600 font-medium tracking-[0.3em] text-xs mt-2">Colégio Frei Galvão</p>
+                    <div className="bg-white shadow-premium rounded-[32px] overflow-hidden border border-wine-100/50 p-8 md:p-12 print:shadow-none print:border-none print:p-0 print:overflow-visible">
+                        {/* Print Header */}
+                        <div className="hidden print:flex justify-between items-center mb-10 border-b-2 border-wine-900 pb-8 w-full">
+                            <div className="flex items-center gap-4">
+                                <img src="/logo.jpg" alt="Logo Colégio Frei Galvão" className="h-16 w-auto object-contain" />
+                                <div className="text-left">
+                                    <h2 className="text-2xl font-display font-black text-wine-900 uppercase tracking-tight leading-none">
+                                        Colégio Frei Galvão
+                                    </h2>
+                                    <p className="text-wine-600 font-medium text-[10px] uppercase tracking-widest mt-1">Gestão de Folha de Pagamento</p>
+                                </div>
+                            </div>
+                            <div className="text-right">
+                                <h3 className="text-sm font-black uppercase tracking-widest text-wine-900">Extrato Individual</h3>
+                                <p className="text-wine-600 font-medium text-xs mt-1">Histórico Completo</p>
+                            </div>
                         </div>
 
                         {collaboratorData?.employee && (
-                            <div className="mb-10 p-6 rounded-2xl bg-wine-50/50 border border-wine-100 flex flex-col md:flex-row md:justify-between md:items-center print:bg-transparent print:border-none print:p-0 print:border-b print:rounded-none">
+                            <div className="mb-10 p-6 rounded-2xl bg-wine-50/50 border border-wine-100 flex flex-col md:flex-row md:justify-between md:items-center print:bg-transparent print:border-none print:p-0 print:border-b-2 print:border-black print:rounded-none print:pb-6">
                                 <div>
-                                    <h3 className="text-3xl font-display font-black text-wine-900 print:text-black">{collaboratorData.employee.name}</h3>
+                                    <h3 className="text-3xl font-display font-black text-wine-900 print:text-black print:text-[18pt]">{collaboratorData.employee.name}</h3>
                                     <div className="flex items-center gap-6 mt-2">
-                                        <span className="px-3 py-1 bg-wine-100 text-wine-700 text-[10px] font-black uppercase tracking-widest rounded-full print:bg-transparent print:border print:text-black">
+                                        <span className="px-3 py-1 bg-wine-100 text-wine-700 text-[10px] font-black uppercase tracking-widest rounded-full print:bg-transparent print:border print:border-black print:text-black print:text-[8pt]">
                                             {collaboratorData.employee.role}
                                         </span>
-                                        <span className="text-wine-400 text-sm print:text-black"><strong>CPF:</strong> {collaboratorData.employee.cpf}</span>
+                                        <span className="text-wine-400 text-sm print:text-black print:text-[10pt]"><strong>CPF:</strong> {collaboratorData.employee.cpf}</span>
                                     </div>
                                 </div>
                                 <div className="mt-4 md:mt-0 text-right print:hidden">
@@ -308,15 +328,15 @@ export default function ReportClient() {
                                 <p className="text-wine-300 italic text-lg">Nenhum histórico de pagamentos para este colaborador.</p>
                             </div>
                         ) : (
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full text-sm mt-4">
+                            <div className="overflow-x-auto print:overflow-visible scrollbar-hide">
+                                <table className="min-w-full text-sm mt-4 print:table-fixed">
                                     <thead>
                                         <tr className="border-b-2 border-wine-900/10 print:border-black">
-                                            <th className="px-4 py-4 text-left font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black">Competência</th>
-                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black">Salário Base</th>
-                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-400 text-[10px] hidden sm:table-cell print:text-black">Acréscimos</th>
-                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-400 text-[10px] hidden sm:table-cell print:text-black">Descontos</th>
-                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-900 text-[10px] print:text-black">Líquido Recebido</th>
+                                            <th className="px-4 py-4 text-left font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black print:text-[8pt] print:w-[25%]">Competência</th>
+                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black print:text-[8pt] print:w-[20%]">Salário Base</th>
+                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-400 text-[10px] hidden sm:table-cell print:table-cell print:text-black print:text-[8pt] print:w-[15%]">Acréscimos</th>
+                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-400 text-[10px] hidden sm:table-cell print:table-cell print:text-black print:text-[8pt] print:w-[15%]">Descontos</th>
+                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-900 text-[10px] print:text-black print:text-[8pt] print:w-[25%]">Líquido Recebido</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-wine-50 print:divide-gray-200">
@@ -324,23 +344,23 @@ export default function ReportClient() {
                                             const adds = (p.transportTotal || 0) + p.bonuses;
                                             const deducs = p.absenceDeduction + p.transportDeduction + p.otherDeductions;
                                             return (
-                                                <tr key={p.id} className="hover:bg-wine-50/50 transition-colors group">
-                                                    <td className="px-4 py-5 whitespace-nowrap font-bold text-wine-900 capitalize print:text-black">
+                                                <tr key={p.id} className="hover:bg-wine-50/50 transition-colors group print:break-inside-avoid">
+                                                    <td className="px-4 py-5 whitespace-nowrap print:whitespace-normal font-bold text-wine-900 capitalize print:text-black print:text-[9pt]">
                                                         {getMonthName(p.month).substring(0, 3)} / {p.year}
                                                     </td>
-                                                    <td className="px-4 py-5 whitespace-nowrap text-right text-wine-400 font-medium print:text-black">{formatCurrency(p.baseSalary)}</td>
-                                                    <td className="px-4 py-5 whitespace-nowrap text-right text-emerald-600 font-bold hidden sm:table-cell">+{formatCurrency(adds)}</td>
-                                                    <td className="px-4 py-5 whitespace-nowrap text-right text-red-500 font-bold hidden sm:table-cell">-{formatCurrency(deducs)}</td>
-                                                    <td className="px-4 py-5 whitespace-nowrap text-right font-black text-wine-900 text-lg print:text-black">{formatCurrency(p.netTotal)}</td>
+                                                    <td className="px-4 py-5 whitespace-nowrap text-right text-wine-400 font-medium print:text-black print:text-[9pt]">{formatCurrency(p.baseSalary)}</td>
+                                                    <td className="px-4 py-5 whitespace-nowrap text-right text-emerald-600 font-bold hidden sm:table-cell print:table-cell print:text-[9pt]">+{formatCurrency(adds)}</td>
+                                                    <td className="px-4 py-5 whitespace-nowrap text-right text-red-500 font-bold hidden sm:table-cell print:table-cell print:text-[9pt]">-{formatCurrency(deducs)}</td>
+                                                    <td className="px-4 py-5 whitespace-nowrap text-right font-black text-wine-900 text-lg print:text-black print:text-[11pt]">{formatCurrency(p.netTotal)}</td>
                                                 </tr>
                                             )
                                         })}
                                     </tbody>
                                     <tfoot className="border-t-4 border-wine-900/5 print:border-black">
                                         <tr className="bg-wine-50/30 print:bg-transparent">
-                                            <td colSpan={4} className="px-6 py-10 text-right font-black uppercase tracking-widest text-wine-400 text-xs hidden sm:table-cell">Total Acumulado (Período)</td>
-                                            <td colSpan={1} className="px-6 py-10 text-right font-black uppercase tracking-widest text-wine-400 text-xs sm:hidden">Total Acumulado</td>
-                                            <td className="px-4 py-10 text-right text-4xl font-display font-black text-wine-800 print:text-black">{formatCurrency(collaboratorData?.totals.totalReceived || 0)}</td>
+                                            <td colSpan={4} className="px-6 py-10 text-right font-black uppercase tracking-widest text-wine-400 text-xs hidden sm:table-cell print:table-cell print:text-black print:text-[10pt]">Total Acumulado (Período)</td>
+                                            <td colSpan={1} className="px-6 py-10 text-right font-black uppercase tracking-widest text-wine-400 text-xs sm:hidden print:hidden">Total Acumulado</td>
+                                            <td className="px-4 py-10 text-right text-4xl font-display font-black text-wine-800 print:text-black print:text-[18pt]">{formatCurrency(collaboratorData?.totals.totalReceived || 0)}</td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -358,12 +378,53 @@ export default function ReportClient() {
             <style dangerouslySetInnerHTML={{
                 __html: `
         @media print {
-          @page { margin: 1cm; size: A4 portrait; }
+          @page { margin: 1.5cm; size: A4 portrait; }
           aside, nav, .print\\:hidden { display: none !important; }
-          body { background-color: white !important; font-family: sans-serif; }
-          * { -webkit-print-color-adjust: exact !important; color-adjust: exact !important; }
-          .glass-card { border: none !important; background: transparent !important; box-shadow: none !important; }
+          
+          /* Scorched Earth Reset: Universal Visibility */
+          *, *::before, *::after {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            animation: none !important;
+            transition: none !important;
+          }
+
+          html, body, #__next, [data-nextjs-scroll-focus-boundary], main, #root, .flex-1, .bg-white, div, section, article { 
+            height: auto !important; 
+            min-height: 0 !important;
+            max-height: none !important;
+            overflow: visible !important; 
+            display: block !important;
+            position: static !important;
+            float: none !important;
+          }
+
+          body { background-color: white !important; font-family: sans-serif; color: black !important; }
+          .bg-white { background-color: white !important; }
+          
+          /* Colors for Print */
+          .text-wine-900 { color: #612232 !important; }
+          .text-wine-800 { color: #722636 !important; }
+          .text-wine-600 { color: #a2384f !important; }
+          .text-wine-400 { color: #cf7c8c !important; }
+          
+          /* Table Stability */
+          table { width: 100% !important; border-collapse: collapse !important; table-layout: fixed !important; page-break-inside: auto !important; display: table !important; }
+          thead { display: table-header-group !important; }
+          tfoot { display: table-footer-group !important; }
+          tr { page-break-inside: avoid !important; page-break-after: auto !important; display: table-row !important; }
+          th, td { border-bottom: 1px solid #eee !important; overflow: visible !important; display: table-cell !important; }
+          
+          /* Remove UI Noise */
+          .shadow-premium, .glass-card, [class*="shadow-"], [class*="backdrop-blur"] { 
+            box-shadow: none !important; 
+            border: none !important; 
+            background: transparent !important; 
+            backdrop-filter: none !important;
+          }
         }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
       `}} />
         </div>
     );

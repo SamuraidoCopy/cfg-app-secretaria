@@ -40,22 +40,24 @@ export default async function ReciboPage({ params }: { params: Promise<{ id: str
                 <PrintButton />
             </div>
 
-            {/* A página do recibo (Overlay cobrindo tudo no print se precisarmos isolar o layout) */}
-            <div className="w-full max-w-4xl bg-white p-12 md:p-16 shadow-premium rounded-[24px] print:shadow-none print:rounded-none print:p-0 print:block print:absolute print:inset-0 print:z-[9999] border border-wine-100/50 print:border-none">
+            {/* A página do recibo */}
+            <div className="w-full max-w-4xl bg-white p-12 md:p-16 shadow-premium rounded-[24px] print:shadow-none print:rounded-none print:p-0 print:block print:relative print:border-none border border-wine-100/50">
 
-                {/* Cabeçalho do Recibo (Imagem Timbrada) */}
-                <div className="text-center mb-16 flex justify-center">
-                    <img src="/cabecalho.jpg" alt="Cabeçalho Colégio Frei Galvão" className="w-full max-w-3xl object-contain" />
+                {/* Cabeçalho do Recibo (Branding) */}
+                <div className="flex flex-col items-center mb-12 border-b-2 border-wine-900 pb-8 print:border-black">
+                    <img src="/logo.jpg" alt="Logo Colégio Frei Galvão" className="h-24 w-auto mb-4 object-contain" />
+                    <h2 className="text-3xl font-black text-wine-950 uppercase tracking-[0.2em] font-display">Relatório de Recibo</h2>
+                    <p className="text-wine-600 font-bold uppercase tracking-widest text-xs mt-1">Colégio Frei Galvão</p>
                 </div>
 
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl font-black text-wine-950 uppercase tracking-[0.3em] font-display">Recibo</h2>
+                <div className="text-center mb-12">
+                    <h1 className="text-5xl font-black text-wine-950 uppercase tracking-[0.4em] font-display print:text-black">Recibo</h1>
                 </div>
 
                 {/* Corpo do Recibo */}
-                <div className="text-justify leading-loose text-wine-950 text-xl font-medium max-w-3xl mx-auto space-y-6">
-                    <p className="indent-12">
-                        Recebi da Associação SANTO ANTONIO DE SANTANA GALVÃO, CNPJ 47.595.476/0001-86 a quantia de <strong className="font-bold underline decoration-wine-300 underline-offset-4">{currency.format(netTotal)}</strong> (<strong className="font-bold italic">{capitalizedExtenso}</strong>), referente a ajuda de custo de trabalhos realizados no Colégio Frei Galvão, situado à Rua Pirajá nº223.
+                <div className="text-justify leading-relaxed text-wine-950 text-xl font-medium max-w-3xl mx-auto space-y-8 print:text-black">
+                    <p className="indent-12 first-letter:text-3xl first-letter:font-black">
+                        Recebi da Associação SANTO ANTONIO DE SANTANA GALVÃO, CNPJ 47.595.476/0001-86 a quantia de <strong className="font-bold border-b-2 border-wine-900 print:border-black">{currency.format(netTotal)}</strong> (<strong className="font-bold italic">{capitalizedExtenso}</strong>), referente a ajuda de custo de trabalhos realizados no Colégio Frei Galvão, situado à Rua Pirajá nº223.
                     </p>
                     <p className="indent-12">
                         Tal valor se refere ao reembolso de despesas pelos serviços prestados, {payroll.employee.type === "PJ" ? "incluindo os custos de deslocamento até o Colégio, " : " "}referente a serviços extraordinários no mês de {mesReferencia} de {payroll.year}.
@@ -74,6 +76,23 @@ export default async function ReciboPage({ params }: { params: Promise<{ id: str
                 </div>
 
             </div>
+
+            {/* Global Print Styles for Recibo */}
+            <style dangerouslySetInnerHTML={{
+                __html: `
+        @media print {
+          @page { margin: 1.5cm; size: A4 portrait; }
+          body { background-color: white !important; font-family: serif; color: black !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+          .print\\:shadow-none { box-shadow: none !important; }
+          .print\\:border-none { border: none !important; }
+          .indent-12 { text-indent: 1.5cm !important; }
+          h1 { font-size: 32pt !important; margin-bottom: 0.5cm !important; }
+          h2 { font-size: 18pt !important; }
+          p { font-size: 12pt !important; line-height: 1.6 !important; }
+          .w-96 { width: 10cm !important; }
+          * { -webkit-print-color-adjust: exact !important; color-adjust: exact !important; }
+        }
+      `}} />
         </div>
     );
 }
