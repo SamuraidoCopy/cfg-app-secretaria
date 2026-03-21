@@ -71,6 +71,13 @@ export default function ImportCheckClient({
         body: formData
       })
       
+      if (!res.ok) {
+        const text = await res.text()
+        alert(`Erro ${res.status}: ${text.substring(0, 100)}`)
+        setLoading(false)
+        return
+      }
+
       const json = await res.json()
       if (json.success) {
         setPdfData({
@@ -82,7 +89,7 @@ export default function ImportCheckClient({
         alert("Erro ao ler PDF: " + json.error)
       }
     } catch (e: any) {
-      alert("Erro na requisição.")
+      alert("Erro na requisição: " + e.message)
     } finally {
       setLoading(false)
     }
