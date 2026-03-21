@@ -33,6 +33,15 @@ export async function addEmployee(formData: FormData) {
     const agency = (formData.get("agency") as string) || null;
     const accountNumber = (formData.get("accountNumber") as string) || null;
 
+    // CLT specific fields
+    const isAulista = formData.get("isAulista") === "true";
+    const hourlyRateRaw = formData.get("hourlyRate") as string;
+    const hourlyRate = hourlyRateRaw ? parseFloat(hourlyRateRaw) : null;
+    const cestaBasicaRaw = formData.get("cestaBasica") as string;
+    const cestaBasica = cestaBasicaRaw ? parseFloat(cestaBasicaRaw) : null;
+    const salaryAdvanceRaw = formData.get("salaryAdvance") as string;
+    const salaryAdvance = salaryAdvanceRaw ? parseFloat(salaryAdvanceRaw) : 0;
+
     await prisma.employee.create({
         data: {
             name,
@@ -52,6 +61,10 @@ export async function addEmployee(formData: FormData) {
             accountType,
             agency,
             accountNumber,
+            isAulista,
+            hourlyRate,
+            cestaBasica,
+            salaryAdvance,
         },
     });
 
@@ -83,6 +96,15 @@ export async function updateEmployee(formData: FormData) {
     const agency = (formData.get("agency") as string) || null;
     const accountNumber = (formData.get("accountNumber") as string) || null;
 
+    // CLT specific fields
+    const isAulista = formData.get("isAulista") === "true";
+    const hourlyRateRaw = formData.get("hourlyRate") as string;
+    const hourlyRate = hourlyRateRaw ? parseFloat(hourlyRateRaw) : null;
+    const cestaBasicaRaw = formData.get("cestaBasica") as string;
+    const cestaBasica = cestaBasicaRaw ? parseFloat(cestaBasicaRaw) : null;
+    const salaryAdvanceRaw = formData.get("salaryAdvance") as string;
+    const salaryAdvance = salaryAdvanceRaw ? parseFloat(salaryAdvanceRaw) : 0;
+
     await prisma.employee.update({
         where: { id },
         data: {
@@ -103,6 +125,10 @@ export async function updateEmployee(formData: FormData) {
             accountType,
             agency,
             accountNumber,
+            isAulista,
+            hourlyRate,
+            cestaBasica,
+            salaryAdvance,
         },
     });
 

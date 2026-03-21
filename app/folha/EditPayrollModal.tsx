@@ -15,6 +15,9 @@ type Employee = {
     temporaryDeductions: number;
     temporaryDeductionsDesc: string | null;
     temporaryDeductionsExpiration: string | null;
+    isAulista: boolean;
+    hourlyRate: number | null;
+    cestaBasica: number | null;
 };
 
 type Payroll = {
@@ -27,6 +30,8 @@ type Payroll = {
     absencesVT: number;
     otherDeductions: number;
     bonuses: number;
+    salaryAdvance: number;
+    hoursAulista: number | null;
     employee: Employee;
 };
 
@@ -36,8 +41,10 @@ export default function EditPayrollModal({ payroll }: { payroll: Payroll }) {
     const [workingDays, setWorkingDays] = useState(payroll.workingDays);
     const [absences, setAbsences] = useState(payroll.absences);
     const [absencesVT, setAbsencesVT] = useState(payroll.absencesVT);
-    const [otherDeductions, setOtherDeductions] = useState(payroll.otherDeductions);
-    const [bonuses, setBonuses] = useState(payroll.bonuses);
+    const [otherDeductions, setOtherDeductions] = useState(payroll.otherDeductions || 0);
+    const [bonuses, setBonuses] = useState(Math.max(0, (payroll.bonuses || 0) - (payroll.employee.cestaBasica || 0)));
+    const [salaryAdvance, setSalaryAdvance] = useState(payroll.salaryAdvance || 0);
+    const [hoursAulista, setHoursAulista] = useState(payroll.hoursAulista || 0);
 
     // Reset state when opening modal
     useEffect(() => {
@@ -47,6 +54,8 @@ export default function EditPayrollModal({ payroll }: { payroll: Payroll }) {
             setAbsencesVT(payroll.absencesVT);
             setOtherDeductions(payroll.otherDeductions);
             setBonuses(payroll.bonuses);
+            setSalaryAdvance(payroll.salaryAdvance || 0);
+            setHoursAulista(payroll.hoursAulista || 0);
         }
     }, [isOpen, payroll]);
 
@@ -97,8 +106,7 @@ export default function EditPayrollModal({ payroll }: { payroll: Payroll }) {
                                         required
                                         name="workingDays"
                                         type="number"
-                                        value={workingDays}
-                                        onChange={(e) => setWorkingDays(Number(e.target.value))}
+                                        defaultValue={workingDays}
                                         className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500/50 shadow-sm"
                                     />
                                 </div>
@@ -107,42 +115,79 @@ export default function EditPayrollModal({ payroll }: { payroll: Payroll }) {
                                     <span className="text-xs text-wine-600 mb-2 font-medium bg-wine-50 p-2 rounded-lg leading-tight w-full opacity-80">Edite os dias úteis dependendo de qual dia cai no mês para o cálculo correto de VT e alimentação.</span>
                                 </div>
 
-                                <div className="col-span-1">
-                                    <label className="block text-sm font-medium text-wine-900 mb-1">Faltas no Mês Base</label>
-                                    <input
-                                        name="absences"
-                                        type="number"
-                                        value={absences}
-                                        onChange={(e) => setAbsences(Number(e.target.value))}
-                                        min="0"
-                                        className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-wine-500/50 text-rose-600 font-bold bg-rose-50/50 shadow-sm"
-                                    />
-                                    <span className="text-[10px] text-wine-700">Desconta do Salário</span>
-                                </div>
+                                {payroll.employee.isAulista && (
+                                    <div className="col-span-2 bg-amber-50/50 p-4 rounded-xl border border-amber-100 mb-2">
+                                        <label className="block text-sm font-bold text-amber-900 mb-1 uppercase tracking-tight">Horas Aula no Período</label>
+                                        <input 
+                                            required 
+                                            name="hoursAulista" 
+                                            type="number" 
+                                            step="0.01" 
+                                            defaultValue={hoursAulista}
+                                            className="w-full border border-amber-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold text-lg" 
+                                        />
+                                        <p className="text-[10px] text-amber-700 mt-1">Valor/Hora: R$ {payroll.employee.hourlyRate?.toFixed(2) || "0.00"}</p>
+                                    </div>
+                                )}
+
+                                {!payroll.employee.isAulista && (
+                                    <div className="col-span-1">
+                                        <label className="block text-sm font-medium text-wine-900 mb-1">Faltas no Mês Base</label>
+                                        <input
+                                            name="absences"
+                                            type="number"
+                                            defaultValue={absences}
+                                            min="0"
+                                            className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-wine-500/50 text-rose-600 font-bold bg-rose-50/50 shadow-sm"
+                                        />
+                                        <span className="text-[10px] text-wine-700">Desconta do Salário</span>
+                                    </div>
+                                )}
 
                                 <div className="col-span-1">
                                     <label className="block text-sm font-medium text-wine-900 mb-1">Faltas no Período VT</label>
                                     <input
                                         name="absencesVT"
                                         type="number"
-                                        value={absencesVT}
-                                        onChange={(e) => setAbsencesVT(Number(e.target.value))}
+                                        defaultValue={absencesVT}
                                         min="0"
                                         className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-wine-500/50 text-amber-600 font-bold bg-amber-50/50 shadow-sm"
                                     />
                                     <span className="text-[10px] text-wine-700">Desconta do VT Pago</span>
                                 </div>
 
-                                <div className="col-span-1">
-                                    <label className="block text-sm font-medium text-wine-900 mb-1">Outros Descontos (R$)</label>
-                                    <input
-                                        name="otherDeductions"
-                                        type="number"
-                                        step="0.01"
-                                        value={otherDeductions}
-                                        onChange={(e) => setOtherDeductions(Number(e.target.value))}
-                                        className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-wine-500/50 text-rose-600 font-bold bg-rose-50/50 shadow-sm"
-                                    />
+                                <div className="col-span-2 mt-4 pt-4 border-t border-wine-100/50">
+                                    <h4 className="text-[10px] font-bold text-wine-400 uppercase tracking-widest mb-4">Ajustes de Descontos</h4>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="col-span-1">
+                                            <label className="block text-[10px] font-bold text-wine-900 mb-1.5 uppercase tracking-wider">Outros Descontos</label>
+                                            <div className="relative group">
+                                                <input
+                                                    name="otherDeductions"
+                                                    type="number"
+                                                    step="0.01"
+                                                    defaultValue={otherDeductions}
+                                                    className="w-full border border-wine-200 rounded-xl px-4 py-2.5 bg-rose-50/30 text-rose-700 font-bold focus:outline-none focus:ring-2 focus:ring-rose-500/20 transition-all shadow-inner-soft text-sm"
+                                                />
+                                                <span className="absolute right-3 top-2.5 text-rose-300 text-[10px] font-bold">R$</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-span-1">
+                                            <label className="block text-[10px] font-bold text-wine-900 mb-1.5 uppercase tracking-wider">Adiantamento (Dia 20)</label>
+                                            <div className="relative group">
+                                                <input
+                                                    name="salaryAdvance"
+                                                    type="number"
+                                                    step="0.01"
+                                                    defaultValue={salaryAdvance}
+                                                    className="w-full border border-amber-200 rounded-xl px-4 py-2.5 bg-amber-50/30 text-amber-700 font-bold focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all shadow-inner-soft text-sm"
+                                                />
+                                                <span className="absolute right-3 top-2.5 text-amber-300 text-[10px] font-bold">R$</span>
+                                            </div>
+                                            <p className="text-[9px] text-amber-600/70 mt-1 font-medium italic">Deduzido automaticamente se já pago</p>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div className="col-span-1">
@@ -151,8 +196,7 @@ export default function EditPayrollModal({ payroll }: { payroll: Payroll }) {
                                         name="bonuses"
                                         type="number"
                                         step="0.01"
-                                        value={bonuses}
-                                        onChange={(e) => setBonuses(Number(e.target.value))}
+                                        defaultValue={bonuses}
                                         className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-wine-500/50 text-emerald-600 font-bold bg-emerald-50/50 shadow-sm"
                                     />
                                 </div>

@@ -7,6 +7,7 @@ import { updateEmployee } from "./actions";
 export default function EditEmployeeModal({ employee }: { employee: any }) {
     const [isOpen, setIsOpen] = useState(false);
     const [type, setType] = useState(employee.type || "PJ");
+    const [isAulista, setIsAulista] = useState(employee.isAulista || false);
     const [paymentMethod, setPaymentMethod] = useState(employee.paymentMethod || "PIX");
 
     async function handleSubmit(formData: FormData) {
@@ -73,15 +74,49 @@ export default function EditEmployeeModal({ employee }: { employee: any }) {
                                     <input required name="baseSalary" type="number" step="0.01" defaultValue={employee.baseSalary} className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
                                 </div>
 
+                                {(type === "PJ" || type === "VOLUNTARIO" || type === "CLT") && (
+                                    <div className="col-span-1">
+                                        <label className="block text-sm font-medium text-wine-900 mb-1">VT Diário (R$)</label>
+                                        <input name="transportDaily" type="number" step="0.01" defaultValue={employee.transportDaily || ''} className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
+                                    </div>
+                                )}
+
                                 {(type === "PJ" || type === "VOLUNTARIO") && (
+                                    <div className="col-span-1">
+                                        <label className="block text-sm font-medium text-wine-900 mb-1">Ajuda Gasolina Mensal (R$)</label>
+                                        <input name="gasAssistance" type="number" step="0.01" defaultValue={employee.gasAssistance || ''} className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
+                                    </div>
+                                )}
+
+                                {type === "CLT" && (
                                     <>
                                         <div className="col-span-1">
-                                            <label className="block text-sm font-medium text-wine-900 mb-1">VT Diário (R$)</label>
-                                            <input name="transportDaily" type="number" step="0.01" defaultValue={employee.transportDaily || ''} className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
+                                            <label className="block text-sm font-medium text-wine-900 mb-1">Cesta Básica (R$)</label>
+                                            <input name="cestaBasica" type="number" step="0.01" defaultValue={employee.cestaBasica || ''} className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
                                         </div>
-                                        <div className="col-span-1">
-                                            <label className="block text-sm font-medium text-wine-900 mb-1">Ajuda Gasolina Mensal (R$)</label>
-                                            <input name="gasAssistance" type="number" step="0.01" defaultValue={employee.gasAssistance || ''} className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
+
+                                        <div className="col-span-2 mt-2 pt-2 border-t border-wine-100/30">
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div className="col-span-1">
+                                                    <label className="block text-sm font-medium text-wine-900 mb-1">Regime CLT</label>
+                                                    <select
+                                                        name="isAulista"
+                                                        value={isAulista.toString()}
+                                                        onChange={(e) => setIsAulista(e.target.value === "true")}
+                                                        className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500"
+                                                    >
+                                                        <option value="false">Mensalista</option>
+                                                        <option value="true">Professor Aulista</option>
+                                                    </select>
+                                                </div>
+
+                                                {isAulista && (
+                                                    <div className="col-span-1">
+                                                        <label className="block text-sm font-medium text-wine-900 mb-1">Valor da Hora (R$)</label>
+                                                        <input required name="hourlyRate" type="number" step="0.01" defaultValue={employee.hourlyRate || ''} className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                     </>
                                 )}
@@ -136,6 +171,14 @@ export default function EditEmployeeModal({ employee }: { employee: any }) {
 
                                 <div className="col-span-2 mt-4 pt-4 border-t border-wine-100/50">
                                     <h3 className="text-sm font-bold text-wine-950 mb-4 uppercase tracking-wider">Descontos Fixos e Temporários</h3>
+                                </div>
+
+                                <div className="col-span-2 bg-amber-50/50 border border-amber-100 rounded-xl p-4 flex items-center justify-between gap-4">
+                                    <div>
+                                        <p className="text-sm font-bold text-amber-900">Adiantamento Salarial (Dia 20)</p>
+                                        <p className="text-xs text-amber-700/70 mt-0.5">Valor fixo mensal pago todo dia 20. Automaticamente deduzido na folha.</p>
+                                    </div>
+                                    <input name="salaryAdvance" type="number" step="0.01" min="0" defaultValue={employee.salaryAdvance || '0'} className="w-32 border border-amber-200 rounded-lg px-3 py-2 bg-white text-amber-900 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 text-center" />
                                 </div>
 
                                 <div className="col-span-1">

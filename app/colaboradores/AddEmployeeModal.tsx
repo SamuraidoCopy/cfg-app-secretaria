@@ -7,6 +7,7 @@ import { addEmployee } from "./actions";
 export default function AddEmployeeModal() {
     const [isOpen, setIsOpen] = useState(false);
     const [type, setType] = useState("PJ");
+    const [isAulista, setIsAulista] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState("PIX");
 
     async function handleSubmit(formData: FormData) {
@@ -70,15 +71,49 @@ export default function AddEmployeeModal() {
                                     <input required name="baseSalary" type="number" step="0.01" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
                                 </div>
 
+                                {(type === "PJ" || type === "VOLUNTARIO" || type === "CLT") && (
+                                    <div className="col-span-1">
+                                        <label className="block text-sm font-medium text-wine-900 mb-1">VT Diário (R$)</label>
+                                        <input name="transportDaily" type="number" step="0.01" placeholder="Ex: 15.50" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
+                                    </div>
+                                )}
+
                                 {(type === "PJ" || type === "VOLUNTARIO") && (
+                                    <div className="col-span-1">
+                                        <label className="block text-sm font-medium text-wine-900 mb-1">Ajuda Gasolina Mensal (R$)</label>
+                                        <input name="gasAssistance" type="number" step="0.01" placeholder="Fixo no mês" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
+                                    </div>
+                                )}
+
+                                {type === "CLT" && (
                                     <>
                                         <div className="col-span-1">
-                                            <label className="block text-sm font-medium text-wine-900 mb-1">VT Diário (R$)</label>
-                                            <input name="transportDaily" type="number" step="0.01" placeholder="Ex: 15.50" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
+                                            <label className="block text-sm font-medium text-wine-900 mb-1">Cesta Básica (R$)</label>
+                                            <input name="cestaBasica" type="number" step="0.01" placeholder="Fixo no mês" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
                                         </div>
-                                        <div className="col-span-1">
-                                            <label className="block text-sm font-medium text-wine-900 mb-1">Ajuda Gasolina Mensal (R$)</label>
-                                            <input name="gasAssistance" type="number" step="0.01" placeholder="Fixo no mês" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
+
+                                        <div className="col-span-2 mt-2 pt-2 border-t border-wine-100/30">
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div className="col-span-1">
+                                                    <label className="block text-sm font-medium text-wine-900 mb-1">Regime CLT</label>
+                                                    <select
+                                                        name="isAulista"
+                                                        value={isAulista.toString()}
+                                                        onChange={(e) => setIsAulista(e.target.value === "true")}
+                                                        className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500"
+                                                    >
+                                                        <option value="false">Mensalista</option>
+                                                        <option value="true">Professor Aulista</option>
+                                                    </select>
+                                                </div>
+
+                                                {isAulista && (
+                                                    <div className="col-span-1">
+                                                        <label className="block text-sm font-medium text-wine-900 mb-1">Valor da Hora (R$)</label>
+                                                        <input required name="hourlyRate" type="number" step="0.01" placeholder="Ex: 35.00" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500" />
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                     </>
                                 )}

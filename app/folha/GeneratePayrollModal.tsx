@@ -15,6 +15,9 @@ type Employee = {
     temporaryDeductions: number;
     temporaryDeductionsDesc: string | null;
     temporaryDeductionsExpiration: string | null;
+    isAulista: boolean;
+    hourlyRate: number | null;
+    salaryAdvance: number;
 };
 
 function getWeekdaysBetween(startDate: string, endDate: string) {
@@ -116,9 +119,16 @@ export default function GeneratePayrollModal({
                                         }}
                                     >
                                         <option value="">Selecione...</option>
-                                        {employees.map(emp => (
-                                            <option key={emp.id} value={emp.id}>{emp.name} ({emp.type})</option>
-                                        ))}
+                                        <optgroup label="CLT">
+                                            {employees.filter(e => e.type === "CLT").map(emp => (
+                                                <option key={emp.id} value={emp.id}>{emp.name} ({emp.isAulista ? 'Aulista' : 'Mensalista'})</option>
+                                            ))}
+                                        </optgroup>
+                                        <optgroup label="PJ e Voluntários">
+                                            {employees.filter(e => e.type !== "CLT").map(emp => (
+                                                <option key={emp.id} value={emp.id}>{emp.name}</option>
+                                            ))}
+                                        </optgroup>
                                     </select>
                                 </div>
 
@@ -154,22 +164,39 @@ export default function GeneratePayrollModal({
                                         required
                                         name="workingDays"
                                         type="number"
-                                        value={workingDays}
-                                        onChange={(e) => setWorkingDays(Number(e.target.value))}
+                                        defaultValue={workingDays}
+                                        key={`wd-${workingDays}`} // Force update when calculated
                                         className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-wine-500/50 shadow-sm"
                                     />
                                     <span className="text-[10px] text-wine-700">Calculado para o período selecionado</span>
                                 </div>
 
+                                {selectedUser?.isAulista && (
+                                    <div className="col-span-2 bg-amber-50/50 p-4 rounded-xl border border-amber-100">
+                                        <label className="block text-sm font-bold text-amber-900 mb-1 uppercase tracking-tight">Horas Aula no Período</label>
+                                        <input 
+                                            required 
+                                            name="hoursAulista" 
+                                            type="number" 
+                                            step="0.01" 
+                                            placeholder="Ex: 60.90" 
+                                            className="w-full border border-amber-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold text-lg" 
+                                        />
+                                        <p className="text-[10px] text-amber-700 mt-1">O cálculo aplicará automaticamente DSR (16.67%) e Hora Atividade (5%)</p>
+                                    </div>
+                                )}
+
                                 <div className="col-span-2 mt-2 pt-2 border-t border-wine-200">
                                     <h3 className="font-semibold text-wine-900 text-sm mb-3">Ajustes da Folha ({currentMonth}/{currentYear})</h3>
                                 </div>
 
-                                <div className="col-span-1">
-                                    <label className="block text-sm font-medium text-wine-900 mb-1">Faltas no Mês Base</label>
-                                    <input name="absences" type="number" defaultValue="0" min="0" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-wine-500/50 text-rose-600 font-bold bg-rose-50/50 shadow-sm" />
-                                    <span className="text-[10px] text-wine-700">Desconta do Salário</span>
-                                </div>
+                                {!selectedUser?.isAulista && (
+                                    <div className="col-span-1">
+                                        <label className="block text-sm font-medium text-wine-900 mb-1">Faltas no Mês Base</label>
+                                        <input name="absences" type="number" defaultValue="0" min="0" className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-wine-500/50 text-rose-600 font-bold bg-rose-50/50 shadow-sm" />
+                                        <span className="text-[10px] text-wine-700">Desconta do Salário</span>
+                                    </div>
+                                )}
 
                                 <div className="col-span-1">
                                     <label className="block text-sm font-medium text-wine-900 mb-1">Faltas no Período VT</label>
@@ -177,9 +204,40 @@ export default function GeneratePayrollModal({
                                     <span className="text-[10px] text-wine-700">Desconta do VT Pago</span>
                                 </div>
 
-                                <div className="col-span-1">
-                                    <label className="block text-sm font-medium text-wine-900 mb-1">Outros Descontos (R$)</label>
-                                    <input name="otherDeductions" type="number" step="0.01" defaultValue={(selectedUser?.recurringDeductions || 0) + (isTempDeductionActive(selectedUser) ? (selectedUser?.temporaryDeductions || 0) : 0)} key={`deduction-${selectedUser?.id || 'none'}`} className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-wine-500/50 text-rose-600 font-bold bg-rose-50/50 shadow-sm" />
+                                <div className="col-span-2 mt-4 pt-4 border-t border-wine-100/50">
+                                    <h4 className="text-[10px] font-bold text-wine-400 uppercase tracking-widest mb-4">Ajustes de Descontos</h4>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="col-span-1">
+                                            <label className="block text-[10px] font-bold text-wine-900 mb-1.5 uppercase tracking-wider">Outros Descontos</label>
+                                            <div className="relative group">
+                                                <input 
+                                                    name="otherDeductions" 
+                                                    type="number" 
+                                                    step="0.01" 
+                                                    defaultValue={(selectedUser?.recurringDeductions || 0) + (isTempDeductionActive(selectedUser) ? (selectedUser?.temporaryDeductions || 0) : 0)} 
+                                                    key={`deduction-${selectedUser?.id || 'none'}`} 
+                                                    className="w-full border border-wine-200 rounded-xl px-4 py-2.5 bg-rose-50/30 text-rose-700 font-bold focus:outline-none focus:ring-2 focus:ring-rose-500/20 transition-all shadow-inner-soft text-sm" 
+                                                />
+                                                <span className="absolute right-3 top-2.5 text-rose-300 text-[10px] font-bold">R$</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-span-1">
+                                            <label className="block text-[10px] font-bold text-wine-900 mb-1.5 uppercase tracking-wider">Adiantamento (Dia 20)</label>
+                                            <div className="relative group">
+                                                <input
+                                                    name="salaryAdvance"
+                                                    type="number"
+                                                    step="0.01"
+                                                    defaultValue={selectedUser?.salaryAdvance || 0}
+                                                    key={`advance-${selectedUser?.id || 'none'}`}
+                                                    className="w-full border border-amber-200 rounded-xl px-4 py-2.5 bg-amber-50/30 text-amber-700 font-bold focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all shadow-inner-soft text-sm"
+                                                />
+                                                <span className="absolute right-3 top-2.5 text-amber-300 text-[10px] font-bold">R$</span>
+                                            </div>
+                                            <p className="text-[9px] text-amber-600/70 mt-1 font-medium italic italic">Deduzido automaticamente se já pago</p>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div className="col-span-1">
@@ -190,28 +248,34 @@ export default function GeneratePayrollModal({
 
                             {selectedUser && (
                                 <div className="bg-gradient-to-r from-wine-50/80 to-transparent p-4 rounded-xl mt-4 border border-wine-100/50 shadow-sm">
-                                    <p className="text-xs text-wine-800 leading-relaxed">
-                                        <strong className="text-wine-950 font-bold">Salário Base:</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.baseSalary)}<br />
-                                        {(selectedUser.type === "PJ" || selectedUser.type === "VOLUNTARIO") && (
-                                            <>
-                                                <strong className="text-wine-950 font-bold">VT Diário:</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.transportDaily || 0)}<br />
-                                                <strong className="text-wine-950 font-bold">Ajuda Gasolina (Fixo):</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.gasAssistance || 0)}<br />
-                                            </>
-                                        )}
-                                        {selectedUser.recurringDeductions > 0 && (
-                                            <><strong className="text-wine-950 font-bold">Desc. Fixo Padrão:</strong> <span className="text-rose-600">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.recurringDeductions)}</span><br /></>
-                                        )}
-                                        {selectedUser.temporaryDeductions > 0 && (
-                                            <>
-                                                <strong className="text-wine-950 font-bold">Desc. Temp Padrão:</strong>{' '}
-                                                <span className={isTempDeductionActive(selectedUser) ? "text-orange-600" : "text-gray-400 line-through"}>
-                                                    {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.temporaryDeductions)} {selectedUser.temporaryDeductionsDesc ? `(${selectedUser.temporaryDeductionsDesc})` : ''}
-                                                </span>
-                                                {!isTempDeductionActive(selectedUser) && <span className="text-gray-500 text-[10px] ml-1 font-bold uppercase">(Expirado - não somado)</span>}
-                                                <br />
-                                            </>
-                                        )}
-                                    </p>
+                                    <div className="text-xs text-wine-800 leading-relaxed grid grid-cols-2 gap-x-4">
+                                        <div>
+                                            <strong className="text-wine-950 font-bold">Salário Base:</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.baseSalary)}<br />
+                                            {selectedUser.isAulista && (
+                                                <><strong className="text-wine-950 font-bold">Valor/Hora:</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.hourlyRate || 0)}<br /></>
+                                            )}
+                                            {(selectedUser.type === "PJ" || selectedUser.type === "VOLUNTARIO") && (
+                                                <>
+                                                    <strong className="text-wine-950 font-bold">VT Diário:</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.transportDaily || 0)}<br />
+                                                    <strong className="text-wine-950 font-bold">Ajuda Gasolina (Fixo):</strong> {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.gasAssistance || 0)}<br />
+                                                </>
+                                            )}
+                                        </div>
+                                        <div>
+                                            {selectedUser.recurringDeductions > 0 && (
+                                                <><strong className="text-wine-950 font-bold">Desc. Fixo Padrão:</strong> <span className="text-rose-600">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.recurringDeductions)}</span><br /></>
+                                            )}
+                                            {selectedUser.temporaryDeductions > 0 && (
+                                                <>
+                                                    <strong className="text-wine-950 font-bold">Desc. Temp Padrão:</strong>{' '}
+                                                    <span className={isTempDeductionActive(selectedUser) ? "text-orange-600" : "text-gray-400 line-through"}>
+                                                        {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(selectedUser.temporaryDeductions)}
+                                                    </span>
+                                                    {!isTempDeductionActive(selectedUser) && <span className="text-gray-500 text-[10px] ml-1 font-bold uppercase">(Expirado)</span>}
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
                             )}
 

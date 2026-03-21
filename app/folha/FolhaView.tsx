@@ -5,7 +5,7 @@ import GeneratePayrollModal from "./GeneratePayrollModal";
 import EditPayrollModal from "./EditPayrollModal";
 import MonthPicker from "../components/MonthPicker";
 import { markAsPaid, deletePayroll } from "./actions";
-import { DollarSign, CheckCircle, FileText, Trash2, Printer } from "lucide-react";
+import { DollarSign, CheckCircle, FileText, Trash2, Printer, Calculator } from "lucide-react";
 import Link from "next/link";
 import PixButton from "./PixButton";
 import PixModal from "./PixModal";
@@ -24,8 +24,12 @@ export default function FolhaView({
     currentYear: number;
 }) {
     const [selectedPayment, setSelectedPayment] = useState<{ employee: any, amount: number, payrollId: string } | null>(null);
+    const [activeTab, setActiveTab] = useState<'CLT' | 'PJ'>('CLT');
 
     const payrolls = initialData;
+    const filteredPayrolls = payrolls.filter((p: any) => 
+        activeTab === 'CLT' ? p.employee.type === "CLT" : p.employee.type !== "CLT"
+    );
 
     return (
         <div className="w-full h-full pb-10">
@@ -44,10 +48,12 @@ export default function FolhaView({
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                 <div className="bg-gradient-to-br from-wine-950 to-wine-900 text-white p-6 flex flex-col md:col-span-2 rounded-[24px] shadow-premium hover:shadow-premium-hover transition-all duration-300 border border-wine-800/50 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -z-0 group-hover:bg-white/10 transition-colors duration-500"></div>
-                    <h3 className="text-xs font-bold uppercase tracking-widest text-wine-200/80 z-10 mb-2">Total Líquido da Folha</h3>
+                    <h3 className="text-xs font-bold uppercase tracking-widest text-wine-200/80 z-10 mb-2">
+                        Total Líquido da Folha ({activeTab === 'CLT' ? 'CLT' : 'PJ / Voluntários'})
+                    </h3>
                     <span className="text-4xl md:text-5xl font-black tracking-tight font-display z-10 break-words line-clamp-1">
                         {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
-                            payrolls.reduce((sum: number, p: any) => sum + p.netTotal, 0)
+                            filteredPayrolls.reduce((sum: number, p: any) => sum + p.netTotal, 0)
                         )}
                     </span>
                 </div>
@@ -55,19 +61,39 @@ export default function FolhaView({
                     <h3 className="text-[10px] font-bold uppercase tracking-widest text-wine-500 mb-2">Processados</h3>
                     <div className="flex items-baseline gap-2">
                         <span className="text-4xl font-black text-wine-950 tracking-tight font-display">
-                            {payrolls.length}
+                            {filteredPayrolls.length}
                         </span>
-                        <span className="text-lg text-wine-400 font-medium">/ {employees.length}</span>
+                        <span className="text-lg text-wine-400 font-medium">/ {employees.filter((e:any) => activeTab === 'CLT' ? e.type === 'CLT' : e.type !== 'CLT').length}</span>
                     </div>
                 </div>
                 <div className="bg-white p-6 flex flex-col justify-center rounded-[24px] shadow-[0_8px_30px_rgb(225,29,72,0.08)] hover:shadow-[0_8px_30px_rgb(225,29,72,0.16)] transition-all duration-300 border border-rose-100/50">
                     <h3 className="text-[10px] font-bold uppercase tracking-widest text-rose-400 mb-2">Faltas & Descontos</h3>
                     <span className="text-3xl font-bold text-rose-600 tracking-tight font-display">
                         {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
-                            payrolls.reduce((sum: number, p: any) => sum + p.absenceDeduction + (p.transportDeduction || 0) + p.otherDeductions, 0)
+                            payrolls.reduce((sum: number, p: any) => sum + p.absenceDeduction + (p.transportDeduction || 0) + p.otherDeductions + (p.salaryAdvance || 0), 0)
                         )}
                     </span>
                 </div>
+            </div>
+
+            {/* Abas de Navegação */}
+            <div className="flex items-center gap-2 mb-6 bg-white p-2 rounded-2xl w-max shadow-sm border border-wine-100/50">
+                <button 
+                    onClick={() => setActiveTab('CLT')}
+                    className={`px-6 py-2 rounded-xl text-sm font-bold tracking-widest uppercase transition-all duration-300 ${
+                        activeTab === 'CLT' ? 'bg-wine-900 text-white shadow-md' : 'text-wine-600 hover:bg-wine-50'
+                    }`}
+                >
+                    CLT
+                </button>
+                <button 
+                    onClick={() => setActiveTab('PJ')}
+                    className={`px-6 py-2 rounded-xl text-sm font-bold tracking-widest uppercase transition-all duration-300 ${
+                        activeTab === 'PJ' ? 'bg-wine-900 text-white shadow-md' : 'text-wine-600 hover:bg-wine-50'
+                    }`}
+                >
+                    PJ / Voluntários
+                </button>
             </div>
 
             <div className="bg-white rounded-[24px] shadow-premium border border-wine-100/50 overflow-hidden">
@@ -86,8 +112,8 @@ export default function FolhaView({
                                 <th className="px-6 py-4 font-semibold text-center">Ações</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-wine-100">
-                            {payrolls.length === 0 ? (
+                        <tbody className="divide-y divide-wine-50 bg-white">
+                            {filteredPayrolls.length === 0 ? (
                                 <tr>
                                     <td colSpan={9} className="px-6 py-16 text-center text-wine-500">
                                         <DollarSign className="w-12 h-12 mx-auto text-wine-200 mb-4" />
@@ -96,7 +122,7 @@ export default function FolhaView({
                                     </td>
                                 </tr>
                             ) : (
-                                payrolls.map((p: any) => (
+                                filteredPayrolls.map((p: any) => (
                                     <tr key={p.id} className="hover:bg-wine-50/80 transition-colors group">
                                         <td className="px-6 py-4">
                                             <div className="font-bold text-wine-950">{p.employee.name}</div>
@@ -114,7 +140,7 @@ export default function FolhaView({
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-rose-600 font-medium text-sm text-right">
-                                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(p.absenceDeduction + (p.transportDeduction || 0) + p.otherDeductions)}
+                                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(p.absenceDeduction + (p.transportDeduction || 0) + p.otherDeductions + (p.salaryAdvance || 0))}
                                         </td>
                                         <td className="px-6 py-4 text-emerald-600 font-medium text-sm text-right">
                                             {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format((p.transportTotal || 0) + p.bonuses)}
@@ -129,6 +155,12 @@ export default function FolhaView({
                                                 onOpen={() => setSelectedPayment({ employee: p.employee, amount: p.netTotal, payrollId: p.id })}
                                             />
                                         </td>
+                                        <td className="px-6 py-4 text-wine-700 font-medium text-right">
+                                            {p.employee.isAulista
+                                                ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format((p.hoursAulista || 0) * (p.employee.hourlyRate || 0))
+                                                : new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(p.baseSalary)
+                                            }
+                                        </td>
                                         <td className="px-6 py-4 text-center">
                                             {p.status === "PAID" ? (
                                                 <span className="inline-flex items-center gap-1 text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest">
@@ -142,6 +174,9 @@ export default function FolhaView({
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex justify-center gap-2">
+                                                <Link href={`/folha/${p.id}/calculo`} className="p-2 text-wine-500 hover:bg-wine-100 rounded-lg transition-colors" title="Ver Cálculo">
+                                                    <Calculator className="w-4 h-4" />
+                                                </Link>
                                                 <Link href={`/folha/${p.id}/recibo`} target="_blank" className="p-2 text-wine-700 hover:bg-wine-100 rounded-lg transition-colors" title="Gerar PDF">
                                                     <Printer className="w-4 h-4" />
                                                 </Link>

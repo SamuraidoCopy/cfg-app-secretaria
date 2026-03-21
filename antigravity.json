@@ -1,0 +1,13 @@
+{
+    "version": "1.0",
+    "project": "app-folha",
+    "workspace": "./",
+    "agents": {
+        "enabled": true,
+        "directory": "G:/Meu Drive/Aiox-Control/intelligence/agents",
+        "default": "aios-master"
+    },
+    "paths": {
+        "workflows": "G:/Meu Drive/Aiox-Control/intelligence/agents"
+    }
+}

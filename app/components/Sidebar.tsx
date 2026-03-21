@@ -2,17 +2,27 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { LayoutDashboard, Users, FileText, Wallet, FileSignature, ShieldAlert, X, BarChart2 } from "lucide-react";
+import { LayoutDashboard, Users, FileText, Wallet, FileSignature, ShieldAlert, X, BarChart2, FileCheck, ChevronDown, Banknote } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 import LogoutButton from "./LogoutButton";
 
 export default function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
     const { data: session } = useSession();
+    const pathname = usePathname();
 
     const navItems = [
         { label: "Dashboard", href: "/", icon: <LayoutDashboard className="w-5 h-5" /> },
         { label: "Colaboradores", href: "/colaboradores", icon: <Users className="w-5 h-5" /> },
-        { label: "Folha de Pagamento", href: "/folha", icon: <FileText className="w-5 h-5" /> },
+        { 
+            label: "Folha de Pagamento", 
+            href: "/folha", 
+            icon: <FileText className="w-5 h-5" />,
+            subItems: [
+                { label: "Double-check CLT", href: "/dashboard/payroll/import-check", icon: <FileCheck className="w-4 h-4" /> },
+                { label: "Adiantamentos", href: "/dashboard/payroll/advances", icon: <Banknote className="w-4 h-4" /> }
+            ]
+        },
         { label: "Relatórios", href: "/relatorios", icon: <BarChart2 className="w-5 h-5" /> },
         { label: "Financeiro", href: "/financeiro", icon: <Wallet className="w-5 h-5" /> },
         { label: "Contratos", href: "/contratos", icon: <FileSignature className="w-5 h-5" /> },
@@ -42,20 +52,59 @@ export default function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose:
                 <p className="text-wine-300 text-[10px] mt-1 uppercase tracking-[0.2em] font-bold">Secretaria</p>
             </div>
 
-            <nav className="w-full flex-1 px-4 space-y-2">
-                {navItems.map((item) => (
-                    <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={onClose}
-                        className="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 text-wine-100/70 hover:bg-wine-800/50 hover:text-white hover:shadow-lg hover:shadow-black/10 hover:-translate-y-0.5 active:translate-y-0 group border border-transparent hover:border-wine-800/50"
-                    >
-                        <div className="text-wine-400 group-hover:text-emerald-400 transition-colors duration-300">
-                            {item.icon}
+            <nav className="w-full flex-1 px-4 space-y-1">
+                {navItems.map((item) => {
+                    const isActive = pathname === item.href || (item.subItems?.some(sub => pathname === sub.href));
+                    
+                    return (
+                        <div key={item.href} className="space-y-1">
+                            <Link
+                                href={item.href}
+                                onClick={onClose}
+                                className={`flex items-center justify-between gap-3 px-4 py-3 rounded-xl transition-all duration-300 group border border-transparent ${
+                                    isActive 
+                                    ? "bg-wine-800/80 text-white shadow-lg shadow-black/20 border-wine-700/50" 
+                                    : "text-wine-100/70 hover:bg-wine-800/30 hover:text-white hover:translate-x-1"
+                                }`}
+                            >
+                                <div className="flex items-center gap-3">
+                                    <div className={`${isActive ? "text-emerald-400" : "text-wine-400 group-hover:text-emerald-400"} transition-colors duration-300`}>
+                                        {item.icon}
+                                    </div>
+                                    <span className="font-medium text-sm">{item.label}</span>
+                                </div>
+                                {item.subItems && (
+                                    <ChevronDown className={`w-3.5 h-3.5 text-wine-500 transition-transform duration-300 ${isActive ? 'rotate-180' : ''}`} />
+                                )}
+                            </Link>
+
+                            {item.subItems && (isActive || pathname.startsWith(item.href)) && (
+                                <div className="ml-9 space-y-1 animate-in slide-in-from-top-2 duration-300">
+                                    {item.subItems.map((sub) => {
+                                        const isSubActive = pathname === sub.href;
+                                        return (
+                                            <Link
+                                                key={sub.href}
+                                                href={sub.href}
+                                                onClick={onClose}
+                                                className={`flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-300 group ${
+                                                    isSubActive 
+                                                    ? "text-white bg-wine-800/40" 
+                                                    : "text-wine-300/60 hover:text-white hover:bg-wine-800/20"
+                                                }`}
+                                            >
+                                                <div className={`${isSubActive ? "text-emerald-400" : "text-wine-500 group-hover:text-emerald-400"} transition-colors`}>
+                                                    {sub.icon}
+                                                </div>
+                                                <span className="text-xs font-semibold">{sub.label}</span>
+                                            </Link>
+                                        );
+                                    })}
+                                </div>
+                            )}
                         </div>
-                        <span className="font-medium text-sm">{item.label}</span>
-                    </Link>
-                ))}
+                    );
+                })}
 
                 {session?.user?.role === "ADMIN" && (
                     <div className="mt-6 border-t border-wine-800/30 pt-4">
