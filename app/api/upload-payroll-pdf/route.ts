@@ -1,23 +1,8 @@
 import { NextResponse } from 'next/server';
+import { PDFParse } from 'pdf-parse';
 
 export async function POST(request: Request) {
   try {
-    // Polyfill for pdf-parse/pdf.js in Node.js environment
-    if (typeof (global as any).DOMMatrix === 'undefined') {
-        (global as any).DOMMatrix = class DOMMatrix {
-            constructor() {}
-        };
-    }
-
-    // Using eval('require') as a workaround for Turbopack/Next.js dynamic require issue
-    // This prevents the bundler from statically analyzing the dynamic requires inside pdf.js
-    const pdfModule = eval('require')('pdf-parse');
-    const PDFParseConstructor = pdfModule.PDFParse;
-    
-    if (!PDFParseConstructor) {
-        throw new Error('Não foi possível encontrar a classe PDFParse. Verifique a versão do módulo.');
-    }
-
     const formData = await request.formData();
     const file = formData.get('file') as File;
 
@@ -29,7 +14,7 @@ export async function POST(request: Request) {
     const buffer = Buffer.from(arrayBuffer);
 
     // Read PDF text using the new class-based API
-    const parser = new PDFParseConstructor({ data: buffer });
+    const parser = new PDFParse({ data: buffer });
     const result = await parser.getText();
     const text = result.text;
 
