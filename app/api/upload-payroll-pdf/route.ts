@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import PDFParser from 'pdf2json';
+import pdfParse from 'pdf-parse';
 
 export async function POST(request: Request) {
   try {
@@ -13,24 +13,9 @@ export async function POST(request: Request) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    // Read PDF text using pdf2json (Pure JS, fully Vercel compatible)
-    const text = await new Promise<string>((resolve, reject) => {
-        const pdfParser = new PDFParser(null, true); // true = extract raw text
-        
-        pdfParser.on("pdfParser_dataError", (errData: any) => reject(errData.parserError));
-        pdfParser.on("pdfParser_dataReady", () => {
-            resolve(pdfParser.getRawTextContent());
-        });
-        
-        pdfParser.parseBuffer(buffer);
-    });
-
-    console.log("--- RAW PDF TEXT ---");
-    // console.log(text.substring(0, 3000));
-    // To see Vale transporte specifically:
-    console.log("VT matches:", text.match(/282\s+.*TRANSPORTE.*/gi));
-    console.log("Cesta matches:", text.match(/227\s+.*B[AÁ]SICA.*/gi));
-    console.log("Adiantamento matches:", text.match(/981.*/gi));
+    // Read PDF text using pdf-parse natively
+    const data = await pdfParse(buffer);
+    const text = data.text;
     
     // Parse logic
     const employeesData: Array<{
@@ -101,36 +86,11 @@ export async function POST(request: Request) {
         const baseInssMatch = dataPart.match(/Base INSS:\s*([\d.]+,\d{2})/i) || dataPart.match(/([\d.]+,\d{2})\s+Base\s+INSS/i);
         const fgtsMatch = dataPart.match(/Valor FGTS:\s*([\d.]+,\d{2})/i) || dataPart.match(/([\d.]+,\d{2})\s+Valor\s+FGTS/i);
         
-        // Specific Rubrics using a generic spatial extraction strategy
-        const getRubric = (codesStr: string[]) => {
-            for (const c of codesStr) {
-                const regex = new RegExp(`(?:^|\\s)(${c})(?:\\s|$)`, 'i');
-                const match = dataLimit.match(regex);
-                if (match && match.index !== undefined) {
-                    const startIdx = match.index + match[0].length;
-                    let chunk = dataLimit.substring(startIdx);
-                    // Attempt to cut off chunk before the next 3-digit rubric code to prevent bleeding
-                    const nextCodeIdx = chunk.search(/\s\d{3}\s/);
-                    if (nextCodeIdx !== -1 && nextCodeIdx < 90) {
-                        chunk = chunk.substring(0, nextCodeIdx);
-                    } else {
-                        chunk = chunk.substring(0, 80);
-                    }
-                    
-                    // Find all currency values and return the last one (which is the financial value, skipping "reference" quantities)
-                    const valMatches = [...chunk.matchAll(/([\d.]+,\d{2})/g)];
-                    if (valMatches.length > 0) {
-                        return parseCurrency(valMatches[valMatches.length - 1][1]);
-                    }
-                }
-            }
-            return 0;
-        };
-
-        const inssDeduction = getRubric(["998", "INSS"]);
-        const valeTransporte = getRubric(["282", "VALE TRANSPORTE"]);
-        const cestaBasica = getRubric(["227", "CESTA"]);
-        const advanceDeduction = getRubric(["981", "ADIANT"]);
+        // Specific Rubrics using strict single-line bounds (pdf-parse inherently separates lines properly)
+        const inssSpecMatch = dataLimit.match(/998[^\n]*?([\d.]+,\d{2})\s*[PD]/i);
+        const vtSpecMatch = dataLimit.match(/282[^\n]*?([\d.]+,\d{2})\s*[PD]/i);
+        const cestaSpecMatch = dataLimit.match(/227[^\n]*?([\d.]+,\d{2})\s*[PD]/i);
+        const adiantSpecMatch = dataLimit.match(/981[^\n]*?([\d.]+,\d{2})\s*[PD]/i) || dataLimit.match(/981[^\n]*?([\d.]+,\d{2})/i);
         
         if (proventosMatch && name) {
             employeesData.push({
@@ -140,10 +100,10 @@ export async function POST(request: Request) {
                 netTotal: liquidoMatch ? parseCurrency(liquidoMatch[1]) : 0,
                 baseInss: baseInssMatch ? parseCurrency(baseInssMatch[1]) : 0,
                 fgtsValue: fgtsMatch ? parseCurrency(fgtsMatch[1]) : 0,
-                inssDeduction,
-                valeTransporte,
-                cestaBasica,
-                advanceDeduction
+                inssDeduction: inssSpecMatch ? parseCurrency(inssSpecMatch[1]) : 0,
+                valeTransporte: vtSpecMatch ? parseCurrency(vtSpecMatch[1]) : 0,
+                cestaBasica: cestaSpecMatch ? parseCurrency(cestaSpecMatch[1]) : 0,
+                advanceDeduction: adiantSpecMatch ? parseCurrency(adiantSpecMatch[1]) : 0
             });
         }
     }
