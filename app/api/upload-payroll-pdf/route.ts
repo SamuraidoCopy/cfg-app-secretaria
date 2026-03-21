@@ -25,6 +25,13 @@ export async function POST(request: Request) {
         pdfParser.parseBuffer(buffer);
     });
 
+    console.log("--- RAW PDF TEXT ---");
+    // console.log(text.substring(0, 3000));
+    // To see Vale transporte specifically:
+    console.log("VT matches:", text.match(/282\s+.*TRANSPORTE.*/gi));
+    console.log("Cesta matches:", text.match(/227\s+.*B[AÁ]SICA.*/gi));
+    console.log("Adiantamento matches:", text.match(/981.*/gi));
+    
     // Parse logic
     const employeesData: Array<{
       id: string;
@@ -90,22 +97,16 @@ export async function POST(request: Request) {
         
         // Standard total lines
         const proventosMatch = dataPart.match(/Proventos:\s*([\d.]+,\d{2})/i);
-        const liquidoMatch = dataPart.match(/Dedutora:\s*\d+\s+([\d.]+,\d{2})/i);
-        const baseInssMatch = dataPart.match(/Base INSS:\s*([\d.]+,\d{2})/i);
-        const fgtsMatch = dataPart.match(/Valor FGTS:\s*([\d.]+,\d{2})/i);
+        const liquidoMatch = dataPart.match(/Dedutora:\s*\d+\s+([\d.]+,\d{2})/i) || dataPart.match(/L[IÍ]QUIDO[\s\S]{1,20}?([\d.]+,\d{2})/i) || dataPart.match(/([\d.]+,\d{2})\s*$/);
+        const baseInssMatch = dataPart.match(/Base INSS:\s*([\d.]+,\d{2})/i) || dataPart.match(/([\d.]+,\d{2})\s+Base\s+INSS/i);
+        const fgtsMatch = dataPart.match(/Valor FGTS:\s*([\d.]+,\d{2})/i) || dataPart.match(/([\d.]+,\d{2})\s+Valor\s+FGTS/i);
         
         // Specific Rubrics using codes and P/D markers
-        // INSS: "998 121,57 D"
-        const inssSpecMatch = dataLimit.match(/998\s+([\d.]+,\d{2})\s+D/i);
-        
-        // VT: "282 VALE TRANSPORTE ... P 222,60"
-        const vtSpecMatch = dataLimit.match(/282\s+VALE\s+TRANSPORTE[\s\S]*?P\s+([\d.]+,\d{2})/i);
-        
-        // Cesta: "227 CESTA BASICA VALOR ... P 180,00"
-        const cestaSpecMatch = dataLimit.match(/227\s+CESTA\s+B[AÁ]SICA[\s\S]*?P\s+([\d.]+,\d{2})/i);
-        
-        // Adiantamento: "981 607,20 D"
-        const adiantSpecMatch = dataLimit.match(/(?:981|DESC\.ADIANT\.SALARIAL)[\s\S]{0,35}?([\d.]+,\d{2})(?:\s+D)?/i);
+        // By checking for [PD], we ensure we skip the "reference quantity" (e.g. 11,00 days) and capture the actual financial value.
+        const inssSpecMatch = dataLimit.match(/998[\s\S]{1,50}?([\d.]+,\d{2})\s*[PD]/i);
+        const vtSpecMatch = dataLimit.match(/282[\s\S]{1,50}?([\d.]+,\d{2})\s*[PD]/i);
+        const cestaSpecMatch = dataLimit.match(/227[\s\S]{1,50}?([\d.]+,\d{2})\s*[PD]/i);
+        const adiantSpecMatch = dataLimit.match(/981[\s\S]{1,50}?([\d.]+,\d{2})\s*[PD]/i) || dataLimit.match(/981[\s\S]{1,40}?([\d.]+,\d{2})/i);
         
         if (proventosMatch && name) {
             employeesData.push({
