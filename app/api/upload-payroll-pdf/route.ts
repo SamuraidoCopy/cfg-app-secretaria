@@ -101,12 +101,36 @@ export async function POST(request: Request) {
         const baseInssMatch = dataPart.match(/Base INSS:\s*([\d.]+,\d{2})/i) || dataPart.match(/([\d.]+,\d{2})\s+Base\s+INSS/i);
         const fgtsMatch = dataPart.match(/Valor FGTS:\s*([\d.]+,\d{2})/i) || dataPart.match(/([\d.]+,\d{2})\s+Valor\s+FGTS/i);
         
-        // Specific Rubrics using codes and P/D markers
-        // By checking for [PD], we ensure we skip the "reference quantity" (e.g. 11,00 days) and capture the actual financial value.
-        const inssSpecMatch = dataLimit.match(/998[\s\S]{1,50}?([\d.]+,\d{2})\s*[PD]/i);
-        const vtSpecMatch = dataLimit.match(/282[\s\S]{1,50}?([\d.]+,\d{2})\s*[PD]/i);
-        const cestaSpecMatch = dataLimit.match(/227[\s\S]{1,50}?([\d.]+,\d{2})\s*[PD]/i);
-        const adiantSpecMatch = dataLimit.match(/981[\s\S]{1,50}?([\d.]+,\d{2})\s*[PD]/i) || dataLimit.match(/981[\s\S]{1,40}?([\d.]+,\d{2})/i);
+        // Specific Rubrics using a generic spatial extraction strategy
+        const getRubric = (codesStr: string[]) => {
+            for (const c of codesStr) {
+                const regex = new RegExp(`(?:^|\\s)(${c})(?:\\s|$)`, 'i');
+                const match = dataLimit.match(regex);
+                if (match && match.index !== undefined) {
+                    const startIdx = match.index + match[0].length;
+                    let chunk = dataLimit.substring(startIdx);
+                    // Attempt to cut off chunk before the next 3-digit rubric code to prevent bleeding
+                    const nextCodeIdx = chunk.search(/\s\d{3}\s/);
+                    if (nextCodeIdx !== -1 && nextCodeIdx < 90) {
+                        chunk = chunk.substring(0, nextCodeIdx);
+                    } else {
+                        chunk = chunk.substring(0, 80);
+                    }
+                    
+                    // Find all currency values and return the last one (which is the financial value, skipping "reference" quantities)
+                    const valMatches = [...chunk.matchAll(/([\d.]+,\d{2})/g)];
+                    if (valMatches.length > 0) {
+                        return parseCurrency(valMatches[valMatches.length - 1][1]);
+                    }
+                }
+            }
+            return 0;
+        };
+
+        const inssDeduction = getRubric(["998", "INSS"]);
+        const valeTransporte = getRubric(["282", "VALE TRANSPORTE"]);
+        const cestaBasica = getRubric(["227", "CESTA"]);
+        const advanceDeduction = getRubric(["981", "ADIANT"]);
         
         if (proventosMatch && name) {
             employeesData.push({
@@ -114,12 +138,12 @@ export async function POST(request: Request) {
                 name,
                 grossEarnings: parseCurrency(proventosMatch[1]),
                 netTotal: liquidoMatch ? parseCurrency(liquidoMatch[1]) : 0,
-                inssDeduction: inssSpecMatch ? parseCurrency(inssSpecMatch[1]) : 0,
                 baseInss: baseInssMatch ? parseCurrency(baseInssMatch[1]) : 0,
                 fgtsValue: fgtsMatch ? parseCurrency(fgtsMatch[1]) : 0,
-                valeTransporte: vtSpecMatch ? parseCurrency(vtSpecMatch[1]) : 0,
-                cestaBasica: cestaSpecMatch ? parseCurrency(cestaSpecMatch[1]) : 0,
-                advanceDeduction: adiantSpecMatch ? parseCurrency(adiantSpecMatch[1]) : 0
+                inssDeduction,
+                valeTransporte,
+                cestaBasica,
+                advanceDeduction
             });
         }
     }
