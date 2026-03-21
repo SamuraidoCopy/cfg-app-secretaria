@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { PDFParse } from 'pdf-parse';
+import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
 
 export async function POST(request: Request) {
   try {
@@ -11,12 +11,25 @@ export async function POST(request: Request) {
     }
 
     const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    const buffer = new Uint8Array(arrayBuffer);
 
-    // Read PDF text using the new class-based API
-    const parser = new PDFParse({ data: buffer });
-    const result = await parser.getText();
-    const text = result.text;
+    // Read PDF text using pdfjs-dist (Pure JS, Vercel compatible)
+    const loadingTask = pdfjs.getDocument({
+        data: buffer,
+        standardFontDataUrl: undefined, // Or a local path if needed
+    });
+    
+    const pdf = await loadingTask.promise;
+    let text = "";
+    
+    for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items
+            .map((item: any) => item.str)
+            .join(' ');
+        text += pageText + "\n";
+    }
 
     // Parse logic
     const employeesData: Array<{
