@@ -92,10 +92,15 @@ export async function POST(request: Request) {
             const codeRegex = new RegExp(`(?:^|\\D)${code}(?=\\d|\\s|$)`, 'i');
             
             for (const line of lines) {
-                if (codeRegex.test(line)) {
+                const codeMatch = line.match(codeRegex);
+                if (codeMatch) {
+                    // Start search strictly AFTER the code itself to avoid 998183,20 matching 998183,20
+                    const startSearchIdx = (codeMatch.index || 0) + codeMatch[0].length;
+                    const remainingLine = line.substring(startSearchIdx);
+                    
                     // Match all values with their markers
                     const valRegex = /([PD]?)\s*([\d.]+,\d{2})\s*([PD]?)/gi;
-                    const matches = [...line.matchAll(valRegex)];
+                    const matches = [...remainingLine.matchAll(valRegex)];
                     
                     if (matches.length > 0) {
                         // First try to find a match with the preferred marker
