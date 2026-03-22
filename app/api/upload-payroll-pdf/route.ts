@@ -142,7 +142,8 @@ export async function POST(request: Request) {
         success: true, 
         count: employeesData.length, 
         data: employeesData,
-        period: { month, year }
+        month,
+        year
     });
   } catch (error: any) {
     console.error('Erro no processamento do PDF:', error);
