@@ -86,11 +86,41 @@ export async function POST(request: Request) {
         const baseInssMatch = dataPart.match(/Base INSS:\s*([\d.]+,\d{2})/i) || dataPart.match(/([\d.]+,\d{2})\s+Base\s+INSS/i);
         const fgtsMatch = dataPart.match(/Valor FGTS:\s*([\d.]+,\d{2})/i) || dataPart.match(/([\d.]+,\d{2})\s+Valor\s+FGTS/i);
         
-        // Specific Rubrics using strict single-line bounds (pdf-parse inherently separates lines properly)
-        const inssSpecMatch = dataLimit.match(/998[^\n]*?([\d.]+,\d{2})\s*[PD]/i);
-        const vtSpecMatch = dataLimit.match(/282[^\n]*?([\d.]+,\d{2})\s*[PD]/i);
-        const cestaSpecMatch = dataLimit.match(/227[^\n]*?([\d.]+,\d{2})\s*[PD]/i);
-        const adiantSpecMatch = dataLimit.match(/981[^\n]*?([\d.]+,\d{2})\s*[PD]/i) || dataLimit.match(/981[^\n]*?([\d.]+,\d{2})/i);
+        // Robust extraction using "Indicator-First" strategy to handle merged columns
+        const extractRubricValue = (code: string, preferredType: 'P' | 'D') => {
+            const lines = dataLimit.split('\n');
+            const codeRegex = new RegExp(`(?:^|\\D)${code}(?=\\d|\\s|$)`, 'i');
+            
+            for (const line of lines) {
+                if (codeRegex.test(line)) {
+                    // Match all values with their markers
+                    const valRegex = /([PD]?)\s*([\d.]+,\d{2})\s*([PD]?)/gi;
+                    const matches = [...line.matchAll(valRegex)];
+                    
+                    if (matches.length > 0) {
+                        // First try to find a match with the preferred marker
+                        for (const match of matches) {
+                            const [full, pre, val, post] = match;
+                            if (pre.toUpperCase() === preferredType || post.toUpperCase() === preferredType) {
+                                return parseCurrency(val);
+                            }
+                        }
+                        // Fallback: If no match with preferred marker, take the first value
+                        return parseCurrency(matches[0][2]);
+                    }
+                }
+            }
+            return 0;
+        };
+
+        const inssDeduction = extractRubricValue("998", "D");
+        const valeTransporte = extractRubricValue("282", "P");
+        const cestaBasica = extractRubricValue("227", "P");
+        let advanceDeduction = extractRubricValue("981", "D");
+        if (advanceDeduction === 0) {
+            const altMatch = dataLimit.match(/DESC\.?ADIANT[^\n]*?([\d.]+,\d{2})/i);
+            if (altMatch) advanceDeduction = parseCurrency(altMatch[1]);
+        }
         
         if (proventosMatch && name) {
             employeesData.push({
@@ -100,10 +130,10 @@ export async function POST(request: Request) {
                 netTotal: liquidoMatch ? parseCurrency(liquidoMatch[1]) : 0,
                 baseInss: baseInssMatch ? parseCurrency(baseInssMatch[1]) : 0,
                 fgtsValue: fgtsMatch ? parseCurrency(fgtsMatch[1]) : 0,
-                inssDeduction: inssSpecMatch ? parseCurrency(inssSpecMatch[1]) : 0,
-                valeTransporte: vtSpecMatch ? parseCurrency(vtSpecMatch[1]) : 0,
-                cestaBasica: cestaSpecMatch ? parseCurrency(cestaSpecMatch[1]) : 0,
-                advanceDeduction: adiantSpecMatch ? parseCurrency(adiantSpecMatch[1]) : 0
+                inssDeduction,
+                valeTransporte,
+                cestaBasica,
+                advanceDeduction
             });
         }
     }
@@ -112,11 +142,13 @@ export async function POST(request: Request) {
         success: true, 
         count: employeesData.length, 
         data: employeesData,
-        month,
-        year
+        period: { month, year }
     });
   } catch (error: any) {
-    console.error("PDF Parsing error:", error);
-    return NextResponse.json({ error: error.message || 'Erro ao processar PDF' }, { status: 500 });
+    console.error('Erro no processamento do PDF:', error);
+    return NextResponse.json(
+      { error: 'Erro ao processar o arquivo PDF.', details: error.message },
+      { status: 500 }
+    );
   }
 }
