@@ -57,6 +57,25 @@ export default function ImportCheckClient({
     month: number,
     year: number
   } | null>(null)
+  const [isDragging, setIsDragging] = useState(false)
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setFile(e.dataTransfer.files[0]);
+    }
+  };
   
   const handleUpload = async () => {
     if (!file) return
@@ -130,6 +149,10 @@ export default function ImportCheckClient({
     }
   }
 
+  // Calculate the target payment month (the month after the worked month)
+  const targetMonth = pdfData ? (pdfData.month === 12 ? 1 : pdfData.month + 1) : 0;
+  const targetYear = pdfData ? (pdfData.month === 12 ? pdfData.year + 1 : pdfData.year) : 0;
+
   // Cross-reference data
   const report = (pdfData?.data || []).map(pdfItem => {
     const emp = employees.find(e => 
@@ -143,8 +166,8 @@ export default function ImportCheckClient({
     
     const payroll = payrolls.find(p => 
       p.employeeId === emp.id && 
-      p.month === pdfData?.month && 
-      p.year === pdfData?.year
+      p.month === targetMonth && 
+      p.year === targetYear
     )
 
     if (!payroll) {
@@ -200,7 +223,8 @@ export default function ImportCheckClient({
             <h1 className="text-4xl font-display font-black text-wine-950 uppercase tracking-tighter italic">Relatório de Audit de Folha</h1>
             <p className="text-xl font-bold text-wine-600">Colégio Frei Galvão · Unidade Administrativa</p>
             <div className="flex gap-4 pt-2">
-              <span className="bg-wine-900 text-white px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest">{monthNames[pdfData?.month || 0]} / {pdfData?.year}</span>
+              <span className="bg-wine-900 text-white px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest">PGTO {monthNames[targetMonth]} / {targetYear}</span>
+              <span className="text-wine-400 text-xs font-bold uppercase border border-wine-100 px-4 py-1 rounded-full">Ref: {monthNames[pdfData?.month || 0]} / {pdfData?.year}</span>
               <span className="text-wine-400 text-xs font-bold uppercase border border-wine-100 px-4 py-1 rounded-full">Gerado em {new Date().toLocaleDateString('pt-BR')}</span>
             </div>
           </div>
@@ -265,9 +289,15 @@ export default function ImportCheckClient({
         </div>
 
         <div className="lg:w-[45%] group flex flex-col h-full relative p-6 md:p-0">
-          <label className={`relative flex flex-col items-center justify-center w-full h-[320px] rounded-[3rem] transition-all cursor-pointer duration-500 group overflow-hidden ${
+          <label 
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            className={`relative flex flex-col items-center justify-center w-full h-[320px] rounded-[3rem] transition-all cursor-pointer duration-500 group overflow-hidden ${
             file 
             ? "bg-emerald-50 border-2 border-emerald-500 ring-4 ring-emerald-50/50" 
+            : isDragging
+            ? "bg-wine-100 border-2 border-dashed border-wine-500"
             : "bg-wine-50/30 border-2 border-dashed border-wine-200 hover:border-wine-500 hover:bg-wine-50"
           }`}>
             <div className="flex flex-col items-center justify-center text-center px-10 relative z-10">
@@ -312,14 +342,14 @@ export default function ImportCheckClient({
             <div className="flex-1 bg-white/5 backdrop-blur-md rounded-[2.2rem] p-6 flex flex-col md:flex-row items-center justify-between text-white">
               <div className="flex items-center gap-6 pl-4">
                 <div className="w-14 h-14 bg-wine-800 rounded-2xl flex items-center justify-center text-wine-200 border border-wine-700 italic font-black text-xl">
-                  {pdfData.month}
+                  {targetMonth}
                 </div>
                 <div>
                   <h3 className="text-xl font-display font-black tracking-tight uppercase italic pb-1 border-b border-white/10 mb-1">
-                    {monthNames[pdfData.month]} / {pdfData.year}
+                    Pgto {monthNames[targetMonth]} / {targetYear}
                   </h3>
                   <p className="text-[10px] font-bold text-wine-400 uppercase tracking-widest leading-none">
-                    {pdfData.data.length} Colaboradores Extraídos
+                    Ref: {monthNames[pdfData.month]} / {pdfData.year} ({pdfData.data.length} extraídos)
                   </p>
                 </div>
               </div>
