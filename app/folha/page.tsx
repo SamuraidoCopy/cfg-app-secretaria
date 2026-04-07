@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import FolhaView from "./FolhaView";
 import { getPayrolls } from "./actions";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page({
     searchParams,
 }: {

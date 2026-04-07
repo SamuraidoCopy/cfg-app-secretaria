@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma"
 import AdvancesClient from "./AdvancesClient"
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdvancesPage({
   searchParams,
 }: {

@@ -1,6 +1,8 @@
 import { prisma } from "../../../../lib/prisma"
 import CLTCheckForm from "./CLTCheckForm"
 
+export const dynamic = 'force-dynamic'
+
 export default async function CLTCheckPage() {
   const employees = await prisma.employee.findMany({
     where: {

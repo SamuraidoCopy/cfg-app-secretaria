@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma"
 import ImportCheckClient from "./ImportCheckClient"
 
+export const dynamic = 'force-dynamic'
+
 export default async function ImportCheckPage() {
   // Para fins de demonstração do double-check automático, vamos buscar os funcionários
   // Na versão final real, você buscaria os registros `Payroll` do mês específico.
