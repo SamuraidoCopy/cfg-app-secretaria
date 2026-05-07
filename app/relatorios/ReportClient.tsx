@@ -211,12 +211,12 @@ export default function ReportClient() {
                                 <table className="min-w-full text-sm print:table-fixed">
                                     <thead>
                                         <tr className="border-b-2 border-wine-900/10 print:border-black">
-                                            <th className="px-4 py-4 text-left font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black print:text-[8pt] print:w-[30%]">Colaborador</th>
-                                            <th className="px-4 py-4 text-left font-black uppercase tracking-widest text-wine-400 text-[10px] hidden sm:table-cell print:table-cell print:text-black print:text-[8pt] print:w-[20%]">Cargo</th>
-                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black print:text-[8pt] print:w-[15%]">Salário</th>
+                                            <th className="px-4 py-4 text-left font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black print:text-[8pt] print:w-[28%]">Colaborador</th>
+                                            <th className="px-4 py-4 text-left font-black uppercase tracking-widest text-wine-400 text-[10px] hidden sm:table-cell print:table-cell print:text-black print:text-[8pt] print:w-[18%]">Cargo</th>
+                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black print:text-[8pt] print:w-[14%]">Salário</th>
                                             <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black print:text-[8pt] print:w-[10%]">Extra</th>
                                             <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-400 text-[10px] print:text-black print:text-[8pt] print:w-[10%]">Desc</th>
-                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-900 text-[10px] print:text-black print:text-[8pt] print:w-[15%]">Líquido</th>
+                                            <th className="px-4 py-4 text-right font-black uppercase tracking-widest text-wine-900 text-[10px] print:text-black print:text-[8pt] print:w-[20%]">Líquido</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-wine-50 print:divide-gray-200">
@@ -248,7 +248,7 @@ export default function ReportClient() {
                                             <td colSpan={1} className="px-6 py-8 text-right font-black uppercase tracking-widest text-wine-400 text-xs sm:hidden print:hidden">Total</td>
                                             <td className="px-4 py-8 text-right text-wine-300 font-bold hidden sm:table-cell print:table-cell print:text-black print:text-[10pt]">{formatCurrency(monthlyData?.totals.totalBase || 0)}</td>
                                             <td colSpan={2} className="hidden sm:table-cell print:table-cell"></td>
-                                            <td className="px-4 py-8 text-right text-3xl font-display font-black text-wine-800 print:text-black print:text-[20pt]">{formatCurrency(monthlyData?.totals.totalNet || 0)}</td>
+                                            <td className="px-4 py-8 text-right text-3xl font-display font-black text-wine-800 print:text-black print:text-[14pt] whitespace-nowrap">{formatCurrency(monthlyData?.totals.totalNet || 0)}</td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -373,7 +373,7 @@ export default function ReportClient() {
                                         <tr className="bg-wine-50/30 print:bg-transparent">
                                             <td colSpan={4} className="px-6 py-10 text-right font-black uppercase tracking-widest text-wine-400 text-xs hidden sm:table-cell print:table-cell print:text-black print:text-[10pt]">Total Acumulado (Período)</td>
                                             <td colSpan={1} className="px-6 py-10 text-right font-black uppercase tracking-widest text-wine-400 text-xs sm:hidden print:hidden">Total Acumulado</td>
-                                            <td className="px-4 py-10 text-right text-4xl font-display font-black text-wine-800 print:text-black print:text-[18pt]">{formatCurrency(collaboratorData?.totals.totalReceived || 0)}</td>
+                                            <td className="px-4 py-10 text-right text-4xl font-display font-black text-wine-800 print:text-black print:text-[14pt] whitespace-nowrap">{formatCurrency(collaboratorData?.totals.totalReceived || 0)}</td>
                                         </tr>
                                     </tfoot>
                                 </table>
