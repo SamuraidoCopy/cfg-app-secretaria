@@ -43,6 +43,11 @@ export type FinancialTransaction = $Result.DefaultSelection<Prisma.$FinancialTra
  * 
  */
 export type Contract = $Result.DefaultSelection<Prisma.$ContractPayload>
+/**
+ * Model Rescisao
+ * 
+ */
+export type Rescisao = $Result.DefaultSelection<Prisma.$RescisaoPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -224,6 +229,16 @@ export class PrismaClient<
     * ```
     */
   get contract(): Prisma.ContractDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.rescisao`: Exposes CRUD operations for the **Rescisao** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Rescisaos
+    * const rescisaos = await prisma.rescisao.findMany()
+    * ```
+    */
+  get rescisao(): Prisma.RescisaoDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -663,7 +678,8 @@ export namespace Prisma {
     Payroll: 'Payroll',
     PayrollAdvance: 'PayrollAdvance',
     FinancialTransaction: 'FinancialTransaction',
-    Contract: 'Contract'
+    Contract: 'Contract',
+    Rescisao: 'Rescisao'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -679,7 +695,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "employee" | "payroll" | "payrollAdvance" | "financialTransaction" | "contract"
+      modelProps: "user" | "employee" | "payroll" | "payrollAdvance" | "financialTransaction" | "contract" | "rescisao"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1127,6 +1143,80 @@ export namespace Prisma {
           }
         }
       }
+      Rescisao: {
+        payload: Prisma.$RescisaoPayload<ExtArgs>
+        fields: Prisma.RescisaoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RescisaoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RescisaoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RescisaoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RescisaoPayload>
+          }
+          findFirst: {
+            args: Prisma.RescisaoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RescisaoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RescisaoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RescisaoPayload>
+          }
+          findMany: {
+            args: Prisma.RescisaoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RescisaoPayload>[]
+          }
+          create: {
+            args: Prisma.RescisaoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RescisaoPayload>
+          }
+          createMany: {
+            args: Prisma.RescisaoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RescisaoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RescisaoPayload>[]
+          }
+          delete: {
+            args: Prisma.RescisaoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RescisaoPayload>
+          }
+          update: {
+            args: Prisma.RescisaoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RescisaoPayload>
+          }
+          deleteMany: {
+            args: Prisma.RescisaoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RescisaoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RescisaoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RescisaoPayload>[]
+          }
+          upsert: {
+            args: Prisma.RescisaoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RescisaoPayload>
+          }
+          aggregate: {
+            args: Prisma.RescisaoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRescisao>
+          }
+          groupBy: {
+            args: Prisma.RescisaoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RescisaoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RescisaoCountArgs<ExtArgs>
+            result: $Utils.Optional<RescisaoCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1241,6 +1331,7 @@ export namespace Prisma {
     payrollAdvance?: PayrollAdvanceOmit
     financialTransaction?: FinancialTransactionOmit
     contract?: ContractOmit
+    rescisao?: RescisaoOmit
   }
 
   /* Types for Logging */
@@ -1323,11 +1414,13 @@ export namespace Prisma {
   export type EmployeeCountOutputType = {
     payrolls: number
     advances: number
+    rescisoes: number
   }
 
   export type EmployeeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     payrolls?: boolean | EmployeeCountOutputTypeCountPayrollsArgs
     advances?: boolean | EmployeeCountOutputTypeCountAdvancesArgs
+    rescisoes?: boolean | EmployeeCountOutputTypeCountRescisoesArgs
   }
 
   // Custom InputTypes
@@ -1353,6 +1446,13 @@ export namespace Prisma {
    */
   export type EmployeeCountOutputTypeCountAdvancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PayrollAdvanceWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountRescisoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RescisaoWhereInput
   }
 
 
@@ -2769,6 +2869,7 @@ export namespace Prisma {
     updatedAt?: boolean
     payrolls?: boolean | Employee$payrollsArgs<ExtArgs>
     advances?: boolean | Employee$advancesArgs<ExtArgs>
+    rescisoes?: boolean | Employee$rescisoesArgs<ExtArgs>
     _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["employee"]>
 
@@ -2860,6 +2961,7 @@ export namespace Prisma {
   export type EmployeeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     payrolls?: boolean | Employee$payrollsArgs<ExtArgs>
     advances?: boolean | Employee$advancesArgs<ExtArgs>
+    rescisoes?: boolean | Employee$rescisoesArgs<ExtArgs>
     _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type EmployeeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2870,6 +2972,7 @@ export namespace Prisma {
     objects: {
       payrolls: Prisma.$PayrollPayload<ExtArgs>[]
       advances: Prisma.$PayrollAdvancePayload<ExtArgs>[]
+      rescisoes: Prisma.$RescisaoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3293,6 +3396,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     payrolls<T extends Employee$payrollsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$payrollsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PayrollPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     advances<T extends Employee$advancesArgs<ExtArgs> = {}>(args?: Subset<T, Employee$advancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PayrollAdvancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    rescisoes<T extends Employee$rescisoesArgs<ExtArgs> = {}>(args?: Subset<T, Employee$rescisoesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RescisaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3780,6 +3884,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PayrollAdvanceScalarFieldEnum | PayrollAdvanceScalarFieldEnum[]
+  }
+
+  /**
+   * Employee.rescisoes
+   */
+  export type Employee$rescisoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rescisao
+     */
+    select?: RescisaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rescisao
+     */
+    omit?: RescisaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RescisaoInclude<ExtArgs> | null
+    where?: RescisaoWhereInput
+    orderBy?: RescisaoOrderByWithRelationInput | RescisaoOrderByWithRelationInput[]
+    cursor?: RescisaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RescisaoScalarFieldEnum | RescisaoScalarFieldEnum[]
   }
 
   /**
@@ -8502,6 +8630,1452 @@ export namespace Prisma {
 
 
   /**
+   * Model Rescisao
+   */
+
+  export type AggregateRescisao = {
+    _count: RescisaoCountAggregateOutputType | null
+    _avg: RescisaoAvgAggregateOutputType | null
+    _sum: RescisaoSumAggregateOutputType | null
+    _min: RescisaoMinAggregateOutputType | null
+    _max: RescisaoMaxAggregateOutputType | null
+  }
+
+  export type RescisaoAvgAggregateOutputType = {
+    month: number | null
+    year: number | null
+    saldoSalario: number | null
+    decimoTerceiroProp: number | null
+    decimoTerceiroInd: number | null
+    feriasProp: number | null
+    feriasInd: number | null
+    tercoFeriasProp: number | null
+    tercoFeriasInd: number | null
+    feriasVencidas: number | null
+    avisoPrevioIndeniz: number | null
+    fgtsRescisorio: number | null
+    multaFgts: number | null
+    inss: number | null
+    inss13: number | null
+    irrf: number | null
+    totalBruto: number | null
+    totalLiquido: number | null
+  }
+
+  export type RescisaoSumAggregateOutputType = {
+    month: number | null
+    year: number | null
+    saldoSalario: number | null
+    decimoTerceiroProp: number | null
+    decimoTerceiroInd: number | null
+    feriasProp: number | null
+    feriasInd: number | null
+    tercoFeriasProp: number | null
+    tercoFeriasInd: number | null
+    feriasVencidas: number | null
+    avisoPrevioIndeniz: number | null
+    fgtsRescisorio: number | null
+    multaFgts: number | null
+    inss: number | null
+    inss13: number | null
+    irrf: number | null
+    totalBruto: number | null
+    totalLiquido: number | null
+  }
+
+  export type RescisaoMinAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    month: number | null
+    year: number | null
+    tipoRescisao: string | null
+    dataAdmissao: Date | null
+    dataDemissao: Date | null
+    avisoPrevio: string | null
+    saldoSalario: number | null
+    decimoTerceiroProp: number | null
+    decimoTerceiroInd: number | null
+    feriasProp: number | null
+    feriasInd: number | null
+    tercoFeriasProp: number | null
+    tercoFeriasInd: number | null
+    feriasVencidas: number | null
+    avisoPrevioIndeniz: number | null
+    fgtsRescisorio: number | null
+    multaFgts: number | null
+    inss: number | null
+    inss13: number | null
+    irrf: number | null
+    totalBruto: number | null
+    totalLiquido: number | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RescisaoMaxAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    month: number | null
+    year: number | null
+    tipoRescisao: string | null
+    dataAdmissao: Date | null
+    dataDemissao: Date | null
+    avisoPrevio: string | null
+    saldoSalario: number | null
+    decimoTerceiroProp: number | null
+    decimoTerceiroInd: number | null
+    feriasProp: number | null
+    feriasInd: number | null
+    tercoFeriasProp: number | null
+    tercoFeriasInd: number | null
+    feriasVencidas: number | null
+    avisoPrevioIndeniz: number | null
+    fgtsRescisorio: number | null
+    multaFgts: number | null
+    inss: number | null
+    inss13: number | null
+    irrf: number | null
+    totalBruto: number | null
+    totalLiquido: number | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RescisaoCountAggregateOutputType = {
+    id: number
+    employeeId: number
+    month: number
+    year: number
+    tipoRescisao: number
+    dataAdmissao: number
+    dataDemissao: number
+    avisoPrevio: number
+    saldoSalario: number
+    decimoTerceiroProp: number
+    decimoTerceiroInd: number
+    feriasProp: number
+    feriasInd: number
+    tercoFeriasProp: number
+    tercoFeriasInd: number
+    feriasVencidas: number
+    avisoPrevioIndeniz: number
+    fgtsRescisorio: number
+    multaFgts: number
+    inss: number
+    inss13: number
+    irrf: number
+    totalBruto: number
+    totalLiquido: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type RescisaoAvgAggregateInputType = {
+    month?: true
+    year?: true
+    saldoSalario?: true
+    decimoTerceiroProp?: true
+    decimoTerceiroInd?: true
+    feriasProp?: true
+    feriasInd?: true
+    tercoFeriasProp?: true
+    tercoFeriasInd?: true
+    feriasVencidas?: true
+    avisoPrevioIndeniz?: true
+    fgtsRescisorio?: true
+    multaFgts?: true
+    inss?: true
+    inss13?: true
+    irrf?: true
+    totalBruto?: true
+    totalLiquido?: true
+  }
+
+  export type RescisaoSumAggregateInputType = {
+    month?: true
+    year?: true
+    saldoSalario?: true
+    decimoTerceiroProp?: true
+    decimoTerceiroInd?: true
+    feriasProp?: true
+    feriasInd?: true
+    tercoFeriasProp?: true
+    tercoFeriasInd?: true
+    feriasVencidas?: true
+    avisoPrevioIndeniz?: true
+    fgtsRescisorio?: true
+    multaFgts?: true
+    inss?: true
+    inss13?: true
+    irrf?: true
+    totalBruto?: true
+    totalLiquido?: true
+  }
+
+  export type RescisaoMinAggregateInputType = {
+    id?: true
+    employeeId?: true
+    month?: true
+    year?: true
+    tipoRescisao?: true
+    dataAdmissao?: true
+    dataDemissao?: true
+    avisoPrevio?: true
+    saldoSalario?: true
+    decimoTerceiroProp?: true
+    decimoTerceiroInd?: true
+    feriasProp?: true
+    feriasInd?: true
+    tercoFeriasProp?: true
+    tercoFeriasInd?: true
+    feriasVencidas?: true
+    avisoPrevioIndeniz?: true
+    fgtsRescisorio?: true
+    multaFgts?: true
+    inss?: true
+    inss13?: true
+    irrf?: true
+    totalBruto?: true
+    totalLiquido?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RescisaoMaxAggregateInputType = {
+    id?: true
+    employeeId?: true
+    month?: true
+    year?: true
+    tipoRescisao?: true
+    dataAdmissao?: true
+    dataDemissao?: true
+    avisoPrevio?: true
+    saldoSalario?: true
+    decimoTerceiroProp?: true
+    decimoTerceiroInd?: true
+    feriasProp?: true
+    feriasInd?: true
+    tercoFeriasProp?: true
+    tercoFeriasInd?: true
+    feriasVencidas?: true
+    avisoPrevioIndeniz?: true
+    fgtsRescisorio?: true
+    multaFgts?: true
+    inss?: true
+    inss13?: true
+    irrf?: true
+    totalBruto?: true
+    totalLiquido?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RescisaoCountAggregateInputType = {
+    id?: true
+    employeeId?: true
+    month?: true
+    year?: true
+    tipoRescisao?: true
+    dataAdmissao?: true
+    dataDemissao?: true
+    avisoPrevio?: true
+    saldoSalario?: true
+    decimoTerceiroProp?: true
+    decimoTerceiroInd?: true
+    feriasProp?: true
+    feriasInd?: true
+    tercoFeriasProp?: true
+    tercoFeriasInd?: true
+    feriasVencidas?: true
+    avisoPrevioIndeniz?: true
+    fgtsRescisorio?: true
+    multaFgts?: true
+    inss?: true
+    inss13?: true
+    irrf?: true
+    totalBruto?: true
+    totalLiquido?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type RescisaoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Rescisao to aggregate.
+     */
+    where?: RescisaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Rescisaos to fetch.
+     */
+    orderBy?: RescisaoOrderByWithRelationInput | RescisaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RescisaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Rescisaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Rescisaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Rescisaos
+    **/
+    _count?: true | RescisaoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RescisaoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RescisaoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RescisaoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RescisaoMaxAggregateInputType
+  }
+
+  export type GetRescisaoAggregateType<T extends RescisaoAggregateArgs> = {
+        [P in keyof T & keyof AggregateRescisao]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRescisao[P]>
+      : GetScalarType<T[P], AggregateRescisao[P]>
+  }
+
+
+
+
+  export type RescisaoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RescisaoWhereInput
+    orderBy?: RescisaoOrderByWithAggregationInput | RescisaoOrderByWithAggregationInput[]
+    by: RescisaoScalarFieldEnum[] | RescisaoScalarFieldEnum
+    having?: RescisaoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RescisaoCountAggregateInputType | true
+    _avg?: RescisaoAvgAggregateInputType
+    _sum?: RescisaoSumAggregateInputType
+    _min?: RescisaoMinAggregateInputType
+    _max?: RescisaoMaxAggregateInputType
+  }
+
+  export type RescisaoGroupByOutputType = {
+    id: string
+    employeeId: string
+    month: number
+    year: number
+    tipoRescisao: string
+    dataAdmissao: Date
+    dataDemissao: Date
+    avisoPrevio: string
+    saldoSalario: number
+    decimoTerceiroProp: number
+    decimoTerceiroInd: number
+    feriasProp: number
+    feriasInd: number
+    tercoFeriasProp: number
+    tercoFeriasInd: number
+    feriasVencidas: number
+    avisoPrevioIndeniz: number
+    fgtsRescisorio: number
+    multaFgts: number
+    inss: number
+    inss13: number
+    irrf: number
+    totalBruto: number
+    totalLiquido: number
+    status: string
+    createdAt: Date
+    updatedAt: Date
+    _count: RescisaoCountAggregateOutputType | null
+    _avg: RescisaoAvgAggregateOutputType | null
+    _sum: RescisaoSumAggregateOutputType | null
+    _min: RescisaoMinAggregateOutputType | null
+    _max: RescisaoMaxAggregateOutputType | null
+  }
+
+  type GetRescisaoGroupByPayload<T extends RescisaoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RescisaoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RescisaoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RescisaoGroupByOutputType[P]>
+            : GetScalarType<T[P], RescisaoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RescisaoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    month?: boolean
+    year?: boolean
+    tipoRescisao?: boolean
+    dataAdmissao?: boolean
+    dataDemissao?: boolean
+    avisoPrevio?: boolean
+    saldoSalario?: boolean
+    decimoTerceiroProp?: boolean
+    decimoTerceiroInd?: boolean
+    feriasProp?: boolean
+    feriasInd?: boolean
+    tercoFeriasProp?: boolean
+    tercoFeriasInd?: boolean
+    feriasVencidas?: boolean
+    avisoPrevioIndeniz?: boolean
+    fgtsRescisorio?: boolean
+    multaFgts?: boolean
+    inss?: boolean
+    inss13?: boolean
+    irrf?: boolean
+    totalBruto?: boolean
+    totalLiquido?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rescisao"]>
+
+  export type RescisaoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    month?: boolean
+    year?: boolean
+    tipoRescisao?: boolean
+    dataAdmissao?: boolean
+    dataDemissao?: boolean
+    avisoPrevio?: boolean
+    saldoSalario?: boolean
+    decimoTerceiroProp?: boolean
+    decimoTerceiroInd?: boolean
+    feriasProp?: boolean
+    feriasInd?: boolean
+    tercoFeriasProp?: boolean
+    tercoFeriasInd?: boolean
+    feriasVencidas?: boolean
+    avisoPrevioIndeniz?: boolean
+    fgtsRescisorio?: boolean
+    multaFgts?: boolean
+    inss?: boolean
+    inss13?: boolean
+    irrf?: boolean
+    totalBruto?: boolean
+    totalLiquido?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rescisao"]>
+
+  export type RescisaoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    month?: boolean
+    year?: boolean
+    tipoRescisao?: boolean
+    dataAdmissao?: boolean
+    dataDemissao?: boolean
+    avisoPrevio?: boolean
+    saldoSalario?: boolean
+    decimoTerceiroProp?: boolean
+    decimoTerceiroInd?: boolean
+    feriasProp?: boolean
+    feriasInd?: boolean
+    tercoFeriasProp?: boolean
+    tercoFeriasInd?: boolean
+    feriasVencidas?: boolean
+    avisoPrevioIndeniz?: boolean
+    fgtsRescisorio?: boolean
+    multaFgts?: boolean
+    inss?: boolean
+    inss13?: boolean
+    irrf?: boolean
+    totalBruto?: boolean
+    totalLiquido?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rescisao"]>
+
+  export type RescisaoSelectScalar = {
+    id?: boolean
+    employeeId?: boolean
+    month?: boolean
+    year?: boolean
+    tipoRescisao?: boolean
+    dataAdmissao?: boolean
+    dataDemissao?: boolean
+    avisoPrevio?: boolean
+    saldoSalario?: boolean
+    decimoTerceiroProp?: boolean
+    decimoTerceiroInd?: boolean
+    feriasProp?: boolean
+    feriasInd?: boolean
+    tercoFeriasProp?: boolean
+    tercoFeriasInd?: boolean
+    feriasVencidas?: boolean
+    avisoPrevioIndeniz?: boolean
+    fgtsRescisorio?: boolean
+    multaFgts?: boolean
+    inss?: boolean
+    inss13?: boolean
+    irrf?: boolean
+    totalBruto?: boolean
+    totalLiquido?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type RescisaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "month" | "year" | "tipoRescisao" | "dataAdmissao" | "dataDemissao" | "avisoPrevio" | "saldoSalario" | "decimoTerceiroProp" | "decimoTerceiroInd" | "feriasProp" | "feriasInd" | "tercoFeriasProp" | "tercoFeriasInd" | "feriasVencidas" | "avisoPrevioIndeniz" | "fgtsRescisorio" | "multaFgts" | "inss" | "inss13" | "irrf" | "totalBruto" | "totalLiquido" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["rescisao"]>
+  export type RescisaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type RescisaoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type RescisaoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+
+  export type $RescisaoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Rescisao"
+    objects: {
+      employee: Prisma.$EmployeePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      employeeId: string
+      month: number
+      year: number
+      tipoRescisao: string
+      dataAdmissao: Date
+      dataDemissao: Date
+      avisoPrevio: string
+      saldoSalario: number
+      decimoTerceiroProp: number
+      decimoTerceiroInd: number
+      feriasProp: number
+      feriasInd: number
+      tercoFeriasProp: number
+      tercoFeriasInd: number
+      feriasVencidas: number
+      avisoPrevioIndeniz: number
+      fgtsRescisorio: number
+      multaFgts: number
+      inss: number
+      inss13: number
+      irrf: number
+      totalBruto: number
+      totalLiquido: number
+      status: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["rescisao"]>
+    composites: {}
+  }
+
+  type RescisaoGetPayload<S extends boolean | null | undefined | RescisaoDefaultArgs> = $Result.GetResult<Prisma.$RescisaoPayload, S>
+
+  type RescisaoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RescisaoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RescisaoCountAggregateInputType | true
+    }
+
+  export interface RescisaoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Rescisao'], meta: { name: 'Rescisao' } }
+    /**
+     * Find zero or one Rescisao that matches the filter.
+     * @param {RescisaoFindUniqueArgs} args - Arguments to find a Rescisao
+     * @example
+     * // Get one Rescisao
+     * const rescisao = await prisma.rescisao.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RescisaoFindUniqueArgs>(args: SelectSubset<T, RescisaoFindUniqueArgs<ExtArgs>>): Prisma__RescisaoClient<$Result.GetResult<Prisma.$RescisaoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Rescisao that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RescisaoFindUniqueOrThrowArgs} args - Arguments to find a Rescisao
+     * @example
+     * // Get one Rescisao
+     * const rescisao = await prisma.rescisao.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RescisaoFindUniqueOrThrowArgs>(args: SelectSubset<T, RescisaoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RescisaoClient<$Result.GetResult<Prisma.$RescisaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Rescisao that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RescisaoFindFirstArgs} args - Arguments to find a Rescisao
+     * @example
+     * // Get one Rescisao
+     * const rescisao = await prisma.rescisao.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RescisaoFindFirstArgs>(args?: SelectSubset<T, RescisaoFindFirstArgs<ExtArgs>>): Prisma__RescisaoClient<$Result.GetResult<Prisma.$RescisaoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Rescisao that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RescisaoFindFirstOrThrowArgs} args - Arguments to find a Rescisao
+     * @example
+     * // Get one Rescisao
+     * const rescisao = await prisma.rescisao.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RescisaoFindFirstOrThrowArgs>(args?: SelectSubset<T, RescisaoFindFirstOrThrowArgs<ExtArgs>>): Prisma__RescisaoClient<$Result.GetResult<Prisma.$RescisaoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Rescisaos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RescisaoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Rescisaos
+     * const rescisaos = await prisma.rescisao.findMany()
+     * 
+     * // Get first 10 Rescisaos
+     * const rescisaos = await prisma.rescisao.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const rescisaoWithIdOnly = await prisma.rescisao.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RescisaoFindManyArgs>(args?: SelectSubset<T, RescisaoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RescisaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Rescisao.
+     * @param {RescisaoCreateArgs} args - Arguments to create a Rescisao.
+     * @example
+     * // Create one Rescisao
+     * const Rescisao = await prisma.rescisao.create({
+     *   data: {
+     *     // ... data to create a Rescisao
+     *   }
+     * })
+     * 
+     */
+    create<T extends RescisaoCreateArgs>(args: SelectSubset<T, RescisaoCreateArgs<ExtArgs>>): Prisma__RescisaoClient<$Result.GetResult<Prisma.$RescisaoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Rescisaos.
+     * @param {RescisaoCreateManyArgs} args - Arguments to create many Rescisaos.
+     * @example
+     * // Create many Rescisaos
+     * const rescisao = await prisma.rescisao.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RescisaoCreateManyArgs>(args?: SelectSubset<T, RescisaoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Rescisaos and returns the data saved in the database.
+     * @param {RescisaoCreateManyAndReturnArgs} args - Arguments to create many Rescisaos.
+     * @example
+     * // Create many Rescisaos
+     * const rescisao = await prisma.rescisao.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Rescisaos and only return the `id`
+     * const rescisaoWithIdOnly = await prisma.rescisao.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RescisaoCreateManyAndReturnArgs>(args?: SelectSubset<T, RescisaoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RescisaoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Rescisao.
+     * @param {RescisaoDeleteArgs} args - Arguments to delete one Rescisao.
+     * @example
+     * // Delete one Rescisao
+     * const Rescisao = await prisma.rescisao.delete({
+     *   where: {
+     *     // ... filter to delete one Rescisao
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RescisaoDeleteArgs>(args: SelectSubset<T, RescisaoDeleteArgs<ExtArgs>>): Prisma__RescisaoClient<$Result.GetResult<Prisma.$RescisaoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Rescisao.
+     * @param {RescisaoUpdateArgs} args - Arguments to update one Rescisao.
+     * @example
+     * // Update one Rescisao
+     * const rescisao = await prisma.rescisao.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RescisaoUpdateArgs>(args: SelectSubset<T, RescisaoUpdateArgs<ExtArgs>>): Prisma__RescisaoClient<$Result.GetResult<Prisma.$RescisaoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Rescisaos.
+     * @param {RescisaoDeleteManyArgs} args - Arguments to filter Rescisaos to delete.
+     * @example
+     * // Delete a few Rescisaos
+     * const { count } = await prisma.rescisao.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RescisaoDeleteManyArgs>(args?: SelectSubset<T, RescisaoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Rescisaos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RescisaoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Rescisaos
+     * const rescisao = await prisma.rescisao.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RescisaoUpdateManyArgs>(args: SelectSubset<T, RescisaoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Rescisaos and returns the data updated in the database.
+     * @param {RescisaoUpdateManyAndReturnArgs} args - Arguments to update many Rescisaos.
+     * @example
+     * // Update many Rescisaos
+     * const rescisao = await prisma.rescisao.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Rescisaos and only return the `id`
+     * const rescisaoWithIdOnly = await prisma.rescisao.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RescisaoUpdateManyAndReturnArgs>(args: SelectSubset<T, RescisaoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RescisaoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Rescisao.
+     * @param {RescisaoUpsertArgs} args - Arguments to update or create a Rescisao.
+     * @example
+     * // Update or create a Rescisao
+     * const rescisao = await prisma.rescisao.upsert({
+     *   create: {
+     *     // ... data to create a Rescisao
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Rescisao we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RescisaoUpsertArgs>(args: SelectSubset<T, RescisaoUpsertArgs<ExtArgs>>): Prisma__RescisaoClient<$Result.GetResult<Prisma.$RescisaoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Rescisaos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RescisaoCountArgs} args - Arguments to filter Rescisaos to count.
+     * @example
+     * // Count the number of Rescisaos
+     * const count = await prisma.rescisao.count({
+     *   where: {
+     *     // ... the filter for the Rescisaos we want to count
+     *   }
+     * })
+    **/
+    count<T extends RescisaoCountArgs>(
+      args?: Subset<T, RescisaoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RescisaoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Rescisao.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RescisaoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RescisaoAggregateArgs>(args: Subset<T, RescisaoAggregateArgs>): Prisma.PrismaPromise<GetRescisaoAggregateType<T>>
+
+    /**
+     * Group by Rescisao.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RescisaoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RescisaoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RescisaoGroupByArgs['orderBy'] }
+        : { orderBy?: RescisaoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RescisaoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRescisaoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Rescisao model
+   */
+  readonly fields: RescisaoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Rescisao.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RescisaoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Rescisao model
+   */
+  interface RescisaoFieldRefs {
+    readonly id: FieldRef<"Rescisao", 'String'>
+    readonly employeeId: FieldRef<"Rescisao", 'String'>
+    readonly month: FieldRef<"Rescisao", 'Int'>
+    readonly year: FieldRef<"Rescisao", 'Int'>
+    readonly tipoRescisao: FieldRef<"Rescisao", 'String'>
+    readonly dataAdmissao: FieldRef<"Rescisao", 'DateTime'>
+    readonly dataDemissao: FieldRef<"Rescisao", 'DateTime'>
+    readonly avisoPrevio: FieldRef<"Rescisao", 'String'>
+    readonly saldoSalario: FieldRef<"Rescisao", 'Float'>
+    readonly decimoTerceiroProp: FieldRef<"Rescisao", 'Float'>
+    readonly decimoTerceiroInd: FieldRef<"Rescisao", 'Float'>
+    readonly feriasProp: FieldRef<"Rescisao", 'Float'>
+    readonly feriasInd: FieldRef<"Rescisao", 'Float'>
+    readonly tercoFeriasProp: FieldRef<"Rescisao", 'Float'>
+    readonly tercoFeriasInd: FieldRef<"Rescisao", 'Float'>
+    readonly feriasVencidas: FieldRef<"Rescisao", 'Float'>
+    readonly avisoPrevioIndeniz: FieldRef<"Rescisao", 'Float'>
+    readonly fgtsRescisorio: FieldRef<"Rescisao", 'Float'>
+    readonly multaFgts: FieldRef<"Rescisao", 'Float'>
+    readonly inss: FieldRef<"Rescisao", 'Float'>
+    readonly inss13: FieldRef<"Rescisao", 'Float'>
+    readonly irrf: FieldRef<"Rescisao", 'Float'>
+    readonly totalBruto: FieldRef<"Rescisao", 'Float'>
+    readonly totalLiquido: FieldRef<"Rescisao", 'Float'>
+    readonly status: FieldRef<"Rescisao", 'String'>
+    readonly createdAt: FieldRef<"Rescisao", 'DateTime'>
+    readonly updatedAt: FieldRef<"Rescisao", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Rescisao findUnique
+   */
+  export type RescisaoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rescisao
+     */
+    select?: RescisaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rescisao
+     */
+    omit?: RescisaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RescisaoInclude<ExtArgs> | null
+    /**
+     * Filter, which Rescisao to fetch.
+     */
+    where: RescisaoWhereUniqueInput
+  }
+
+  /**
+   * Rescisao findUniqueOrThrow
+   */
+  export type RescisaoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rescisao
+     */
+    select?: RescisaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rescisao
+     */
+    omit?: RescisaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RescisaoInclude<ExtArgs> | null
+    /**
+     * Filter, which Rescisao to fetch.
+     */
+    where: RescisaoWhereUniqueInput
+  }
+
+  /**
+   * Rescisao findFirst
+   */
+  export type RescisaoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rescisao
+     */
+    select?: RescisaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rescisao
+     */
+    omit?: RescisaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RescisaoInclude<ExtArgs> | null
+    /**
+     * Filter, which Rescisao to fetch.
+     */
+    where?: RescisaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Rescisaos to fetch.
+     */
+    orderBy?: RescisaoOrderByWithRelationInput | RescisaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Rescisaos.
+     */
+    cursor?: RescisaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Rescisaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Rescisaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Rescisaos.
+     */
+    distinct?: RescisaoScalarFieldEnum | RescisaoScalarFieldEnum[]
+  }
+
+  /**
+   * Rescisao findFirstOrThrow
+   */
+  export type RescisaoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rescisao
+     */
+    select?: RescisaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rescisao
+     */
+    omit?: RescisaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RescisaoInclude<ExtArgs> | null
+    /**
+     * Filter, which Rescisao to fetch.
+     */
+    where?: RescisaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Rescisaos to fetch.
+     */
+    orderBy?: RescisaoOrderByWithRelationInput | RescisaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Rescisaos.
+     */
+    cursor?: RescisaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Rescisaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Rescisaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Rescisaos.
+     */
+    distinct?: RescisaoScalarFieldEnum | RescisaoScalarFieldEnum[]
+  }
+
+  /**
+   * Rescisao findMany
+   */
+  export type RescisaoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rescisao
+     */
+    select?: RescisaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rescisao
+     */
+    omit?: RescisaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RescisaoInclude<ExtArgs> | null
+    /**
+     * Filter, which Rescisaos to fetch.
+     */
+    where?: RescisaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Rescisaos to fetch.
+     */
+    orderBy?: RescisaoOrderByWithRelationInput | RescisaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Rescisaos.
+     */
+    cursor?: RescisaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Rescisaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Rescisaos.
+     */
+    skip?: number
+    distinct?: RescisaoScalarFieldEnum | RescisaoScalarFieldEnum[]
+  }
+
+  /**
+   * Rescisao create
+   */
+  export type RescisaoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rescisao
+     */
+    select?: RescisaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rescisao
+     */
+    omit?: RescisaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RescisaoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Rescisao.
+     */
+    data: XOR<RescisaoCreateInput, RescisaoUncheckedCreateInput>
+  }
+
+  /**
+   * Rescisao createMany
+   */
+  export type RescisaoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Rescisaos.
+     */
+    data: RescisaoCreateManyInput | RescisaoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Rescisao createManyAndReturn
+   */
+  export type RescisaoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rescisao
+     */
+    select?: RescisaoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rescisao
+     */
+    omit?: RescisaoOmit<ExtArgs> | null
+    /**
+     * The data used to create many Rescisaos.
+     */
+    data: RescisaoCreateManyInput | RescisaoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RescisaoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Rescisao update
+   */
+  export type RescisaoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rescisao
+     */
+    select?: RescisaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rescisao
+     */
+    omit?: RescisaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RescisaoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Rescisao.
+     */
+    data: XOR<RescisaoUpdateInput, RescisaoUncheckedUpdateInput>
+    /**
+     * Choose, which Rescisao to update.
+     */
+    where: RescisaoWhereUniqueInput
+  }
+
+  /**
+   * Rescisao updateMany
+   */
+  export type RescisaoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Rescisaos.
+     */
+    data: XOR<RescisaoUpdateManyMutationInput, RescisaoUncheckedUpdateManyInput>
+    /**
+     * Filter which Rescisaos to update
+     */
+    where?: RescisaoWhereInput
+    /**
+     * Limit how many Rescisaos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Rescisao updateManyAndReturn
+   */
+  export type RescisaoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rescisao
+     */
+    select?: RescisaoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rescisao
+     */
+    omit?: RescisaoOmit<ExtArgs> | null
+    /**
+     * The data used to update Rescisaos.
+     */
+    data: XOR<RescisaoUpdateManyMutationInput, RescisaoUncheckedUpdateManyInput>
+    /**
+     * Filter which Rescisaos to update
+     */
+    where?: RescisaoWhereInput
+    /**
+     * Limit how many Rescisaos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RescisaoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Rescisao upsert
+   */
+  export type RescisaoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rescisao
+     */
+    select?: RescisaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rescisao
+     */
+    omit?: RescisaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RescisaoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Rescisao to update in case it exists.
+     */
+    where: RescisaoWhereUniqueInput
+    /**
+     * In case the Rescisao found by the `where` argument doesn't exist, create a new Rescisao with this data.
+     */
+    create: XOR<RescisaoCreateInput, RescisaoUncheckedCreateInput>
+    /**
+     * In case the Rescisao was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RescisaoUpdateInput, RescisaoUncheckedUpdateInput>
+  }
+
+  /**
+   * Rescisao delete
+   */
+  export type RescisaoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rescisao
+     */
+    select?: RescisaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rescisao
+     */
+    omit?: RescisaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RescisaoInclude<ExtArgs> | null
+    /**
+     * Filter which Rescisao to delete.
+     */
+    where: RescisaoWhereUniqueInput
+  }
+
+  /**
+   * Rescisao deleteMany
+   */
+  export type RescisaoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Rescisaos to delete
+     */
+    where?: RescisaoWhereInput
+    /**
+     * Limit how many Rescisaos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Rescisao without action
+   */
+  export type RescisaoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rescisao
+     */
+    select?: RescisaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rescisao
+     */
+    omit?: RescisaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RescisaoInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -8633,6 +10207,39 @@ export namespace Prisma {
   };
 
   export type ContractScalarFieldEnum = (typeof ContractScalarFieldEnum)[keyof typeof ContractScalarFieldEnum]
+
+
+  export const RescisaoScalarFieldEnum: {
+    id: 'id',
+    employeeId: 'employeeId',
+    month: 'month',
+    year: 'year',
+    tipoRescisao: 'tipoRescisao',
+    dataAdmissao: 'dataAdmissao',
+    dataDemissao: 'dataDemissao',
+    avisoPrevio: 'avisoPrevio',
+    saldoSalario: 'saldoSalario',
+    decimoTerceiroProp: 'decimoTerceiroProp',
+    decimoTerceiroInd: 'decimoTerceiroInd',
+    feriasProp: 'feriasProp',
+    feriasInd: 'feriasInd',
+    tercoFeriasProp: 'tercoFeriasProp',
+    tercoFeriasInd: 'tercoFeriasInd',
+    feriasVencidas: 'feriasVencidas',
+    avisoPrevioIndeniz: 'avisoPrevioIndeniz',
+    fgtsRescisorio: 'fgtsRescisorio',
+    multaFgts: 'multaFgts',
+    inss: 'inss',
+    inss13: 'inss13',
+    irrf: 'irrf',
+    totalBruto: 'totalBruto',
+    totalLiquido: 'totalLiquido',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type RescisaoScalarFieldEnum = (typeof RescisaoScalarFieldEnum)[keyof typeof RescisaoScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -8823,6 +10430,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Employee"> | Date | string
     payrolls?: PayrollListRelationFilter
     advances?: PayrollAdvanceListRelationFilter
+    rescisoes?: RescisaoListRelationFilter
   }
 
   export type EmployeeOrderByWithRelationInput = {
@@ -8853,6 +10461,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     payrolls?: PayrollOrderByRelationAggregateInput
     advances?: PayrollAdvanceOrderByRelationAggregateInput
+    rescisoes?: RescisaoOrderByRelationAggregateInput
   }
 
   export type EmployeeWhereUniqueInput = Prisma.AtLeast<{
@@ -8886,6 +10495,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Employee"> | Date | string
     payrolls?: PayrollListRelationFilter
     advances?: PayrollAdvanceListRelationFilter
+    rescisoes?: RescisaoListRelationFilter
   }, "id" | "cpf">
 
   export type EmployeeOrderByWithAggregationInput = {
@@ -9334,6 +10944,174 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Contract"> | Date | string
   }
 
+  export type RescisaoWhereInput = {
+    AND?: RescisaoWhereInput | RescisaoWhereInput[]
+    OR?: RescisaoWhereInput[]
+    NOT?: RescisaoWhereInput | RescisaoWhereInput[]
+    id?: StringFilter<"Rescisao"> | string
+    employeeId?: StringFilter<"Rescisao"> | string
+    month?: IntFilter<"Rescisao"> | number
+    year?: IntFilter<"Rescisao"> | number
+    tipoRescisao?: StringFilter<"Rescisao"> | string
+    dataAdmissao?: DateTimeFilter<"Rescisao"> | Date | string
+    dataDemissao?: DateTimeFilter<"Rescisao"> | Date | string
+    avisoPrevio?: StringFilter<"Rescisao"> | string
+    saldoSalario?: FloatFilter<"Rescisao"> | number
+    decimoTerceiroProp?: FloatFilter<"Rescisao"> | number
+    decimoTerceiroInd?: FloatFilter<"Rescisao"> | number
+    feriasProp?: FloatFilter<"Rescisao"> | number
+    feriasInd?: FloatFilter<"Rescisao"> | number
+    tercoFeriasProp?: FloatFilter<"Rescisao"> | number
+    tercoFeriasInd?: FloatFilter<"Rescisao"> | number
+    feriasVencidas?: FloatFilter<"Rescisao"> | number
+    avisoPrevioIndeniz?: FloatFilter<"Rescisao"> | number
+    fgtsRescisorio?: FloatFilter<"Rescisao"> | number
+    multaFgts?: FloatFilter<"Rescisao"> | number
+    inss?: FloatFilter<"Rescisao"> | number
+    inss13?: FloatFilter<"Rescisao"> | number
+    irrf?: FloatFilter<"Rescisao"> | number
+    totalBruto?: FloatFilter<"Rescisao"> | number
+    totalLiquido?: FloatFilter<"Rescisao"> | number
+    status?: StringFilter<"Rescisao"> | string
+    createdAt?: DateTimeFilter<"Rescisao"> | Date | string
+    updatedAt?: DateTimeFilter<"Rescisao"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }
+
+  export type RescisaoOrderByWithRelationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    tipoRescisao?: SortOrder
+    dataAdmissao?: SortOrder
+    dataDemissao?: SortOrder
+    avisoPrevio?: SortOrder
+    saldoSalario?: SortOrder
+    decimoTerceiroProp?: SortOrder
+    decimoTerceiroInd?: SortOrder
+    feriasProp?: SortOrder
+    feriasInd?: SortOrder
+    tercoFeriasProp?: SortOrder
+    tercoFeriasInd?: SortOrder
+    feriasVencidas?: SortOrder
+    avisoPrevioIndeniz?: SortOrder
+    fgtsRescisorio?: SortOrder
+    multaFgts?: SortOrder
+    inss?: SortOrder
+    inss13?: SortOrder
+    irrf?: SortOrder
+    totalBruto?: SortOrder
+    totalLiquido?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    employee?: EmployeeOrderByWithRelationInput
+  }
+
+  export type RescisaoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    rescisao_identifier?: RescisaoRescisao_identifierCompoundUniqueInput
+    AND?: RescisaoWhereInput | RescisaoWhereInput[]
+    OR?: RescisaoWhereInput[]
+    NOT?: RescisaoWhereInput | RescisaoWhereInput[]
+    employeeId?: StringFilter<"Rescisao"> | string
+    month?: IntFilter<"Rescisao"> | number
+    year?: IntFilter<"Rescisao"> | number
+    tipoRescisao?: StringFilter<"Rescisao"> | string
+    dataAdmissao?: DateTimeFilter<"Rescisao"> | Date | string
+    dataDemissao?: DateTimeFilter<"Rescisao"> | Date | string
+    avisoPrevio?: StringFilter<"Rescisao"> | string
+    saldoSalario?: FloatFilter<"Rescisao"> | number
+    decimoTerceiroProp?: FloatFilter<"Rescisao"> | number
+    decimoTerceiroInd?: FloatFilter<"Rescisao"> | number
+    feriasProp?: FloatFilter<"Rescisao"> | number
+    feriasInd?: FloatFilter<"Rescisao"> | number
+    tercoFeriasProp?: FloatFilter<"Rescisao"> | number
+    tercoFeriasInd?: FloatFilter<"Rescisao"> | number
+    feriasVencidas?: FloatFilter<"Rescisao"> | number
+    avisoPrevioIndeniz?: FloatFilter<"Rescisao"> | number
+    fgtsRescisorio?: FloatFilter<"Rescisao"> | number
+    multaFgts?: FloatFilter<"Rescisao"> | number
+    inss?: FloatFilter<"Rescisao"> | number
+    inss13?: FloatFilter<"Rescisao"> | number
+    irrf?: FloatFilter<"Rescisao"> | number
+    totalBruto?: FloatFilter<"Rescisao"> | number
+    totalLiquido?: FloatFilter<"Rescisao"> | number
+    status?: StringFilter<"Rescisao"> | string
+    createdAt?: DateTimeFilter<"Rescisao"> | Date | string
+    updatedAt?: DateTimeFilter<"Rescisao"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }, "id" | "rescisao_identifier">
+
+  export type RescisaoOrderByWithAggregationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    tipoRescisao?: SortOrder
+    dataAdmissao?: SortOrder
+    dataDemissao?: SortOrder
+    avisoPrevio?: SortOrder
+    saldoSalario?: SortOrder
+    decimoTerceiroProp?: SortOrder
+    decimoTerceiroInd?: SortOrder
+    feriasProp?: SortOrder
+    feriasInd?: SortOrder
+    tercoFeriasProp?: SortOrder
+    tercoFeriasInd?: SortOrder
+    feriasVencidas?: SortOrder
+    avisoPrevioIndeniz?: SortOrder
+    fgtsRescisorio?: SortOrder
+    multaFgts?: SortOrder
+    inss?: SortOrder
+    inss13?: SortOrder
+    irrf?: SortOrder
+    totalBruto?: SortOrder
+    totalLiquido?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: RescisaoCountOrderByAggregateInput
+    _avg?: RescisaoAvgOrderByAggregateInput
+    _max?: RescisaoMaxOrderByAggregateInput
+    _min?: RescisaoMinOrderByAggregateInput
+    _sum?: RescisaoSumOrderByAggregateInput
+  }
+
+  export type RescisaoScalarWhereWithAggregatesInput = {
+    AND?: RescisaoScalarWhereWithAggregatesInput | RescisaoScalarWhereWithAggregatesInput[]
+    OR?: RescisaoScalarWhereWithAggregatesInput[]
+    NOT?: RescisaoScalarWhereWithAggregatesInput | RescisaoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Rescisao"> | string
+    employeeId?: StringWithAggregatesFilter<"Rescisao"> | string
+    month?: IntWithAggregatesFilter<"Rescisao"> | number
+    year?: IntWithAggregatesFilter<"Rescisao"> | number
+    tipoRescisao?: StringWithAggregatesFilter<"Rescisao"> | string
+    dataAdmissao?: DateTimeWithAggregatesFilter<"Rescisao"> | Date | string
+    dataDemissao?: DateTimeWithAggregatesFilter<"Rescisao"> | Date | string
+    avisoPrevio?: StringWithAggregatesFilter<"Rescisao"> | string
+    saldoSalario?: FloatWithAggregatesFilter<"Rescisao"> | number
+    decimoTerceiroProp?: FloatWithAggregatesFilter<"Rescisao"> | number
+    decimoTerceiroInd?: FloatWithAggregatesFilter<"Rescisao"> | number
+    feriasProp?: FloatWithAggregatesFilter<"Rescisao"> | number
+    feriasInd?: FloatWithAggregatesFilter<"Rescisao"> | number
+    tercoFeriasProp?: FloatWithAggregatesFilter<"Rescisao"> | number
+    tercoFeriasInd?: FloatWithAggregatesFilter<"Rescisao"> | number
+    feriasVencidas?: FloatWithAggregatesFilter<"Rescisao"> | number
+    avisoPrevioIndeniz?: FloatWithAggregatesFilter<"Rescisao"> | number
+    fgtsRescisorio?: FloatWithAggregatesFilter<"Rescisao"> | number
+    multaFgts?: FloatWithAggregatesFilter<"Rescisao"> | number
+    inss?: FloatWithAggregatesFilter<"Rescisao"> | number
+    inss13?: FloatWithAggregatesFilter<"Rescisao"> | number
+    irrf?: FloatWithAggregatesFilter<"Rescisao"> | number
+    totalBruto?: FloatWithAggregatesFilter<"Rescisao"> | number
+    totalLiquido?: FloatWithAggregatesFilter<"Rescisao"> | number
+    status?: StringWithAggregatesFilter<"Rescisao"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Rescisao"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Rescisao"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -9432,6 +11210,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     payrolls?: PayrollCreateNestedManyWithoutEmployeeInput
     advances?: PayrollAdvanceCreateNestedManyWithoutEmployeeInput
+    rescisoes?: RescisaoCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateInput = {
@@ -9462,6 +11241,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     payrolls?: PayrollUncheckedCreateNestedManyWithoutEmployeeInput
     advances?: PayrollAdvanceUncheckedCreateNestedManyWithoutEmployeeInput
+    rescisoes?: RescisaoUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUpdateInput = {
@@ -9492,6 +11272,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payrolls?: PayrollUpdateManyWithoutEmployeeNestedInput
     advances?: PayrollAdvanceUpdateManyWithoutEmployeeNestedInput
+    rescisoes?: RescisaoUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateInput = {
@@ -9522,6 +11303,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payrolls?: PayrollUncheckedUpdateManyWithoutEmployeeNestedInput
     advances?: PayrollAdvanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    rescisoes?: RescisaoUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateManyInput = {
@@ -10054,6 +11836,215 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RescisaoCreateInput = {
+    id?: string
+    month: number
+    year: number
+    tipoRescisao: string
+    dataAdmissao: Date | string
+    dataDemissao: Date | string
+    avisoPrevio: string
+    saldoSalario?: number
+    decimoTerceiroProp?: number
+    decimoTerceiroInd?: number
+    feriasProp?: number
+    feriasInd?: number
+    tercoFeriasProp?: number
+    tercoFeriasInd?: number
+    feriasVencidas?: number
+    avisoPrevioIndeniz?: number
+    fgtsRescisorio?: number
+    multaFgts?: number
+    inss?: number
+    inss13?: number
+    irrf?: number
+    totalBruto?: number
+    totalLiquido?: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutRescisoesInput
+  }
+
+  export type RescisaoUncheckedCreateInput = {
+    id?: string
+    employeeId: string
+    month: number
+    year: number
+    tipoRescisao: string
+    dataAdmissao: Date | string
+    dataDemissao: Date | string
+    avisoPrevio: string
+    saldoSalario?: number
+    decimoTerceiroProp?: number
+    decimoTerceiroInd?: number
+    feriasProp?: number
+    feriasInd?: number
+    tercoFeriasProp?: number
+    tercoFeriasInd?: number
+    feriasVencidas?: number
+    avisoPrevioIndeniz?: number
+    fgtsRescisorio?: number
+    multaFgts?: number
+    inss?: number
+    inss13?: number
+    irrf?: number
+    totalBruto?: number
+    totalLiquido?: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RescisaoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    tipoRescisao?: StringFieldUpdateOperationsInput | string
+    dataAdmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataDemissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    avisoPrevio?: StringFieldUpdateOperationsInput | string
+    saldoSalario?: FloatFieldUpdateOperationsInput | number
+    decimoTerceiroProp?: FloatFieldUpdateOperationsInput | number
+    decimoTerceiroInd?: FloatFieldUpdateOperationsInput | number
+    feriasProp?: FloatFieldUpdateOperationsInput | number
+    feriasInd?: FloatFieldUpdateOperationsInput | number
+    tercoFeriasProp?: FloatFieldUpdateOperationsInput | number
+    tercoFeriasInd?: FloatFieldUpdateOperationsInput | number
+    feriasVencidas?: FloatFieldUpdateOperationsInput | number
+    avisoPrevioIndeniz?: FloatFieldUpdateOperationsInput | number
+    fgtsRescisorio?: FloatFieldUpdateOperationsInput | number
+    multaFgts?: FloatFieldUpdateOperationsInput | number
+    inss?: FloatFieldUpdateOperationsInput | number
+    inss13?: FloatFieldUpdateOperationsInput | number
+    irrf?: FloatFieldUpdateOperationsInput | number
+    totalBruto?: FloatFieldUpdateOperationsInput | number
+    totalLiquido?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutRescisoesNestedInput
+  }
+
+  export type RescisaoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    tipoRescisao?: StringFieldUpdateOperationsInput | string
+    dataAdmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataDemissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    avisoPrevio?: StringFieldUpdateOperationsInput | string
+    saldoSalario?: FloatFieldUpdateOperationsInput | number
+    decimoTerceiroProp?: FloatFieldUpdateOperationsInput | number
+    decimoTerceiroInd?: FloatFieldUpdateOperationsInput | number
+    feriasProp?: FloatFieldUpdateOperationsInput | number
+    feriasInd?: FloatFieldUpdateOperationsInput | number
+    tercoFeriasProp?: FloatFieldUpdateOperationsInput | number
+    tercoFeriasInd?: FloatFieldUpdateOperationsInput | number
+    feriasVencidas?: FloatFieldUpdateOperationsInput | number
+    avisoPrevioIndeniz?: FloatFieldUpdateOperationsInput | number
+    fgtsRescisorio?: FloatFieldUpdateOperationsInput | number
+    multaFgts?: FloatFieldUpdateOperationsInput | number
+    inss?: FloatFieldUpdateOperationsInput | number
+    inss13?: FloatFieldUpdateOperationsInput | number
+    irrf?: FloatFieldUpdateOperationsInput | number
+    totalBruto?: FloatFieldUpdateOperationsInput | number
+    totalLiquido?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RescisaoCreateManyInput = {
+    id?: string
+    employeeId: string
+    month: number
+    year: number
+    tipoRescisao: string
+    dataAdmissao: Date | string
+    dataDemissao: Date | string
+    avisoPrevio: string
+    saldoSalario?: number
+    decimoTerceiroProp?: number
+    decimoTerceiroInd?: number
+    feriasProp?: number
+    feriasInd?: number
+    tercoFeriasProp?: number
+    tercoFeriasInd?: number
+    feriasVencidas?: number
+    avisoPrevioIndeniz?: number
+    fgtsRescisorio?: number
+    multaFgts?: number
+    inss?: number
+    inss13?: number
+    irrf?: number
+    totalBruto?: number
+    totalLiquido?: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RescisaoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    tipoRescisao?: StringFieldUpdateOperationsInput | string
+    dataAdmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataDemissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    avisoPrevio?: StringFieldUpdateOperationsInput | string
+    saldoSalario?: FloatFieldUpdateOperationsInput | number
+    decimoTerceiroProp?: FloatFieldUpdateOperationsInput | number
+    decimoTerceiroInd?: FloatFieldUpdateOperationsInput | number
+    feriasProp?: FloatFieldUpdateOperationsInput | number
+    feriasInd?: FloatFieldUpdateOperationsInput | number
+    tercoFeriasProp?: FloatFieldUpdateOperationsInput | number
+    tercoFeriasInd?: FloatFieldUpdateOperationsInput | number
+    feriasVencidas?: FloatFieldUpdateOperationsInput | number
+    avisoPrevioIndeniz?: FloatFieldUpdateOperationsInput | number
+    fgtsRescisorio?: FloatFieldUpdateOperationsInput | number
+    multaFgts?: FloatFieldUpdateOperationsInput | number
+    inss?: FloatFieldUpdateOperationsInput | number
+    inss13?: FloatFieldUpdateOperationsInput | number
+    irrf?: FloatFieldUpdateOperationsInput | number
+    totalBruto?: FloatFieldUpdateOperationsInput | number
+    totalLiquido?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RescisaoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    tipoRescisao?: StringFieldUpdateOperationsInput | string
+    dataAdmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataDemissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    avisoPrevio?: StringFieldUpdateOperationsInput | string
+    saldoSalario?: FloatFieldUpdateOperationsInput | number
+    decimoTerceiroProp?: FloatFieldUpdateOperationsInput | number
+    decimoTerceiroInd?: FloatFieldUpdateOperationsInput | number
+    feriasProp?: FloatFieldUpdateOperationsInput | number
+    feriasInd?: FloatFieldUpdateOperationsInput | number
+    tercoFeriasProp?: FloatFieldUpdateOperationsInput | number
+    tercoFeriasInd?: FloatFieldUpdateOperationsInput | number
+    feriasVencidas?: FloatFieldUpdateOperationsInput | number
+    avisoPrevioIndeniz?: FloatFieldUpdateOperationsInput | number
+    fgtsRescisorio?: FloatFieldUpdateOperationsInput | number
+    multaFgts?: FloatFieldUpdateOperationsInput | number
+    inss?: FloatFieldUpdateOperationsInput | number
+    inss13?: FloatFieldUpdateOperationsInput | number
+    irrf?: FloatFieldUpdateOperationsInput | number
+    totalBruto?: FloatFieldUpdateOperationsInput | number
+    totalLiquido?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -10196,6 +12187,12 @@ export namespace Prisma {
     none?: PayrollAdvanceWhereInput
   }
 
+  export type RescisaoListRelationFilter = {
+    every?: RescisaoWhereInput
+    some?: RescisaoWhereInput
+    none?: RescisaoWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -10206,6 +12203,10 @@ export namespace Prisma {
   }
 
   export type PayrollAdvanceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RescisaoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -10723,6 +12724,144 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type RescisaoRescisao_identifierCompoundUniqueInput = {
+    employeeId: string
+    month: number
+    year: number
+  }
+
+  export type RescisaoCountOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    tipoRescisao?: SortOrder
+    dataAdmissao?: SortOrder
+    dataDemissao?: SortOrder
+    avisoPrevio?: SortOrder
+    saldoSalario?: SortOrder
+    decimoTerceiroProp?: SortOrder
+    decimoTerceiroInd?: SortOrder
+    feriasProp?: SortOrder
+    feriasInd?: SortOrder
+    tercoFeriasProp?: SortOrder
+    tercoFeriasInd?: SortOrder
+    feriasVencidas?: SortOrder
+    avisoPrevioIndeniz?: SortOrder
+    fgtsRescisorio?: SortOrder
+    multaFgts?: SortOrder
+    inss?: SortOrder
+    inss13?: SortOrder
+    irrf?: SortOrder
+    totalBruto?: SortOrder
+    totalLiquido?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RescisaoAvgOrderByAggregateInput = {
+    month?: SortOrder
+    year?: SortOrder
+    saldoSalario?: SortOrder
+    decimoTerceiroProp?: SortOrder
+    decimoTerceiroInd?: SortOrder
+    feriasProp?: SortOrder
+    feriasInd?: SortOrder
+    tercoFeriasProp?: SortOrder
+    tercoFeriasInd?: SortOrder
+    feriasVencidas?: SortOrder
+    avisoPrevioIndeniz?: SortOrder
+    fgtsRescisorio?: SortOrder
+    multaFgts?: SortOrder
+    inss?: SortOrder
+    inss13?: SortOrder
+    irrf?: SortOrder
+    totalBruto?: SortOrder
+    totalLiquido?: SortOrder
+  }
+
+  export type RescisaoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    tipoRescisao?: SortOrder
+    dataAdmissao?: SortOrder
+    dataDemissao?: SortOrder
+    avisoPrevio?: SortOrder
+    saldoSalario?: SortOrder
+    decimoTerceiroProp?: SortOrder
+    decimoTerceiroInd?: SortOrder
+    feriasProp?: SortOrder
+    feriasInd?: SortOrder
+    tercoFeriasProp?: SortOrder
+    tercoFeriasInd?: SortOrder
+    feriasVencidas?: SortOrder
+    avisoPrevioIndeniz?: SortOrder
+    fgtsRescisorio?: SortOrder
+    multaFgts?: SortOrder
+    inss?: SortOrder
+    inss13?: SortOrder
+    irrf?: SortOrder
+    totalBruto?: SortOrder
+    totalLiquido?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RescisaoMinOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    tipoRescisao?: SortOrder
+    dataAdmissao?: SortOrder
+    dataDemissao?: SortOrder
+    avisoPrevio?: SortOrder
+    saldoSalario?: SortOrder
+    decimoTerceiroProp?: SortOrder
+    decimoTerceiroInd?: SortOrder
+    feriasProp?: SortOrder
+    feriasInd?: SortOrder
+    tercoFeriasProp?: SortOrder
+    tercoFeriasInd?: SortOrder
+    feriasVencidas?: SortOrder
+    avisoPrevioIndeniz?: SortOrder
+    fgtsRescisorio?: SortOrder
+    multaFgts?: SortOrder
+    inss?: SortOrder
+    inss13?: SortOrder
+    irrf?: SortOrder
+    totalBruto?: SortOrder
+    totalLiquido?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RescisaoSumOrderByAggregateInput = {
+    month?: SortOrder
+    year?: SortOrder
+    saldoSalario?: SortOrder
+    decimoTerceiroProp?: SortOrder
+    decimoTerceiroInd?: SortOrder
+    feriasProp?: SortOrder
+    feriasInd?: SortOrder
+    tercoFeriasProp?: SortOrder
+    tercoFeriasInd?: SortOrder
+    feriasVencidas?: SortOrder
+    avisoPrevioIndeniz?: SortOrder
+    fgtsRescisorio?: SortOrder
+    multaFgts?: SortOrder
+    inss?: SortOrder
+    inss13?: SortOrder
+    irrf?: SortOrder
+    totalBruto?: SortOrder
+    totalLiquido?: SortOrder
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -10745,6 +12884,13 @@ export namespace Prisma {
     connect?: PayrollAdvanceWhereUniqueInput | PayrollAdvanceWhereUniqueInput[]
   }
 
+  export type RescisaoCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<RescisaoCreateWithoutEmployeeInput, RescisaoUncheckedCreateWithoutEmployeeInput> | RescisaoCreateWithoutEmployeeInput[] | RescisaoUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: RescisaoCreateOrConnectWithoutEmployeeInput | RescisaoCreateOrConnectWithoutEmployeeInput[]
+    createMany?: RescisaoCreateManyEmployeeInputEnvelope
+    connect?: RescisaoWhereUniqueInput | RescisaoWhereUniqueInput[]
+  }
+
   export type PayrollUncheckedCreateNestedManyWithoutEmployeeInput = {
     create?: XOR<PayrollCreateWithoutEmployeeInput, PayrollUncheckedCreateWithoutEmployeeInput> | PayrollCreateWithoutEmployeeInput[] | PayrollUncheckedCreateWithoutEmployeeInput[]
     connectOrCreate?: PayrollCreateOrConnectWithoutEmployeeInput | PayrollCreateOrConnectWithoutEmployeeInput[]
@@ -10757,6 +12903,13 @@ export namespace Prisma {
     connectOrCreate?: PayrollAdvanceCreateOrConnectWithoutEmployeeInput | PayrollAdvanceCreateOrConnectWithoutEmployeeInput[]
     createMany?: PayrollAdvanceCreateManyEmployeeInputEnvelope
     connect?: PayrollAdvanceWhereUniqueInput | PayrollAdvanceWhereUniqueInput[]
+  }
+
+  export type RescisaoUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<RescisaoCreateWithoutEmployeeInput, RescisaoUncheckedCreateWithoutEmployeeInput> | RescisaoCreateWithoutEmployeeInput[] | RescisaoUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: RescisaoCreateOrConnectWithoutEmployeeInput | RescisaoCreateOrConnectWithoutEmployeeInput[]
+    createMany?: RescisaoCreateManyEmployeeInputEnvelope
+    connect?: RescisaoWhereUniqueInput | RescisaoWhereUniqueInput[]
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -10811,6 +12964,20 @@ export namespace Prisma {
     deleteMany?: PayrollAdvanceScalarWhereInput | PayrollAdvanceScalarWhereInput[]
   }
 
+  export type RescisaoUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<RescisaoCreateWithoutEmployeeInput, RescisaoUncheckedCreateWithoutEmployeeInput> | RescisaoCreateWithoutEmployeeInput[] | RescisaoUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: RescisaoCreateOrConnectWithoutEmployeeInput | RescisaoCreateOrConnectWithoutEmployeeInput[]
+    upsert?: RescisaoUpsertWithWhereUniqueWithoutEmployeeInput | RescisaoUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: RescisaoCreateManyEmployeeInputEnvelope
+    set?: RescisaoWhereUniqueInput | RescisaoWhereUniqueInput[]
+    disconnect?: RescisaoWhereUniqueInput | RescisaoWhereUniqueInput[]
+    delete?: RescisaoWhereUniqueInput | RescisaoWhereUniqueInput[]
+    connect?: RescisaoWhereUniqueInput | RescisaoWhereUniqueInput[]
+    update?: RescisaoUpdateWithWhereUniqueWithoutEmployeeInput | RescisaoUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: RescisaoUpdateManyWithWhereWithoutEmployeeInput | RescisaoUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: RescisaoScalarWhereInput | RescisaoScalarWhereInput[]
+  }
+
   export type PayrollUncheckedUpdateManyWithoutEmployeeNestedInput = {
     create?: XOR<PayrollCreateWithoutEmployeeInput, PayrollUncheckedCreateWithoutEmployeeInput> | PayrollCreateWithoutEmployeeInput[] | PayrollUncheckedCreateWithoutEmployeeInput[]
     connectOrCreate?: PayrollCreateOrConnectWithoutEmployeeInput | PayrollCreateOrConnectWithoutEmployeeInput[]
@@ -10837,6 +13004,20 @@ export namespace Prisma {
     update?: PayrollAdvanceUpdateWithWhereUniqueWithoutEmployeeInput | PayrollAdvanceUpdateWithWhereUniqueWithoutEmployeeInput[]
     updateMany?: PayrollAdvanceUpdateManyWithWhereWithoutEmployeeInput | PayrollAdvanceUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: PayrollAdvanceScalarWhereInput | PayrollAdvanceScalarWhereInput[]
+  }
+
+  export type RescisaoUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<RescisaoCreateWithoutEmployeeInput, RescisaoUncheckedCreateWithoutEmployeeInput> | RescisaoCreateWithoutEmployeeInput[] | RescisaoUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: RescisaoCreateOrConnectWithoutEmployeeInput | RescisaoCreateOrConnectWithoutEmployeeInput[]
+    upsert?: RescisaoUpsertWithWhereUniqueWithoutEmployeeInput | RescisaoUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: RescisaoCreateManyEmployeeInputEnvelope
+    set?: RescisaoWhereUniqueInput | RescisaoWhereUniqueInput[]
+    disconnect?: RescisaoWhereUniqueInput | RescisaoWhereUniqueInput[]
+    delete?: RescisaoWhereUniqueInput | RescisaoWhereUniqueInput[]
+    connect?: RescisaoWhereUniqueInput | RescisaoWhereUniqueInput[]
+    update?: RescisaoUpdateWithWhereUniqueWithoutEmployeeInput | RescisaoUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: RescisaoUpdateManyWithWhereWithoutEmployeeInput | RescisaoUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: RescisaoScalarWhereInput | RescisaoScalarWhereInput[]
   }
 
   export type EmployeeCreateNestedOneWithoutPayrollsInput = {
@@ -10885,6 +13066,20 @@ export namespace Prisma {
     upsert?: EmployeeUpsertWithoutAdvancesInput
     connect?: EmployeeWhereUniqueInput
     update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutAdvancesInput, EmployeeUpdateWithoutAdvancesInput>, EmployeeUncheckedUpdateWithoutAdvancesInput>
+  }
+
+  export type EmployeeCreateNestedOneWithoutRescisoesInput = {
+    create?: XOR<EmployeeCreateWithoutRescisoesInput, EmployeeUncheckedCreateWithoutRescisoesInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutRescisoesInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutRescisoesNestedInput = {
+    create?: XOR<EmployeeCreateWithoutRescisoesInput, EmployeeUncheckedCreateWithoutRescisoesInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutRescisoesInput
+    upsert?: EmployeeUpsertWithoutRescisoesInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutRescisoesInput, EmployeeUpdateWithoutRescisoesInput>, EmployeeUncheckedUpdateWithoutRescisoesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -11212,6 +13407,74 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type RescisaoCreateWithoutEmployeeInput = {
+    id?: string
+    month: number
+    year: number
+    tipoRescisao: string
+    dataAdmissao: Date | string
+    dataDemissao: Date | string
+    avisoPrevio: string
+    saldoSalario?: number
+    decimoTerceiroProp?: number
+    decimoTerceiroInd?: number
+    feriasProp?: number
+    feriasInd?: number
+    tercoFeriasProp?: number
+    tercoFeriasInd?: number
+    feriasVencidas?: number
+    avisoPrevioIndeniz?: number
+    fgtsRescisorio?: number
+    multaFgts?: number
+    inss?: number
+    inss13?: number
+    irrf?: number
+    totalBruto?: number
+    totalLiquido?: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RescisaoUncheckedCreateWithoutEmployeeInput = {
+    id?: string
+    month: number
+    year: number
+    tipoRescisao: string
+    dataAdmissao: Date | string
+    dataDemissao: Date | string
+    avisoPrevio: string
+    saldoSalario?: number
+    decimoTerceiroProp?: number
+    decimoTerceiroInd?: number
+    feriasProp?: number
+    feriasInd?: number
+    tercoFeriasProp?: number
+    tercoFeriasInd?: number
+    feriasVencidas?: number
+    avisoPrevioIndeniz?: number
+    fgtsRescisorio?: number
+    multaFgts?: number
+    inss?: number
+    inss13?: number
+    irrf?: number
+    totalBruto?: number
+    totalLiquido?: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RescisaoCreateOrConnectWithoutEmployeeInput = {
+    where: RescisaoWhereUniqueInput
+    create: XOR<RescisaoCreateWithoutEmployeeInput, RescisaoUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type RescisaoCreateManyEmployeeInputEnvelope = {
+    data: RescisaoCreateManyEmployeeInput | RescisaoCreateManyEmployeeInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PayrollUpsertWithWhereUniqueWithoutEmployeeInput = {
     where: PayrollWhereUniqueInput
     update: XOR<PayrollUpdateWithoutEmployeeInput, PayrollUncheckedUpdateWithoutEmployeeInput>
@@ -11288,6 +13551,55 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"PayrollAdvance"> | Date | string
   }
 
+  export type RescisaoUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: RescisaoWhereUniqueInput
+    update: XOR<RescisaoUpdateWithoutEmployeeInput, RescisaoUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<RescisaoCreateWithoutEmployeeInput, RescisaoUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type RescisaoUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: RescisaoWhereUniqueInput
+    data: XOR<RescisaoUpdateWithoutEmployeeInput, RescisaoUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type RescisaoUpdateManyWithWhereWithoutEmployeeInput = {
+    where: RescisaoScalarWhereInput
+    data: XOR<RescisaoUpdateManyMutationInput, RescisaoUncheckedUpdateManyWithoutEmployeeInput>
+  }
+
+  export type RescisaoScalarWhereInput = {
+    AND?: RescisaoScalarWhereInput | RescisaoScalarWhereInput[]
+    OR?: RescisaoScalarWhereInput[]
+    NOT?: RescisaoScalarWhereInput | RescisaoScalarWhereInput[]
+    id?: StringFilter<"Rescisao"> | string
+    employeeId?: StringFilter<"Rescisao"> | string
+    month?: IntFilter<"Rescisao"> | number
+    year?: IntFilter<"Rescisao"> | number
+    tipoRescisao?: StringFilter<"Rescisao"> | string
+    dataAdmissao?: DateTimeFilter<"Rescisao"> | Date | string
+    dataDemissao?: DateTimeFilter<"Rescisao"> | Date | string
+    avisoPrevio?: StringFilter<"Rescisao"> | string
+    saldoSalario?: FloatFilter<"Rescisao"> | number
+    decimoTerceiroProp?: FloatFilter<"Rescisao"> | number
+    decimoTerceiroInd?: FloatFilter<"Rescisao"> | number
+    feriasProp?: FloatFilter<"Rescisao"> | number
+    feriasInd?: FloatFilter<"Rescisao"> | number
+    tercoFeriasProp?: FloatFilter<"Rescisao"> | number
+    tercoFeriasInd?: FloatFilter<"Rescisao"> | number
+    feriasVencidas?: FloatFilter<"Rescisao"> | number
+    avisoPrevioIndeniz?: FloatFilter<"Rescisao"> | number
+    fgtsRescisorio?: FloatFilter<"Rescisao"> | number
+    multaFgts?: FloatFilter<"Rescisao"> | number
+    inss?: FloatFilter<"Rescisao"> | number
+    inss13?: FloatFilter<"Rescisao"> | number
+    irrf?: FloatFilter<"Rescisao"> | number
+    totalBruto?: FloatFilter<"Rescisao"> | number
+    totalLiquido?: FloatFilter<"Rescisao"> | number
+    status?: StringFilter<"Rescisao"> | string
+    createdAt?: DateTimeFilter<"Rescisao"> | Date | string
+    updatedAt?: DateTimeFilter<"Rescisao"> | Date | string
+  }
+
   export type EmployeeCreateWithoutPayrollsInput = {
     id?: string
     name: string
@@ -11315,6 +13627,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     advances?: PayrollAdvanceCreateNestedManyWithoutEmployeeInput
+    rescisoes?: RescisaoCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutPayrollsInput = {
@@ -11344,6 +13657,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     advances?: PayrollAdvanceUncheckedCreateNestedManyWithoutEmployeeInput
+    rescisoes?: RescisaoUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutPayrollsInput = {
@@ -11389,6 +13703,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     advances?: PayrollAdvanceUpdateManyWithoutEmployeeNestedInput
+    rescisoes?: RescisaoUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutPayrollsInput = {
@@ -11418,6 +13733,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     advances?: PayrollAdvanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    rescisoes?: RescisaoUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateWithoutAdvancesInput = {
@@ -11447,6 +13763,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     payrolls?: PayrollCreateNestedManyWithoutEmployeeInput
+    rescisoes?: RescisaoCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutAdvancesInput = {
@@ -11476,6 +13793,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     payrolls?: PayrollUncheckedCreateNestedManyWithoutEmployeeInput
+    rescisoes?: RescisaoUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutAdvancesInput = {
@@ -11521,6 +13839,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payrolls?: PayrollUpdateManyWithoutEmployeeNestedInput
+    rescisoes?: RescisaoUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutAdvancesInput = {
@@ -11550,6 +13869,143 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payrolls?: PayrollUncheckedUpdateManyWithoutEmployeeNestedInput
+    rescisoes?: RescisaoUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeCreateWithoutRescisoesInput = {
+    id?: string
+    name: string
+    cpf: string
+    type: string
+    role: string
+    baseSalary: number
+    transportDaily?: number | null
+    gasAssistance?: number | null
+    pixKey?: string | null
+    paymentMethod?: string
+    bankName?: string | null
+    accountType?: string | null
+    agency?: string | null
+    accountNumber?: string | null
+    recurringDeductions?: number
+    temporaryDeductions?: number
+    temporaryDeductionsDesc?: string | null
+    temporaryDeductionsExpiration?: string | null
+    hourlyRate?: number | null
+    cestaBasica?: number | null
+    isAulista?: boolean
+    salaryAdvance?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payrolls?: PayrollCreateNestedManyWithoutEmployeeInput
+    advances?: PayrollAdvanceCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutRescisoesInput = {
+    id?: string
+    name: string
+    cpf: string
+    type: string
+    role: string
+    baseSalary: number
+    transportDaily?: number | null
+    gasAssistance?: number | null
+    pixKey?: string | null
+    paymentMethod?: string
+    bankName?: string | null
+    accountType?: string | null
+    agency?: string | null
+    accountNumber?: string | null
+    recurringDeductions?: number
+    temporaryDeductions?: number
+    temporaryDeductionsDesc?: string | null
+    temporaryDeductionsExpiration?: string | null
+    hourlyRate?: number | null
+    cestaBasica?: number | null
+    isAulista?: boolean
+    salaryAdvance?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payrolls?: PayrollUncheckedCreateNestedManyWithoutEmployeeInput
+    advances?: PayrollAdvanceUncheckedCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutRescisoesInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutRescisoesInput, EmployeeUncheckedCreateWithoutRescisoesInput>
+  }
+
+  export type EmployeeUpsertWithoutRescisoesInput = {
+    update: XOR<EmployeeUpdateWithoutRescisoesInput, EmployeeUncheckedUpdateWithoutRescisoesInput>
+    create: XOR<EmployeeCreateWithoutRescisoesInput, EmployeeUncheckedCreateWithoutRescisoesInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutRescisoesInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutRescisoesInput, EmployeeUncheckedUpdateWithoutRescisoesInput>
+  }
+
+  export type EmployeeUpdateWithoutRescisoesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    cpf?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    baseSalary?: FloatFieldUpdateOperationsInput | number
+    transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
+    gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixKey?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountType?: NullableStringFieldUpdateOperationsInput | string | null
+    agency?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    recurringDeductions?: FloatFieldUpdateOperationsInput | number
+    temporaryDeductions?: FloatFieldUpdateOperationsInput | number
+    temporaryDeductionsDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    temporaryDeductionsExpiration?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cestaBasica?: NullableFloatFieldUpdateOperationsInput | number | null
+    isAulista?: BoolFieldUpdateOperationsInput | boolean
+    salaryAdvance?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payrolls?: PayrollUpdateManyWithoutEmployeeNestedInput
+    advances?: PayrollAdvanceUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutRescisoesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    cpf?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    baseSalary?: FloatFieldUpdateOperationsInput | number
+    transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
+    gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixKey?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountType?: NullableStringFieldUpdateOperationsInput | string | null
+    agency?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    recurringDeductions?: FloatFieldUpdateOperationsInput | number
+    temporaryDeductions?: FloatFieldUpdateOperationsInput | number
+    temporaryDeductionsDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    temporaryDeductionsExpiration?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cestaBasica?: NullableFloatFieldUpdateOperationsInput | number | null
+    isAulista?: BoolFieldUpdateOperationsInput | boolean
+    salaryAdvance?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payrolls?: PayrollUncheckedUpdateManyWithoutEmployeeNestedInput
+    advances?: PayrollAdvanceUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type PayrollCreateManyEmployeeInput = {
@@ -11584,6 +14040,35 @@ export namespace Prisma {
     amount: number
     status?: string
     paidAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RescisaoCreateManyEmployeeInput = {
+    id?: string
+    month: number
+    year: number
+    tipoRescisao: string
+    dataAdmissao: Date | string
+    dataDemissao: Date | string
+    avisoPrevio: string
+    saldoSalario?: number
+    decimoTerceiroProp?: number
+    decimoTerceiroInd?: number
+    feriasProp?: number
+    feriasInd?: number
+    tercoFeriasProp?: number
+    tercoFeriasInd?: number
+    feriasVencidas?: number
+    avisoPrevioIndeniz?: number
+    fgtsRescisorio?: number
+    multaFgts?: number
+    inss?: number
+    inss13?: number
+    irrf?: number
+    totalBruto?: number
+    totalLiquido?: number
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11692,6 +14177,93 @@ export namespace Prisma {
     amount?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RescisaoUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    tipoRescisao?: StringFieldUpdateOperationsInput | string
+    dataAdmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataDemissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    avisoPrevio?: StringFieldUpdateOperationsInput | string
+    saldoSalario?: FloatFieldUpdateOperationsInput | number
+    decimoTerceiroProp?: FloatFieldUpdateOperationsInput | number
+    decimoTerceiroInd?: FloatFieldUpdateOperationsInput | number
+    feriasProp?: FloatFieldUpdateOperationsInput | number
+    feriasInd?: FloatFieldUpdateOperationsInput | number
+    tercoFeriasProp?: FloatFieldUpdateOperationsInput | number
+    tercoFeriasInd?: FloatFieldUpdateOperationsInput | number
+    feriasVencidas?: FloatFieldUpdateOperationsInput | number
+    avisoPrevioIndeniz?: FloatFieldUpdateOperationsInput | number
+    fgtsRescisorio?: FloatFieldUpdateOperationsInput | number
+    multaFgts?: FloatFieldUpdateOperationsInput | number
+    inss?: FloatFieldUpdateOperationsInput | number
+    inss13?: FloatFieldUpdateOperationsInput | number
+    irrf?: FloatFieldUpdateOperationsInput | number
+    totalBruto?: FloatFieldUpdateOperationsInput | number
+    totalLiquido?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RescisaoUncheckedUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    tipoRescisao?: StringFieldUpdateOperationsInput | string
+    dataAdmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataDemissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    avisoPrevio?: StringFieldUpdateOperationsInput | string
+    saldoSalario?: FloatFieldUpdateOperationsInput | number
+    decimoTerceiroProp?: FloatFieldUpdateOperationsInput | number
+    decimoTerceiroInd?: FloatFieldUpdateOperationsInput | number
+    feriasProp?: FloatFieldUpdateOperationsInput | number
+    feriasInd?: FloatFieldUpdateOperationsInput | number
+    tercoFeriasProp?: FloatFieldUpdateOperationsInput | number
+    tercoFeriasInd?: FloatFieldUpdateOperationsInput | number
+    feriasVencidas?: FloatFieldUpdateOperationsInput | number
+    avisoPrevioIndeniz?: FloatFieldUpdateOperationsInput | number
+    fgtsRescisorio?: FloatFieldUpdateOperationsInput | number
+    multaFgts?: FloatFieldUpdateOperationsInput | number
+    inss?: FloatFieldUpdateOperationsInput | number
+    inss13?: FloatFieldUpdateOperationsInput | number
+    irrf?: FloatFieldUpdateOperationsInput | number
+    totalBruto?: FloatFieldUpdateOperationsInput | number
+    totalLiquido?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RescisaoUncheckedUpdateManyWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    tipoRescisao?: StringFieldUpdateOperationsInput | string
+    dataAdmissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataDemissao?: DateTimeFieldUpdateOperationsInput | Date | string
+    avisoPrevio?: StringFieldUpdateOperationsInput | string
+    saldoSalario?: FloatFieldUpdateOperationsInput | number
+    decimoTerceiroProp?: FloatFieldUpdateOperationsInput | number
+    decimoTerceiroInd?: FloatFieldUpdateOperationsInput | number
+    feriasProp?: FloatFieldUpdateOperationsInput | number
+    feriasInd?: FloatFieldUpdateOperationsInput | number
+    tercoFeriasProp?: FloatFieldUpdateOperationsInput | number
+    tercoFeriasInd?: FloatFieldUpdateOperationsInput | number
+    feriasVencidas?: FloatFieldUpdateOperationsInput | number
+    avisoPrevioIndeniz?: FloatFieldUpdateOperationsInput | number
+    fgtsRescisorio?: FloatFieldUpdateOperationsInput | number
+    multaFgts?: FloatFieldUpdateOperationsInput | number
+    inss?: FloatFieldUpdateOperationsInput | number
+    inss13?: FloatFieldUpdateOperationsInput | number
+    irrf?: FloatFieldUpdateOperationsInput | number
+    totalBruto?: FloatFieldUpdateOperationsInput | number
+    totalLiquido?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

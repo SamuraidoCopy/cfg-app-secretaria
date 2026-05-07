@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 
 export async function getEmployees() {
     return await prisma.employee.findMany({
+        where: { active: true },
         orderBy: { name: "asc" },
     });
 }
@@ -136,8 +137,9 @@ export async function updateEmployee(formData: FormData) {
 }
 
 export async function deleteEmployee(id: string) {
-    await prisma.employee.delete({
+    await prisma.employee.update({
         where: { id },
+        data: { active: false },
     });
     revalidatePath("/colaboradores");
 }

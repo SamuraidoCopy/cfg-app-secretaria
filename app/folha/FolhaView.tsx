@@ -23,7 +23,7 @@ export default function FolhaView({
     currentMonth: number;
     currentYear: number;
 }) {
-    const [selectedPayment, setSelectedPayment] = useState<{ employee: any, amount: number, payrollId: string } | null>(null);
+    const [selectedPayment, setSelectedPayment] = useState<{ employee: any, amount: number, payrollId: string, isRescisao?: boolean, status?: string } | null>(null);
     const [activeTab, setActiveTab] = useState<'CLT' | 'PJ'>('CLT');
 
     const payrolls = initialData;
@@ -70,7 +70,11 @@ export default function FolhaView({
                     <h3 className="text-[10px] font-bold uppercase tracking-widest text-rose-400 mb-2">Faltas & Descontos</h3>
                     <span className="text-3xl font-bold text-rose-600 tracking-tight font-display">
                         {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
-                            payrolls.reduce((sum: number, p: any) => sum + p.absenceDeduction + (p.transportDeduction || 0) + p.otherDeductions + (p.salaryAdvance || 0), 0)
+                            payrolls.reduce((sum: number, p: any) => 
+                                sum + (p.isRescisao 
+                                    ? (p.inss + p.inss13 + (p.irrf || 0)) 
+                                    : (p.absenceDeduction + (p.transportDeduction || 0) + p.otherDeductions + (p.salaryAdvance || 0))
+                                ), 0)
                         )}
                     </span>
                 </div>
@@ -123,9 +127,14 @@ export default function FolhaView({
                                 </tr>
                             ) : (
                                 filteredPayrolls.map((p: any) => (
-                                    <tr key={p.id} className="hover:bg-wine-50/80 transition-colors group">
+                                    <tr key={p.id} className={`hover:bg-wine-50/80 transition-colors group ${p.isRescisao ? 'bg-amber-50/20' : ''}`}>
                                         <td className="px-6 py-4">
-                                            <div className="font-bold text-wine-950">{p.employee.name}</div>
+                                            <div className="flex items-center gap-2">
+                                                <div className="font-bold text-wine-950">{p.employee.name}</div>
+                                                {p.isRescisao && (
+                                                    <span className="bg-amber-100 text-amber-800 text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-tighter">Rescisão</span>
+                                                )}
+                                            </div>
                                             <div className="text-xs text-wine-700 font-medium">{p.employee.role}</div>
                                         </td>
                                         <td className="px-6 py-4 hidden sm:table-cell text-wine-900 font-mono text-sm">{p.employee.cpf}</td>
@@ -140,10 +149,14 @@ export default function FolhaView({
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-rose-600 font-medium text-sm text-right">
-                                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(p.absenceDeduction + (p.transportDeduction || 0) + p.otherDeductions + (p.salaryAdvance || 0))}
+                                            {p.isRescisao 
+                                                ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(p.inss + p.inss13 + (p.irrf || 0))
+                                                : new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(p.absenceDeduction + (p.transportDeduction || 0) + p.otherDeductions + (p.salaryAdvance || 0))}
                                         </td>
                                         <td className="px-6 py-4 text-emerald-600 font-medium text-sm text-right">
-                                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format((p.transportTotal || 0) + p.bonuses)}
+                                            {p.isRescisao 
+                                                ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(p.totalBruto)
+                                                : new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format((p.transportTotal || 0) + p.bonuses)}
                                         </td>
                                         <td className="px-6 py-4 text-wine-950 font-bold text-lg text-right font-display tracking-tight">
                                             {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(p.netTotal)}
@@ -152,14 +165,8 @@ export default function FolhaView({
                                             <PixButton
                                                 paymentMethod={p.employee.paymentMethod}
                                                 pixKey={p.employee.pixKey || ''}
-                                                onOpen={() => setSelectedPayment({ employee: p.employee, amount: p.netTotal, payrollId: p.id })}
+                                                onOpen={() => setSelectedPayment({ employee: p.employee, amount: p.netTotal, payrollId: p.id, isRescisao: p.isRescisao, status: p.status })}
                                             />
-                                        </td>
-                                        <td className="px-6 py-4 text-wine-700 font-medium text-right">
-                                            {p.employee.isAulista
-                                                ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format((p.hoursAulista || 0) * (p.employee.hourlyRate || 0))
-                                                : new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(p.baseSalary)
-                                            }
                                         </td>
                                         <td className="px-6 py-4 text-center">
                                             {p.status === "PAID" ? (
@@ -174,31 +181,51 @@ export default function FolhaView({
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex justify-center gap-2">
-                                                <Link href={`/folha/${p.id}/calculo`} className="p-2 text-wine-500 hover:bg-wine-100 rounded-lg transition-colors" title="Ver Cálculo">
-                                                    <Calculator className="w-4 h-4" />
-                                                </Link>
-                                                <Link href={`/folha/${p.id}/recibo`} target="_blank" className="p-2 text-wine-700 hover:bg-wine-100 rounded-lg transition-colors" title="Gerar PDF">
+                                                {!p.isRescisao && (
+                                                    <Link href={`/folha/${p.id}/calculo`} className="p-2 text-wine-500 hover:bg-wine-100 rounded-lg transition-colors" title="Ver Cálculo">
+                                                        <Calculator className="w-4 h-4" />
+                                                    </Link>
+                                                )}
+                                                <Link 
+                                                    href={p.isRescisao ? `/api/generate-rescisao-pdf?id=${p.id}` : `/folha/${p.id}/recibo`} 
+                                                    target="_blank" 
+                                                    className="p-2 text-wine-700 hover:bg-wine-100 rounded-lg transition-colors" 
+                                                    title="Gerar PDF"
+                                                >
                                                     <Printer className="w-4 h-4" />
                                                 </Link>
-                                                {p.status !== "PAID" && (
+                                                {!p.isRescisao && p.status !== "PAID" && (
                                                     <EditPayrollModal payroll={p} />
                                                 )}
                                                 {p.status !== "PAID" && (
-                                                    <form action={markAsPaid.bind(null, p.id)} className="inline-block">
+                                                    <form 
+                                                        action={async () => {
+                                                            if (p.isRescisao) {
+                                                                const { toggleRescisaoStatus } = await import("./actions");
+                                                                await toggleRescisaoStatus(p.id, p.status);
+                                                            } else {
+                                                                await markAsPaid(p.id);
+                                                            }
+                                                        }} 
+                                                        className="inline-block"
+                                                    >
                                                         <button type="submit" className="p-2 text-emerald-600 hover:bg-emerald-100 rounded-lg transition-colors" title="Marcar como Pago">
                                                             <CheckCircle className="w-4 h-4" />
                                                         </button>
                                                     </form>
                                                 )}
-                                                <form action={deletePayroll.bind(null, p.id)} className="inline-block">
-                                                    <button type="submit" className="p-2 text-wine-400 hover:bg-rose-50 hover:text-rose-600 rounded-lg transition-colors" title="Remover">
-                                                        <Trash2 className="w-4 h-4" />
-                                                    </button>
-                                                </form>
+                                                {!p.isRescisao && (
+                                                    <form action={deletePayroll.bind(null, p.id)} className="inline-block">
+                                                        <button type="submit" className="p-2 text-wine-400 hover:bg-rose-50 hover:text-rose-600 rounded-lg transition-colors" title="Remover">
+                                                            <Trash2 className="w-4 h-4" />
+                                                        </button>
+                                                    </form>
+                                                )}
                                             </div>
                                         </td>
                                     </tr>
                                 ))
+
                             )}
                         </tbody>
                     </table>

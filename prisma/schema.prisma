@@ -52,6 +52,7 @@ model Employee {
   
   payrolls       Payroll[]
   advances       PayrollAdvance[]
+  rescisoes      Rescisao[]
 }
 
 model Payroll {
@@ -133,3 +134,46 @@ model Contract {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model Rescisao {
+  id                   String   @id @default(uuid())
+  employeeId           String
+  employee             Employee @relation(fields: [employeeId], references: [id])
+
+  month                Int      // Mês da rescisão (1-12)
+  year                 Int      // Ano da rescisão
+  
+  // Dados do desligamento
+  tipoRescisao         String   // SEM_JUSTA_CAUSA | COM_JUSTA_CAUSA | PEDIDO_DEMISSAO | ACORDO_COMUM
+  dataAdmissao         DateTime
+  dataDemissao         DateTime
+  avisoPrevio          String   // TRABALHADO | INDENIZADO | DISPENSADO
+  
+  // Verbas calculadas
+  saldoSalario         Float    @default(0)
+  decimoTerceiroProp   Float    @default(0)
+  decimoTerceiroInd    Float    @default(0)
+  feriasProp           Float    @default(0)
+  feriasInd            Float    @default(0)
+  tercoFeriasProp      Float    @default(0)
+  tercoFeriasInd       Float    @default(0)
+  feriasVencidas       Float    @default(0)
+  avisoPrevioIndeniz   Float    @default(0)
+  fgtsRescisorio       Float    @default(0)
+  multaFgts            Float    @default(0)
+  inss                 Float    @default(0)
+  inss13               Float    @default(0)
+  irrf                 Float    @default(0)
+  
+  // Total
+  totalBruto           Float    @default(0)
+  totalLiquido         Float    @default(0)
+  status               String   @default("PENDING") // PENDING | PAID
+  
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+
+  @@unique([employeeId, month, year], name: "rescisao_identifier")
+}
+

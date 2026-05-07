@@ -12,14 +12,28 @@ export default async function ImportCheckPage() {
     where: { active: true }
   })
 
-  // Buscamos os registros de payroll para cruzamento
   const payrolls = await prisma.payroll.findMany({
     orderBy: { createdAt: 'desc' }
   })
 
+  const rescisoes = await prisma.rescisao.findMany({
+    orderBy: { createdAt: 'desc' }
+  })
+
+  // Injetar flag isRescisao nas rescisões para o cliente identificar
+  const mappedRescisoes = rescisoes.map(r => ({
+    ...r,
+    isRescisao: true,
+    // Mapear campos para compatibilidade básica de tipos se necessário
+    grossEarnings: r.totalBruto,
+    inssDeduction: r.inss, // Na rescisão usamos o inss (saldo) ou a soma? No PDF da contabilidade vem separado? 
+    // Geralmente no PDF vem a base INSS e o desconto.
+  }))
+
+
   return (
     <div className="container mx-auto py-8">
-      <ImportCheckClient employees={employees} payrolls={payrolls} />
+      <ImportCheckClient employees={employees} payrolls={[...payrolls, ...mappedRescisoes] as any[]} />
     </div>
   )
 }

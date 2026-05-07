@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { LayoutDashboard, Users, FileText, Wallet, FileSignature, ShieldAlert, X, BarChart2, FileCheck, ChevronDown, Banknote } from "lucide-react";
+import { LayoutDashboard, Users, FileText, Wallet, FileSignature, ShieldAlert, X, BarChart2, FileCheck, ChevronDown, Banknote, UserX } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import LogoutButton from "./LogoutButton";
@@ -20,7 +20,8 @@ export default function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose:
             icon: <FileText className="w-5 h-5" />,
             subItems: [
                 { label: "Double-check CLT", href: "/dashboard/payroll/import-check", icon: <FileCheck className="w-4 h-4" /> },
-                { label: "Adiantamentos", href: "/dashboard/payroll/advances", icon: <Banknote className="w-4 h-4" /> }
+                { label: "Adiantamentos", href: "/dashboard/payroll/advances", icon: <Banknote className="w-4 h-4" /> },
+                { label: "Rescisão CLT", href: "/rescisao", icon: <UserX className="w-4 h-4" /> }
             ]
         },
         { label: "Relatórios", href: "/relatorios", icon: <BarChart2 className="w-5 h-5" /> },

@@ -35,16 +35,18 @@ export const IRRF_BRACKETS = [
   { max: Infinity, rate: 0.275, deduction: 896.00 }
 ];
 
-export const IRRF_SIMPLIFIED_DEDUCTION = 424.00; // Parcela de dedução simplificada (conforme extrato)
+export const IRRF_SIMPLIFIED_DEDUCTION = 564.80; // Parcela de dedução simplificada (2024)
 
-export function calculateIRRF(baseIrrf: number, useSimplified = true): number {
-  if (baseIrrf <= 0) return 0;
+export function calculateIRRF(grossEarnings: number, inssDeduction: number, dependents: number = 0): number {
+  if (grossEarnings <= 0) return 0;
   
-  // A base do IRRF geralmente já abate o INSS. O desconto simplificado substitui
-  // a dedução padrão de INSS + Dependentes se for mais vantajoso.
-  // Como estamos apenas conferindo a contabilidade, podemos usar o método simplificado como default.
+  // A base do IRRF: O contribuinte pode optar pela dedução legal (INSS + Dependentes) 
+  // ou pelo desconto simplificado (564,80 em 2024), o que for mais vantajoso (ou seja, resultar em menor base).
+  const dependentDeduction = dependents * 189.59;
+  const legalBase = grossEarnings - inssDeduction - dependentDeduction;
+  const simplifiedBase = grossEarnings - IRRF_SIMPLIFIED_DEDUCTION;
   
-  const baseCalculo = useSimplified ? Math.max(0, baseIrrf - IRRF_SIMPLIFIED_DEDUCTION) : baseIrrf;
+  const baseCalculo = Math.max(0, Math.min(legalBase, simplifiedBase));
   
   for (const bracket of IRRF_BRACKETS) {
     if (baseCalculo <= bracket.max) {

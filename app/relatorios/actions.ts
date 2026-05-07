@@ -36,32 +36,52 @@ export async function getMonthlyReport(month: number, year: number) {
 
     try {
 
-        const payrolls = await prisma.payroll.findMany({
-            where: {
-                month,
-                year,
-            },
-            include: {
-                employee: {
-                    select: {
-                        id: true,
-                        name: true,
-                        role: true,
-                        cpf: true,
-                        baseSalary: true,
+        const [payrolls, rescisoes] = await Promise.all([
+            prisma.payroll.findMany({
+                where: { month, year },
+                include: {
+                    employee: {
+                        select: { id: true, name: true, role: true, cpf: true, baseSalary: true }
+                    }
+                },
+                orderBy: { employee: { name: 'asc' } }
+            }),
+            prisma.rescisao.findMany({
+                where: { month, year },
+                include: {
+                    employee: {
+                        select: { id: true, name: true, role: true, cpf: true, baseSalary: true }
                     }
                 }
-            },
-            orderBy: {
-                employee: {
-                    name: 'asc'
-                }
-            }
-        });
+            })
+        ]);
+
+        // Mapear rescisões para o formato do relatório
+        const mappedRescisoes = rescisoes.map(r => ({
+            id: r.id,
+            month: r.month,
+            year: r.year,
+            baseSalary: r.employee.baseSalary,
+            workingDays: null,
+            transportTotal: 0,
+            absences: 0,
+            absenceDeduction: 0,
+            transportDeduction: 0,
+            otherDeductions: r.inss + r.inss13 + (r.irrf || 0),
+            bonuses: r.totalBruto - r.employee.baseSalary, // Diferença como bônus para fechar o bruto
+            netTotal: r.totalLiquido,
+            status: r.status,
+            employee: r.employee,
+            isRescisao: true
+        }));
+
+        const allPayments = [...payrolls, ...mappedRescisoes].sort((a: any, b: any) => 
+            a.employee.name.localeCompare(b.employee.name)
+        );
 
         // Calcular totais
-        const totals = payrolls.reduce(
-            (acc: { totalNet: number, totalBase: number, count: number }, curr) => {
+        const totals = allPayments.reduce(
+            (acc: { totalNet: number, totalBase: number, count: number }, curr: any) => {
                 acc.totalNet += curr.netTotal;
                 acc.totalBase += curr.baseSalary;
                 acc.count += 1;
@@ -70,7 +90,7 @@ export async function getMonthlyReport(month: number, year: number) {
             { totalNet: 0, totalBase: 0, count: 0 }
         );
 
-        return { payrolls, totals };
+        return { payrolls: allPayments, totals };
     } catch (error) {
         console.error("Erro ao gerar relatório mensal:", error);
         return { payrolls: [], totals: { totalNet: 0, totalBase: 0, count: 0 } };
@@ -83,27 +103,49 @@ export async function getCollaboratorReport(employeeId: string) {
 
     try {
 
-        const payrolls = await prisma.payroll.findMany({
-            where: {
-                employeeId,
-            },
-            include: {
-                employee: {
-                    select: {
-                        id: true,
-                        name: true,
-                        role: true,
-                        cpf: true,
-                        baseSalary: true,
+        const [payrolls, rescisoes] = await Promise.all([
+            prisma.payroll.findMany({
+                where: { employeeId },
+                include: {
+                    employee: {
+                        select: { id: true, name: true, role: true, cpf: true, baseSalary: true }
+                    }
+                },
+                orderBy: [{ year: 'desc' }, { month: 'desc' }],
+                take: 24
+            }),
+            prisma.rescisao.findMany({
+                where: { employeeId },
+                include: {
+                    employee: {
+                        select: { id: true, name: true, role: true, cpf: true, baseSalary: true }
                     }
                 }
-            },
-            orderBy: [
-                { year: 'desc' },
-                { month: 'desc' },
-            ],
-            take: 24, // Limitar a 24 meses
-        });
+            })
+        ]);
+
+        const mappedRescisoes = rescisoes.map(r => ({
+            id: r.id,
+            month: r.month,
+            year: r.year,
+            baseSalary: r.employee.baseSalary,
+            workingDays: null,
+            transportTotal: 0,
+            absences: 0,
+            absenceDeduction: 0,
+            transportDeduction: 0,
+            otherDeductions: r.inss + r.inss13 + (r.irrf || 0),
+            bonuses: r.totalBruto - r.employee.baseSalary,
+            netTotal: r.totalLiquido,
+            status: r.status,
+            employee: r.employee,
+            isRescisao: true
+        }));
+
+        const allPayments = [...payrolls, ...mappedRescisoes].sort((a: any, b: any) => {
+            if (a.year !== b.year) return b.year - a.year;
+            return b.month - a.month;
+        }).slice(0, 24);
 
         const employee = await prisma.employee.findUnique({
             where: { id: employeeId },
@@ -111,7 +153,7 @@ export async function getCollaboratorReport(employeeId: string) {
         });
 
         // Totals para o colaborador nesses meses
-        const totals = payrolls.reduce(
+        const totals = allPayments.reduce(
             (acc: { totalReceived: number }, curr) => {
                 acc.totalReceived += curr.netTotal;
                 return acc;
@@ -119,7 +161,7 @@ export async function getCollaboratorReport(employeeId: string) {
             { totalReceived: 0 }
         );
 
-        return { payrolls, employee, totals };
+        return { payrolls: allPayments, employee, totals };
     } catch (error) {
         console.error("Erro ao gerar histórico do colaborador:", error);
         return { payrolls: [], employee: null, totals: { totalReceived: 0 } };

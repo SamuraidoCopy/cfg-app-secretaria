@@ -5,12 +5,48 @@ import { revalidatePath } from "next/cache";
 import { calculateProgressiveINSS, inssTable2026, calculateIRRF, calculateFGTS, calculateTeacherComponents } from "@/lib/payroll-calc";
 
 export async function getPayrolls(month: number, year: number) {
-    return await prisma.payroll.findMany({
+    const payrolls = await prisma.payroll.findMany({
         where: { month, year },
         include: { employee: true },
         orderBy: { employee: { name: "asc" } },
     });
+
+    const rescisoes = await prisma.rescisao.findMany({
+        where: { month, year },
+        include: { employee: true },
+    });
+
+    // Mapear rescisões para o formato que a FolhaView entende, ou retornar ambos
+    // Vou retornar uma lista unificada onde as rescisões são marcadas
+    const mappedRescisoes = rescisoes.map(r => ({
+        ...r,
+        isRescisao: true,
+        // Adaptar campos para compatibilidade básica com a tabela de folha se necessário
+        netTotal: r.totalLiquido,
+        // Campos para evitar NaN nos cálculos de KPI
+        absenceDeduction: 0,
+        transportDeduction: 0,
+        otherDeductions: 0,
+        salaryAdvance: 0,
+        transportTotal: 0,
+        bonuses: 0,
+        grossEarnings: r.totalBruto,
+    }));
+
+    return [...payrolls, ...mappedRescisoes].sort((a, b) => 
+        a.employee.name.localeCompare(b.employee.name)
+    );
 }
+
+export async function toggleRescisaoStatus(id: string, currentStatus: string) {
+    const newStatus = currentStatus === "PAID" ? "PENDING" : "PAID";
+    await prisma.rescisao.update({
+        where: { id },
+        data: { status: newStatus }
+    });
+    revalidatePath("/folha");
+}
+
 
 export async function generatePayrollForEmployee(formData: FormData) {
     const employeeId = formData.get("employeeId") as string;
@@ -74,7 +110,7 @@ export async function generatePayrollForEmployee(formData: FormData) {
             
             const grossEarnings = teacherData.baseInss; // Aulas + DSR + Hora Ativ
             const inssDeduction = calculateProgressiveINSS(grossEarnings, inssTable2026);
-            const irrfDeduction = calculateIRRF(grossEarnings - inssDeduction);
+            const irrfDeduction = calculateIRRF(grossEarnings, inssDeduction);
             const fgtsValue = calculateFGTS(grossEarnings);
             
             salaryProportional = grossEarnings - inssDeduction - irrfDeduction;
@@ -128,7 +164,7 @@ export async function generatePayrollForEmployee(formData: FormData) {
 
             const grossEarnings = baseSalary - absenceDeduction + horaAtividade;
             const inssDeduction = calculateProgressiveINSS(grossEarnings, inssTable2026);
-            const irrfDeduction = calculateIRRF(grossEarnings - inssDeduction);
+            const irrfDeduction = calculateIRRF(grossEarnings, inssDeduction);
             const fgtsValue = calculateFGTS(grossEarnings);
             
             salaryProportional = grossEarnings - inssDeduction - irrfDeduction;
@@ -224,6 +260,16 @@ export async function deletePayroll(id: string) {
 }
 
 export async function markAsPaid(id: string) {
-    await prisma.payroll.update({ where: { id }, data: { status: "PAID" } });
+    // Tenta primeiro como Payroll
+    const payroll = await prisma.payroll.findUnique({ where: { id } });
+    if (payroll) {
+        await prisma.payroll.update({ where: { id }, data: { status: "PAID" } });
+    } else {
+        // Se não for payroll, tenta como Rescisao
+        const rescisao = await prisma.rescisao.findUnique({ where: { id } });
+        if (rescisao) {
+            await prisma.rescisao.update({ where: { id }, data: { status: "PAID" } });
+        }
+    }
     revalidatePath("/folha");
 }

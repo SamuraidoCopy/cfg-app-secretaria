@@ -168,18 +168,26 @@ export default function ImportCheckClient({
       p.employeeId === emp.id && 
       p.month === targetMonth && 
       p.year === targetYear
-    )
+    ) as any
 
     if (!payroll) {
       return { pdfItem, emp, payroll: null, status: 'NO_PAYROLL_RECORD' as const, diffInss: 0, diffGross: 0, diffFgts: 0, diffVT: 0, diffCesta: 0, diffAdvance: 0 }
     }
     
     const diffGross = Math.abs(payroll.grossEarnings - pdfItem.baseInss)
-    const diffInss = Math.abs(payroll.inssDeduction - pdfItem.inssDeduction)
-    const diffFgts = Math.abs(payroll.fgtsValue - pdfItem.fgtsValue)
+    
+    // Na rescisão, o INSS do PDF geralmente é a soma dos descontos (Saldo + 13º)
+    const systemInss = payroll.isRescisao 
+      ? (payroll.inss + payroll.inss13) 
+      : payroll.inssDeduction;
+
+    const diffInss = Math.abs(systemInss - pdfItem.inssDeduction)
+    
+    const diffFgts = Math.abs((payroll.fgtsValue || payroll.fgtsRescisorio || 0) - pdfItem.fgtsValue)
     const diffVT = Math.abs((payroll.transportTotal || 0) - pdfItem.valeTransporte)
     const diffCesta = Math.abs((emp.cestaBasica || 0) - pdfItem.cestaBasica)
     const diffAdvance = Math.abs((payroll.salaryAdvance || 0) - pdfItem.advanceDeduction)
+
     
     // Usar margem de erro de 1 real conforme solicitado
     const isApproved = diffGross <= 1 && diffInss <= 1 && diffFgts <= 1 && diffVT <= 1 && diffCesta <= 1 && diffAdvance <= 1

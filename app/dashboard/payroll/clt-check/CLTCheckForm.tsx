@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { calculateProgressiveINSS, inssTable2026, calculateFGTS, calculateTeacherComponents } from "../../../../lib/payroll-calc"
+import { calculateProgressiveINSS, inssTable2026, calculateFGTS, calculateTeacherComponents, calculateIRRF, IRRF_SIMPLIFIED_DEDUCTION } from "../../../../lib/payroll-calc"
 
 // A simplificated type for the form
 type Employee = {
@@ -65,9 +65,8 @@ export default function CLTCheckForm({ employees }: { employees: Employee[] }) {
     }
 
     const inss = calculateProgressiveINSS(baseInss, inssTable2026)
-    const baseIrrf = Number((baseInss - inss).toFixed(2))
-    // Nota: calculateIRRF já aplica a dedução simplificada de 424.00 internamente
-    const irrf = 0 // No extrato o IRRF deu 0, mas vamos calcular pra ver
+    const baseIrrf = Math.min(baseInss - inss, baseInss - IRRF_SIMPLIFIED_DEDUCTION)
+    const irrf = calculateIRRF(baseInss, inss) // calculates correct IRRF
     
     const fgts = calculateFGTS(baseInss)
     const liquido = proventos - inss - irrf
@@ -204,9 +203,13 @@ export default function CLTCheckForm({ employees }: { employees: Employee[] }) {
             <div className="flex justify-between border-b pb-2 text-purple-700">
               <div className="flex flex-col">
                 <span className="font-semibold">Base IRRF</span>
-                <span className="text-[10px] text-purple-400">Base INSS - INSS - Ded. Simplif. (424,00)</span>
+                <span className="text-[10px] text-purple-400">Menor entre (INSS - {IRRF_SIMPLIFIED_DEDUCTION.toFixed(2)}) e (INSS Legal)</span>
               </div>
               <span className="font-bold">R$ {result.baseIrrf.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between border-b pb-2 text-purple-700">
+              <span className="font-semibold">IRRF Calculado</span>
+              <span className="font-bold">R$ {result.irrf.toFixed(2)}</span>
             </div>
             <div className="flex justify-between border-b pb-2 text-green-700">
               <span className="font-semibold">FGTS Calculado (8%)</span>

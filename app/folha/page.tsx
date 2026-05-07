@@ -15,7 +15,13 @@ export default async function Page({
     const currentYear = params.year ? parseInt(params.year) : now.getFullYear();
 
     const employees = await prisma.employee.findMany({
-        where: { active: true },
+        where: { 
+            OR: [
+                { active: true },
+                { payrolls: { some: { month: currentMonth, year: currentYear } } },
+                { rescisoes: { some: { month: currentMonth, year: currentYear } } }
+            ]
+        },
         select: { 
             id: true, 
             name: true, 

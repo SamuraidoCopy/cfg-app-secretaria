@@ -28,6 +28,7 @@ type PayrollInfo = {
     status: string;
     employeeId?: string;
     employee?: EmployeeInfo;
+    isRescisao?: boolean;
 };
 
 export default function ReportClient() {
@@ -224,7 +225,14 @@ export default function ReportClient() {
                                             const deducs = p.absenceDeduction + p.transportDeduction + p.otherDeductions;
                                             return (
                                                 <tr key={p.id} className="hover:bg-wine-50/50 transition-colors group print:break-inside-avoid">
-                                                    <td className="px-4 py-5 whitespace-nowrap print:whitespace-normal font-bold text-wine-900 group-hover:text-wine-700 print:text-black print:text-[9pt]">{p.employee?.name}</td>
+                                                    <td className="px-4 py-5 whitespace-nowrap print:whitespace-normal font-bold text-wine-900 group-hover:text-wine-700 print:text-black print:text-[9pt]">
+                                                        <div className="flex items-center gap-2">
+                                                            {p.employee?.name}
+                                                            {p.isRescisao && (
+                                                                <span className="bg-amber-100 text-amber-800 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-tighter print:border print:border-amber-200">Rescisão</span>
+                                                            )}
+                                                        </div>
+                                                    </td>
                                                     <td className="px-4 py-5 whitespace-nowrap print:whitespace-normal text-wine-400 hidden sm:table-cell print:table-cell print:text-black print:text-[9pt]">{p.employee?.role}</td>
                                                     <td className="px-4 py-5 whitespace-nowrap text-right text-wine-400 font-medium print:text-black print:text-[9pt]">{formatCurrency(p.baseSalary)}</td>
                                                     <td className="px-4 py-5 whitespace-nowrap text-right text-emerald-600 font-bold print:text-[9pt]">+{formatCurrency(adds)}</td>
@@ -346,7 +354,12 @@ export default function ReportClient() {
                                             return (
                                                 <tr key={p.id} className="hover:bg-wine-50/50 transition-colors group print:break-inside-avoid">
                                                     <td className="px-4 py-5 whitespace-nowrap print:whitespace-normal font-bold text-wine-900 capitalize print:text-black print:text-[9pt]">
-                                                        {getMonthName(p.month).substring(0, 3)} / {p.year}
+                                                        <div className="flex items-center gap-2">
+                                                            {getMonthName(p.month).substring(0, 3)} / {p.year}
+                                                            {p.isRescisao && (
+                                                                <span className="bg-amber-100 text-amber-800 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-tighter print:border print:border-amber-200">Rescisão</span>
+                                                            )}
+                                                        </div>
                                                     </td>
                                                     <td className="px-4 py-5 whitespace-nowrap text-right text-wine-400 font-medium print:text-black print:text-[9pt]">{formatCurrency(p.baseSalary)}</td>
                                                     <td className="px-4 py-5 whitespace-nowrap text-right text-emerald-600 font-bold hidden sm:table-cell print:table-cell print:text-[9pt]">+{formatCurrency(adds)}</td>
