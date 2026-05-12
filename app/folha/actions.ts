@@ -110,7 +110,9 @@ export async function generatePayrollForEmployee(formData: FormData) {
             
             const grossEarnings = teacherData.baseInss; // Aulas + DSR + Hora Ativ
             const inssDeduction = calculateProgressiveINSS(grossEarnings, inssTable2026);
-            const irrfDeduction = calculateIRRF(grossEarnings, inssDeduction);
+            const irrfDeduction = calculateIRRF(grossEarnings, inssDeduction, {
+                competency: { month, year }
+            });
             const fgtsValue = calculateFGTS(grossEarnings);
             
             salaryProportional = grossEarnings - inssDeduction - irrfDeduction;
@@ -164,7 +166,9 @@ export async function generatePayrollForEmployee(formData: FormData) {
 
             const grossEarnings = baseSalary - absenceDeduction + horaAtividade;
             const inssDeduction = calculateProgressiveINSS(grossEarnings, inssTable2026);
-            const irrfDeduction = calculateIRRF(grossEarnings, inssDeduction);
+            const irrfDeduction = calculateIRRF(grossEarnings, inssDeduction, {
+                competency: { month, year }
+            });
             const fgtsValue = calculateFGTS(grossEarnings);
             
             salaryProportional = grossEarnings - inssDeduction - irrfDeduction;

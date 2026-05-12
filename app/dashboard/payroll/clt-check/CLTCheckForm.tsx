@@ -1,7 +1,15 @@
 "use client"
 
 import { useState } from "react"
-import { calculateProgressiveINSS, inssTable2026, calculateFGTS, calculateTeacherComponents, calculateIRRF, IRRF_SIMPLIFIED_DEDUCTION } from "../../../../lib/payroll-calc"
+import {
+  calculateProgressiveINSS,
+  inssTable2026,
+  calculateFGTS,
+  calculateTeacherComponents,
+  calculateIRRF,
+  calculateIRRFBase,
+  IRRF_SIMPLIFIED_DEDUCTION,
+} from "@/lib/payroll-calc"
 
 // A simplificated type for the form
 type Employee = {
@@ -15,10 +23,38 @@ type Employee = {
   isAulista: boolean
 }
 
-export default function CLTCheckForm({ employees }: { employees: Employee[] }) {
+type Competency = {
+  month: number
+  year: number
+}
+
+const months = [
+  "Janeiro",
+  "Fevereiro",
+  "Marco",
+  "Abril",
+  "Maio",
+  "Junho",
+  "Julho",
+  "Agosto",
+  "Setembro",
+  "Outubro",
+  "Novembro",
+  "Dezembro",
+]
+
+export default function CLTCheckForm({
+  employees,
+  defaultCompetency,
+}: {
+  employees: Employee[]
+  defaultCompetency: Competency
+}) {
   const [selectedEmpId, setSelectedEmpId] = useState<string>("")
   
   // Inputs fields
+  const [competencyMonth, setCompetencyMonth] = useState<number>(defaultCompetency.month)
+  const [competencyYear, setCompetencyYear] = useState<number>(defaultCompetency.year)
   const [diasTrabalhados, setDiasTrabalhados] = useState<number>(30)
   const [horasDadas, setHorasDadas] = useState<number>(0)
   const [useAutomaticTeacherCalc, setUseAutomaticTeacherCalc] = useState<boolean>(true)
@@ -65,8 +101,10 @@ export default function CLTCheckForm({ employees }: { employees: Employee[] }) {
     }
 
     const inss = calculateProgressiveINSS(baseInss, inssTable2026)
-    const baseIrrf = Math.min(baseInss - inss, baseInss - IRRF_SIMPLIFIED_DEDUCTION)
-    const irrf = calculateIRRF(baseInss, inss) // calculates correct IRRF
+    const baseIrrf = calculateIRRFBase(baseInss, inss)
+    const irrf = calculateIRRF(baseInss, inss, {
+      competency: { month: competencyMonth, year: competencyYear },
+    })
     
     const fgts = calculateFGTS(baseInss)
     const liquido = proventos - inss - irrf
@@ -106,6 +144,30 @@ export default function CLTCheckForm({ employees }: { employees: Employee[] }) {
                 <option key={emp.id} value={emp.id}>{emp.name}</option>
               ))}
             </select>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Mes</label>
+              <select
+                className="w-full border-gray-300 rounded-md shadow-sm p-2 border"
+                value={competencyMonth}
+                onChange={e => setCompetencyMonth(Number(e.target.value))}
+              >
+                {months.map((monthName, index) => (
+                  <option key={monthName} value={index + 1}>{monthName}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Ano</label>
+              <input
+                type="number"
+                className="w-full border-gray-300 rounded-md shadow-sm p-2 border"
+                value={competencyYear}
+                onChange={e => setCompetencyYear(Number(e.target.value))}
+              />
+            </div>
           </div>
 
           {selectedEmp && selectedEmp.isAulista && (
@@ -203,7 +265,7 @@ export default function CLTCheckForm({ employees }: { employees: Employee[] }) {
             <div className="flex justify-between border-b pb-2 text-purple-700">
               <div className="flex flex-col">
                 <span className="font-semibold">Base IRRF</span>
-                <span className="text-[10px] text-purple-400">Menor entre (INSS - {IRRF_SIMPLIFIED_DEDUCTION.toFixed(2)}) e (INSS Legal)</span>
+                <span className="text-[10px] text-purple-400">Menor entre base legal e desconto simplificado de R$ {IRRF_SIMPLIFIED_DEDUCTION.toFixed(2)}</span>
               </div>
               <span className="font-bold">R$ {result.baseIrrf.toFixed(2)}</span>
             </div>

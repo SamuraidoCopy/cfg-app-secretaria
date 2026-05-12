@@ -26,36 +26,106 @@ export function calculateProgressiveINSS(baseValue: number, brackets: InssBracke
   return Math.round(totalTax * 100) / 100;
 }
 
-// Tabela IRRF (Mensal) - Valores atuais
+// Tabela IRRF (Mensal) vigente a partir de 05/2025.
 export const IRRF_BRACKETS = [
-  { max: 2259.20, rate: 0, deduction: 0 },
-  { max: 2826.65, rate: 0.075, deduction: 169.44 },
-  { max: 3751.05, rate: 0.15, deduction: 381.44 },
-  { max: 4664.68, rate: 0.225, deduction: 662.77 },
-  { max: Infinity, rate: 0.275, deduction: 896.00 }
+  { max: 2428.80, rate: 0, deduction: 0 },
+  { max: 2826.65, rate: 0.075, deduction: 182.16 },
+  { max: 3751.05, rate: 0.15, deduction: 394.16 },
+  { max: 4664.68, rate: 0.225, deduction: 675.49 },
+  { max: Infinity, rate: 0.275, deduction: 908.73 }
 ];
 
-export const IRRF_SIMPLIFIED_DEDUCTION = 564.80; // Parcela de dedução simplificada (2024)
+export const IRRF_SIMPLIFIED_DEDUCTION = 607.20;
+export const IRRF_DEPENDENT_DEDUCTION = 189.59;
+export const IRRF_2026_EXEMPTION_LIMIT = 5000.00;
+export const IRRF_2026_REDUCTION_LIMIT = 7350.00;
+export const IRRF_2026_REDUCTION_FIXED = 978.62;
+export const IRRF_2026_REDUCTION_FACTOR = 0.133145;
 
-export function calculateIRRF(grossEarnings: number, inssDeduction: number, dependents: number = 0): number {
+export interface PayrollCompetency {
+  month: number;
+  year: number;
+}
+
+export interface IRRFCalculationOptions {
+  dependents?: number;
+  competency?: PayrollCompetency;
+}
+
+function roundCurrency(value: number): number {
+  return Number(value.toFixed(2));
+}
+
+function normalizeIRRFOptions(
+  dependentsOrOptions: number | IRRFCalculationOptions = 0,
+  competency?: PayrollCompetency
+): Required<IRRFCalculationOptions> {
+  if (typeof dependentsOrOptions === "number") {
+    return {
+      dependents: dependentsOrOptions,
+      competency: competency ?? { month: 0, year: 0 }
+    };
+  }
+
+  return {
+    dependents: dependentsOrOptions.dependents ?? 0,
+    competency: dependentsOrOptions.competency ?? { month: 0, year: 0 }
+  };
+}
+
+export function isIRRF2026ReductionEffective(competency?: PayrollCompetency): boolean {
+  if (!competency) return false;
+  const hasValidMonth = Number.isInteger(competency.month) && competency.month >= 1 && competency.month <= 12;
+  return hasValidMonth && competency.year >= 2026;
+}
+
+export function calculateIRRFBase(grossEarnings: number, inssDeduction: number, dependents: number = 0): number {
   if (grossEarnings <= 0) return 0;
-  
-  // A base do IRRF: O contribuinte pode optar pela dedução legal (INSS + Dependentes) 
-  // ou pelo desconto simplificado (564,80 em 2024), o que for mais vantajoso (ou seja, resultar em menor base).
-  const dependentDeduction = dependents * 189.59;
+
+  const dependentDeduction = dependents * IRRF_DEPENDENT_DEDUCTION;
   const legalBase = grossEarnings - inssDeduction - dependentDeduction;
   const simplifiedBase = grossEarnings - IRRF_SIMPLIFIED_DEDUCTION;
-  
-  const baseCalculo = Math.max(0, Math.min(legalBase, simplifiedBase));
-  
+
+  return roundCurrency(Math.max(0, Math.min(legalBase, simplifiedBase)));
+}
+
+export function calculateProgressiveIRRF(baseCalculo: number): number {
+  if (baseCalculo <= 0) return 0;
+
   for (const bracket of IRRF_BRACKETS) {
     if (baseCalculo <= bracket.max) {
-      if (bracket.rate === 0) return 0;
       const tax = (baseCalculo * bracket.rate) - bracket.deduction;
-      return Number(Math.max(0, tax).toFixed(2));
+      return roundCurrency(Math.max(0, tax));
     }
   }
+
   return 0;
+}
+
+export function calculateIRRF(
+  grossEarnings: number,
+  inssDeduction: number,
+  dependentsOrOptions: number | IRRFCalculationOptions = 0,
+  competency?: PayrollCompetency
+): number {
+  if (grossEarnings <= 0) return 0;
+
+  const options = normalizeIRRFOptions(dependentsOrOptions, competency);
+  const baseCalculo = calculateIRRFBase(grossEarnings, inssDeduction, options.dependents);
+  const progressiveTax = calculateProgressiveIRRF(baseCalculo);
+
+  if (!isIRRF2026ReductionEffective(options.competency)) {
+    return progressiveTax;
+  }
+
+  if (grossEarnings <= IRRF_2026_EXEMPTION_LIMIT) return 0;
+
+  if (grossEarnings <= IRRF_2026_REDUCTION_LIMIT) {
+    const additionalReduction = IRRF_2026_REDUCTION_FIXED - (IRRF_2026_REDUCTION_FACTOR * grossEarnings);
+    return roundCurrency(Math.max(0, progressiveTax - additionalReduction));
+  }
+
+  return progressiveTax;
 }
 
 export function calculateFGTS(baseFgts: number): number {
@@ -63,15 +133,15 @@ export function calculateFGTS(baseFgts: number): number {
 }
 
 /**
- * Lógica específica para Professores Aulistas (CLT):
- * 1. DSR: 1/6 (16.67%) do salário base (aulas)
- * 2. Hora Atividade: 5% do salário base (aulas)
+ * Logica especifica para Professores Aulistas (CLT):
+ * 1. DSR: 1/6 (16.67%) do salario base (aulas)
+ * 2. Hora Atividade: 5% do salario base (aulas)
  */
 export function calculateTeacherComponents(baseAulas: number) {
   const dsr = Number((baseAulas * (1 / 6)).toFixed(2));
   const horaAtividade = Number((baseAulas * 0.05).toFixed(2));
   const baseInss = Number((baseAulas + dsr + horaAtividade).toFixed(2));
-  
+
   return {
     dsr,
     horaAtividade,

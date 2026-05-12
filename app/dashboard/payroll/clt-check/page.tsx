@@ -4,6 +4,7 @@ import CLTCheckForm from "./CLTCheckForm"
 export const dynamic = 'force-dynamic'
 
 export default async function CLTCheckPage() {
+  const today = new Date()
   const employees = await prisma.employee.findMany({
     where: {
       active: true,
@@ -20,7 +21,10 @@ export default async function CLTCheckPage() {
         Use esta ferramenta para fazer o double-check dos valores enviados pela contabilidade.
       </p>
       
-      <CLTCheckForm employees={employees} />
+      <CLTCheckForm
+        employees={employees}
+        defaultCompetency={{ month: today.getMonth() + 1, year: today.getFullYear() }}
+      />
     </div>
   )
 }
