@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getEmployeesList, getMonthlyReport, getCollaboratorReport } from "./actions";
+import { getEmployeesList, getMonthlyReport, getCollaboratorReport, getEmployeeRegistrationReport } from "./actions";
 
 // Define some typings based on our Prisma schema output
 type EmployeeInfo = {
@@ -31,8 +31,67 @@ type PayrollInfo = {
     isRescisao?: boolean;
 };
 
+type CollaboratorInfo = {
+    name: string;
+    role: string;
+    cpf: string;
+} | null;
+
+type TeachingAssignmentInfo = {
+    id: string;
+    weekday: number;
+    weekdayLabel: string;
+    subjectName: string;
+    classGroup: string | null;
+    lessonStart: number | null;
+    lessonEnd: number | null;
+    fullDay: boolean;
+    hours: number;
+};
+
+type SalaryAdjustmentInfo = {
+    id: string;
+    effectiveDate: string;
+    previousSalary: number;
+    newSalary: number;
+    adjustmentValue: number;
+    notes: string | null;
+};
+
+type RegistrationEmployeeInfo = {
+    id: string;
+    name: string;
+    cpf: string;
+    type: string;
+    role: string;
+    baseSalary: number;
+    profilePhotoUrl: string | null;
+    startDate: string | null;
+    eatsAtSchool: boolean;
+    transportDaily: number | null;
+    gasAssistance: number | null;
+    pixKey: string | null;
+    paymentMethod: string;
+    bankName: string | null;
+    accountType: string | null;
+    agency: string | null;
+    accountNumber: string | null;
+    recurringDeductions: number;
+    temporaryDeductions: number;
+    temporaryDeductionsDesc: string | null;
+    temporaryDeductionsExpiration: string | null;
+    hourlyRate: number | null;
+    cestaBasica: number | null;
+    isAulista: boolean;
+    salaryAdvance: number;
+    active: boolean;
+    subjects: string[];
+    teachingAssignments: TeachingAssignmentInfo[];
+    salaryAdjustments: SalaryAdjustmentInfo[];
+};
+
 export default function ReportClient() {
-    const [activeTab, setActiveTab] = useState<"MONTHLY" | "COLLABORATOR">("MONTHLY");
+    const [activeTab, setActiveTab] = useState<"MONTHLY" | "COLLABORATOR" | "REGISTRATION">("MONTHLY");
 
     // Filter states for MONTHLY
     const currentDate = new Date();
@@ -51,9 +110,11 @@ export default function ReportClient() {
 
     const [collaboratorData, setCollaboratorData] = useState<{
         payrolls: PayrollInfo[],
-        employee: any,
+        employee: CollaboratorInfo,
         totals: { totalReceived: number }
     } | null>(null);
+
+    const [registrationData, setRegistrationData] = useState<RegistrationEmployeeInfo[]>([]);
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -92,6 +153,18 @@ export default function ReportClient() {
         }
     }, [activeTab, selectedEmployeeId]);
 
+    useEffect(() => {
+        async function loadRegistration() {
+            setIsLoading(true);
+            const res = await getEmployeeRegistrationReport();
+            setRegistrationData(res);
+            setIsLoading(false);
+        }
+        if (activeTab === "REGISTRATION") {
+            loadRegistration();
+        }
+    }, [activeTab]);
+
 
     const handlePrint = () => {
         window.print();
@@ -103,6 +176,27 @@ export default function ReportClient() {
 
     const formatCurrency = (val: number) => {
         return val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    };
+
+    const formatDate = (value: string | null) => {
+        if (!value) return "Não informado";
+        return new Date(value).toLocaleDateString("pt-BR", { timeZone: "UTC" });
+    };
+
+    const formatValue = (value: string | number | null | undefined) => {
+        if (value === null || value === undefined || value === "") return "Não informado";
+        return String(value);
+    };
+
+    const formatBool = (value: boolean) => value ? "Sim" : "Não";
+
+    const formatLessonRange = (assignment: TeachingAssignmentInfo) => {
+        if (assignment.fullDay) return "Dia todo";
+        if (assignment.lessonStart && assignment.lessonEnd && assignment.lessonStart !== assignment.lessonEnd) {
+            return `Aulas ${assignment.lessonStart}-${assignment.lessonEnd}`;
+        }
+        if (assignment.lessonStart) return `Aula ${assignment.lessonStart}`;
+        return "Não informado";
     };
 
     return (
@@ -127,6 +221,12 @@ export default function ReportClient() {
                         onClick={() => setActiveTab("COLLABORATOR")}
                     >
                         Por Colaborador
+                    </button>
+                    <button
+                        className={`py-2.5 px-6 rounded-xl transition-all duration-300 font-semibold text-sm ${activeTab === "REGISTRATION" ? "bg-white text-wine-800 shadow-premium" : "text-wine-400 hover:text-wine-600"}`}
+                        onClick={() => setActiveTab("REGISTRATION")}
+                    >
+                        Cadastro de Funcionários
                     </button>
                 </div>
             </div>
@@ -383,6 +483,224 @@ export default function ReportClient() {
                         <div className="mt-16 text-center text-[10px] font-black uppercase tracking-widest text-wine-300 print:hidden italic">
                             Este documento é um extrato informativo extraído do sistema de gestão escolar.
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {activeTab === "REGISTRATION" && (
+                <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 print:hidden glass-card p-6 md:p-8">
+                        <div>
+                            <h2 className="text-2xl font-display font-black text-wine-900 tracking-tight">Relatório Cadastral</h2>
+                            <p className="text-wine-400 font-medium mt-1">
+                                {registrationData.length} funcionário{registrationData.length === 1 ? "" : "s"} ativo{registrationData.length === 1 ? "" : "s"} no cadastro atual.
+                            </p>
+                        </div>
+                        <button
+                            onClick={handlePrint}
+                            disabled={registrationData.length === 0}
+                            className="w-full md:w-auto mt-6 md:mt-0 bg-wine-800 text-cream-50 px-8 py-4 rounded-xl shadow-premium hover:shadow-premium-hover hover:bg-wine-900 hover:-translate-y-0.5 transition-all duration-300 font-bold flex items-center justify-center gap-2 disabled:opacity-50 disabled:translate-y-0"
+                        >
+                            Imprimir Relatório
+                        </button>
+                    </div>
+
+                    <div className="bg-white shadow-premium rounded-[32px] overflow-hidden border border-wine-100/50 p-8 md:p-12 print:shadow-none print:border-none print:p-0 print:overflow-visible">
+                        <div className="hidden print:flex justify-between items-center mb-10 border-b-2 border-wine-900 pb-8 w-full">
+                            <div className="flex items-center gap-4">
+                                <img src="/logo.jpg" alt="Logo Colégio Frei Galvão" className="h-16 w-auto object-contain" />
+                                <div className="text-left">
+                                    <h2 className="text-2xl font-display font-black text-wine-900 uppercase tracking-tight leading-none">
+                                        Colégio Frei Galvão
+                                    </h2>
+                                    <p className="text-wine-600 font-medium text-[10px] uppercase tracking-widest mt-1">Gestão de Folha de Pagamento</p>
+                                </div>
+                            </div>
+                            <div className="text-right">
+                                <h3 className="text-sm font-black uppercase tracking-widest text-wine-900">Relatório Cadastral</h3>
+                                <p className="text-wine-600 font-medium text-xs mt-1">Funcionários ativos</p>
+                            </div>
+                        </div>
+
+                        <div className="flex justify-between items-baseline mb-8 border-b border-wine-100 pb-4 print:border-wine-900">
+                            <h3 className="text-2xl font-display font-bold text-wine-800 print:text-black">
+                                Cadastro de Funcionários
+                            </h3>
+                            <div className="text-right print:hidden">
+                                <span className="text-xs font-black uppercase tracking-widest text-wine-400 mb-1 block">Data da Emissão</span>
+                                <span className="text-wine-800 font-medium">{new Date().toLocaleDateString('pt-BR')}</span>
+                            </div>
+                        </div>
+
+                        {isLoading ? (
+                            <div className="py-20 flex justify-center flex-col items-center gap-4">
+                                <div className="w-10 h-10 border-4 border-wine-100 border-t-wine-600 rounded-full animate-spin"></div>
+                                <p className="text-wine-400 font-medium italic">Organizando cadastro...</p>
+                            </div>
+                        ) : registrationData.length === 0 ? (
+                            <div className="py-20 text-center glass-card">
+                                <p className="text-wine-300 italic text-lg">Nenhum funcionário ativo encontrado.</p>
+                            </div>
+                        ) : (
+                            <div className="space-y-8 print:space-y-6">
+                                {registrationData.map((employee) => (
+                                    <section key={employee.id} className="border border-wine-100 rounded-2xl p-6 print:border-black print:rounded-none print:p-0 print:pb-6 print:break-inside-avoid">
+                                        <div className="flex flex-col md:flex-row md:items-start gap-5 pb-5 border-b border-wine-100 print:border-black">
+                                            {employee.profilePhotoUrl ? (
+                                                <img
+                                                    src={employee.profilePhotoUrl}
+                                                    alt={`Foto de ${employee.name}`}
+                                                    className="w-20 h-20 rounded-xl object-cover border border-wine-100 print:w-16 print:h-16 print:rounded-none print:border-black"
+                                                />
+                                            ) : (
+                                                <div className="w-20 h-20 rounded-xl bg-wine-50 border border-wine-100 flex items-center justify-center text-wine-300 font-black text-xl print:hidden">
+                                                    {employee.name.slice(0, 1).toUpperCase()}
+                                                </div>
+                                            )}
+                                            <div className="flex-1">
+                                                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                                                    <div>
+                                                        <h4 className="text-2xl font-display font-black text-wine-900 print:text-black print:text-[16pt]">{employee.name}</h4>
+                                                        <div className="flex flex-wrap gap-2 mt-2">
+                                                            <span className="px-3 py-1 bg-wine-100 text-wine-700 text-[10px] font-black uppercase tracking-widest rounded-full print:bg-transparent print:border print:border-black print:text-black">
+                                                                {employee.type}
+                                                            </span>
+                                                            <span className="px-3 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase tracking-widest rounded-full print:bg-transparent print:border print:border-black print:text-black">
+                                                                {employee.active ? "Ativo" : "Inativo"}
+                                                            </span>
+                                                            {employee.isAulista && (
+                                                                <span className="px-3 py-1 bg-amber-50 text-amber-700 text-[10px] font-black uppercase tracking-widest rounded-full print:bg-transparent print:border print:border-black print:text-black">
+                                                                    Aulista
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                    <div className="text-sm text-wine-500 md:text-right print:text-black">
+                                                        <p><strong>CPF:</strong> {employee.cpf}</p>
+                                                        <p><strong>Cargo:</strong> {employee.role}</p>
+                                                        <p><strong>Início:</strong> {formatDate(employee.startDate)}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-4 mt-5 print:grid-cols-2 print:gap-3">
+                                            <div className="rounded-xl bg-wine-50/60 p-4 print:bg-transparent print:border print:border-gray-300 print:rounded-none">
+                                                <h5 className="text-[10px] font-black uppercase tracking-widest text-wine-400 mb-3 print:text-black">Remuneração</h5>
+                                                <dl className="space-y-2 text-sm">
+                                                    <div className="flex justify-between gap-3"><dt className="text-wine-400">Salário base</dt><dd className="font-bold text-wine-900 text-right">{formatCurrency(employee.baseSalary)}</dd></div>
+                                                    <div className="flex justify-between gap-3"><dt className="text-wine-400">Valor hora</dt><dd className="font-bold text-wine-900 text-right">{employee.hourlyRate === null ? "Não informado" : formatCurrency(employee.hourlyRate)}</dd></div>
+                                                    <div className="flex justify-between gap-3"><dt className="text-wine-400">Cesta básica</dt><dd className="font-bold text-wine-900 text-right">{employee.cestaBasica === null ? "Não informado" : formatCurrency(employee.cestaBasica)}</dd></div>
+                                                    <div className="flex justify-between gap-3"><dt className="text-wine-400">Adiantamento</dt><dd className="font-bold text-wine-900 text-right">{formatCurrency(employee.salaryAdvance)}</dd></div>
+                                                </dl>
+                                            </div>
+
+                                            <div className="rounded-xl bg-wine-50/60 p-4 print:bg-transparent print:border print:border-gray-300 print:rounded-none">
+                                                <h5 className="text-[10px] font-black uppercase tracking-widest text-wine-400 mb-3 print:text-black">Descontos</h5>
+                                                <dl className="space-y-2 text-sm">
+                                                    <div className="flex justify-between gap-3"><dt className="text-wine-400">Recorrentes</dt><dd className="font-bold text-wine-900 text-right">{formatCurrency(employee.recurringDeductions)}</dd></div>
+                                                    <div className="flex justify-between gap-3"><dt className="text-wine-400">Temporários</dt><dd className="font-bold text-wine-900 text-right">{formatCurrency(employee.temporaryDeductions)}</dd></div>
+                                                    <div><dt className="text-wine-400">Descrição</dt><dd className="font-bold text-wine-900">{formatValue(employee.temporaryDeductionsDesc)}</dd></div>
+                                                    <div><dt className="text-wine-400">Validade</dt><dd className="font-bold text-wine-900">{formatValue(employee.temporaryDeductionsExpiration)}</dd></div>
+                                                </dl>
+                                            </div>
+
+                                            <div className="rounded-xl bg-wine-50/60 p-4 print:bg-transparent print:border print:border-gray-300 print:rounded-none">
+                                                <h5 className="text-[10px] font-black uppercase tracking-widest text-wine-400 mb-3 print:text-black">Benefícios</h5>
+                                                <dl className="space-y-2 text-sm">
+                                                    <div className="flex justify-between gap-3"><dt className="text-wine-400">VT diário</dt><dd className="font-bold text-wine-900 text-right">{employee.transportDaily === null ? "Não informado" : formatCurrency(employee.transportDaily)}</dd></div>
+                                                    <div className="flex justify-between gap-3"><dt className="text-wine-400">Auxílio gasolina</dt><dd className="font-bold text-wine-900 text-right">{employee.gasAssistance === null ? "Não informado" : formatCurrency(employee.gasAssistance)}</dd></div>
+                                                    <div className="flex justify-between gap-3"><dt className="text-wine-400">Almoça no colégio</dt><dd className="font-bold text-wine-900 text-right">{formatBool(employee.eatsAtSchool)}</dd></div>
+                                                </dl>
+                                            </div>
+
+                                            <div className="rounded-xl bg-wine-50/60 p-4 print:bg-transparent print:border print:border-gray-300 print:rounded-none">
+                                                <h5 className="text-[10px] font-black uppercase tracking-widest text-wine-400 mb-3 print:text-black">Pagamento</h5>
+                                                <dl className="space-y-2 text-sm">
+                                                    <div className="flex justify-between gap-3"><dt className="text-wine-400">Método</dt><dd className="font-bold text-wine-900 text-right">{employee.paymentMethod}</dd></div>
+                                                    <div><dt className="text-wine-400">Pix</dt><dd className="font-bold text-wine-900 break-all">{formatValue(employee.pixKey)}</dd></div>
+                                                    <div><dt className="text-wine-400">Banco</dt><dd className="font-bold text-wine-900">{formatValue(employee.bankName)}</dd></div>
+                                                    <div><dt className="text-wine-400">Conta</dt><dd className="font-bold text-wine-900">{[employee.accountType, employee.agency, employee.accountNumber].filter(Boolean).join(" / ") || "Não informado"}</dd></div>
+                                                </dl>
+                                            </div>
+                                        </div>
+
+                                        <div className="grid lg:grid-cols-3 gap-5 mt-5 print:grid-cols-1">
+                                            <div className="lg:col-span-1">
+                                                <h5 className="text-[10px] font-black uppercase tracking-widest text-wine-400 mb-3 print:text-black">Matérias Possíveis</h5>
+                                                <p className="text-sm font-bold text-wine-900 print:text-black">
+                                                    {employee.subjects.length ? employee.subjects.join(", ") : "Não informado"}
+                                                </p>
+                                            </div>
+
+                                            <div className="lg:col-span-2">
+                                                <h5 className="text-[10px] font-black uppercase tracking-widest text-wine-400 mb-3 print:text-black">Grade Atual</h5>
+                                                {employee.teachingAssignments.length ? (
+                                                    <div className="overflow-x-auto print:overflow-visible">
+                                                        <table className="min-w-full text-xs print:table-auto">
+                                                            <thead>
+                                                                <tr className="border-b border-wine-100 print:border-black">
+                                                                    <th className="py-2 pr-3 text-left font-black uppercase text-wine-400 print:text-black">Dia</th>
+                                                                    <th className="py-2 pr-3 text-left font-black uppercase text-wine-400 print:text-black">Turma</th>
+                                                                    <th className="py-2 pr-3 text-left font-black uppercase text-wine-400 print:text-black">Matéria</th>
+                                                                    <th className="py-2 pr-3 text-left font-black uppercase text-wine-400 print:text-black">Aulas</th>
+                                                                    <th className="py-2 text-right font-black uppercase text-wine-400 print:text-black">Horas</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {employee.teachingAssignments.map((assignment) => (
+                                                                    <tr key={assignment.id} className="border-b border-wine-50 print:border-gray-200">
+                                                                        <td className="py-2 pr-3 font-bold text-wine-900">{assignment.weekdayLabel}</td>
+                                                                        <td className="py-2 pr-3 text-wine-600">{formatValue(assignment.classGroup)}</td>
+                                                                        <td className="py-2 pr-3 text-wine-600">{assignment.subjectName}</td>
+                                                                        <td className="py-2 pr-3 text-wine-600">{formatLessonRange(assignment)}</td>
+                                                                        <td className="py-2 text-right font-bold text-wine-900">{assignment.hours.toLocaleString("pt-BR")}h</td>
+                                                                    </tr>
+                                                                ))}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                ) : (
+                                                    <p className="text-sm font-bold text-wine-900 print:text-black">Não informado</p>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-5">
+                                            <h5 className="text-[10px] font-black uppercase tracking-widest text-wine-400 mb-3 print:text-black">Histórico de Reajustes</h5>
+                                            {employee.salaryAdjustments.length ? (
+                                                <div className="overflow-x-auto print:overflow-visible">
+                                                    <table className="min-w-full text-xs print:table-auto">
+                                                        <thead>
+                                                            <tr className="border-b border-wine-100 print:border-black">
+                                                                <th className="py-2 pr-3 text-left font-black uppercase text-wine-400 print:text-black">Data</th>
+                                                                <th className="py-2 pr-3 text-right font-black uppercase text-wine-400 print:text-black">Anterior</th>
+                                                                <th className="py-2 pr-3 text-right font-black uppercase text-wine-400 print:text-black">Novo</th>
+                                                                <th className="py-2 pr-3 text-right font-black uppercase text-wine-400 print:text-black">Diferença</th>
+                                                                <th className="py-2 text-left font-black uppercase text-wine-400 print:text-black">Observação</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {employee.salaryAdjustments.map((adjustment) => (
+                                                                <tr key={adjustment.id} className="border-b border-wine-50 print:border-gray-200">
+                                                                    <td className="py-2 pr-3 font-bold text-wine-900">{formatDate(adjustment.effectiveDate)}</td>
+                                                                    <td className="py-2 pr-3 text-right text-wine-600">{formatCurrency(adjustment.previousSalary)}</td>
+                                                                    <td className="py-2 pr-3 text-right text-wine-600">{formatCurrency(adjustment.newSalary)}</td>
+                                                                    <td className="py-2 pr-3 text-right font-bold text-wine-900">{formatCurrency(adjustment.adjustmentValue)}</td>
+                                                                    <td className="py-2 text-wine-600">{formatValue(adjustment.notes)}</td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            ) : (
+                                                <p className="text-sm font-bold text-wine-900 print:text-black">Não informado</p>
+                                            )}
+                                        </div>
+                                    </section>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

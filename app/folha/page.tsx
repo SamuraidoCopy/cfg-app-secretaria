@@ -35,7 +35,22 @@ export default async function Page({
             temporaryDeductionsExpiration: true,
             isAulista: true,
             hourlyRate: true,
-            salaryAdvance: true
+            salaryAdvance: true,
+            teachingAssignments: {
+                where: { active: true },
+                select: {
+                    weekday: true,
+                    hours: true,
+                    startTime: true,
+                    endTime: true,
+                    classGroup: true,
+                    lessonStart: true,
+                    lessonEnd: true,
+                    fullDay: true,
+                    subject: { select: { name: true } }
+                },
+                orderBy: [{ weekday: "asc" }, { startTime: "asc" }]
+            }
         }
     });
 

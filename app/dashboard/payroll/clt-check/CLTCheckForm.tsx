@@ -179,7 +179,7 @@ export default function CLTCheckForm({
                   checked={useAutomaticTeacherCalc} 
                   onChange={e => setUseAutomaticTeacherCalc(e.target.checked)}
                 />
-                <label htmlFor="autoCalc" className="text-xs font-medium text-amber-800">Cálculo Automático (DSR 1/6 + Ativ. 5%)</label>
+                <label htmlFor="autoCalc" className="text-xs font-medium text-amber-800">Cálculo Automático (DSR 16,67% + Ativ. 5%)</label>
               </div>
 
               <div>
@@ -249,7 +249,7 @@ export default function CLTCheckForm({
                     <span>R$ {(horasDadas * (selectedEmp?.hourlyRate || 0)).toFixed(2)}</span>
                  </div>
                  <div className="flex justify-between">
-                    <span>DSR ({useAutomaticTeacherCalc ? "1/6" : "Manual"}):</span>
+                    <span>DSR ({useAutomaticTeacherCalc ? "16,67%" : "Manual"}):</span>
                     <span>R$ {result.dsr.toFixed(2)}</span>
                  </div>
                  <div className="flex justify-between">

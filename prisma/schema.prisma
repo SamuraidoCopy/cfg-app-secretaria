@@ -1,16 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../lib/generated/client"
 }
 
 datasource db {
-  provider  = "postgresql"
+  provider = "postgresql"
 }
 
 model User {
@@ -24,85 +18,144 @@ model User {
 }
 
 model Employee {
-  id             String    @id @default(uuid())
-  name           String
-  cpf            String    @unique
-  type           String    // "PJ" or "CLT"
-  role           String    
-  baseSalary     Float     // Salário base
-  transportDaily Float?    // Valor diário do VT (geralmente usado pro PJ)
-  gasAssistance  Float?    // Ajuda de Custo (Gasolina) Fixo por mês
-  pixKey         String?   // Chave Pix do colaborador
-  paymentMethod  String    @default("PIX") // PIX or TRANSFER
-  bankName       String?   // Ex: Nubank, Itaú
-  accountType    String?   // Corrente, Poupança, Salário
-  agency         String?   // Agência
-  accountNumber  String?   // Número da conta
-  recurringDeductions Float @default(0) // Descontos perenes/fixos (ex: Plano de saúde)
-  temporaryDeductions Float @default(0) // Descontos por período determinado (ex: Adiantamento)
-  temporaryDeductionsDesc String?       // Descrição do desconto temporário (ex: "Adiantamento 1/3")
-  temporaryDeductionsExpiration String? // Mês de expiração no formato "YYYY-MM"
-  hourlyRate     Float?    // Para horistas/aulistas
-  cestaBasica    Float?    // Valor do benefício de cesta básica
-  isAulista      Boolean   @default(false)
-  salaryAdvance  Float     @default(0) // Valor fixo de adiantamento salarial (pago todo dia 20)
-  active         Boolean   @default(true)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  
-  payrolls       Payroll[]
-  advances       PayrollAdvance[]
-  rescisoes      Rescisao[]
+  id                            String   @id @default(uuid())
+  name                          String
+  cpf                           String   @unique
+  type                          String   // PJ, CLT or VOLUNTARIO
+  role                          String
+  baseSalary                    Float
+  profilePhotoUrl               String?
+  startDate                     DateTime?
+  eatsAtSchool                  Boolean  @default(false)
+  transportDaily                Float?
+  gasAssistance                 Float?
+  pixKey                        String?
+  paymentMethod                 String   @default("PIX") // PIX or TRANSFER
+  bankName                      String?
+  accountType                   String?
+  agency                        String?
+  accountNumber                 String?
+  recurringDeductions           Float    @default(0)
+  temporaryDeductions           Float    @default(0)
+  temporaryDeductionsDesc       String?
+  temporaryDeductionsExpiration String?
+  hourlyRate                    Float?
+  cestaBasica                   Float?
+  isAulista                     Boolean  @default(false)
+  salaryAdvance                 Float    @default(0)
+  active                        Boolean  @default(true)
+  createdAt                     DateTime @default(now())
+  updatedAt                     DateTime @updatedAt
+
+  payrolls            Payroll[]
+  advances            PayrollAdvance[]
+  rescisoes           Rescisao[]
+  employeeSubjects    EmployeeSubject[]
+  teachingAssignments TeachingAssignment[]
+  salaryAdjustments   SalaryAdjustment[]
+}
+
+model Subject {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  employeeSubjects    EmployeeSubject[]
+  teachingAssignments TeachingAssignment[]
+}
+
+model EmployeeSubject {
+  id         String   @id @default(uuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  subjectId  String
+  subject    Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([employeeId, subjectId])
+}
+
+model TeachingAssignment {
+  id         String   @id @default(uuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  subjectId  String
+  subject    Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  weekday    Int      // 1=segunda, 7=domingo
+  startTime  String
+  endTime    String
+  classGroup String?
+  lessonStart Int?
+  lessonEnd   Int?
+  fullDay    Boolean  @default(false)
+  hours      Float
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model SalaryAdjustment {
+  id              String   @id @default(uuid())
+  employeeId      String
+  employee        Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  effectiveDate   DateTime
+  previousSalary  Float
+  newSalary       Float
+  adjustmentValue Float
+  notes           String?
+  createdAt       DateTime @default(now())
+
+  @@index([employeeId, effectiveDate])
 }
 
 model Payroll {
-  id             String    @id @default(uuid())
-  employeeId     String
-  employee       Employee  @relation(fields: [employeeId], references: [id])
-  
-  month          Int       // 1 a 12
-  year           Int       // Ex: 2026
-  
-  // Detalhes do cálculo
-  baseSalary     Float
-  workingDays    Int?      // Dias úteis no mês (para folha base se necessário) ou VT
-  transportTotal Float?    // (workingDays - absencesVT) * transportDaily
-  absences       Int       @default(0) // Faltas (Salário Mês fechado)
-  absenceDeduction Float   @default(0) // Desconto por faltas: (baseSalary/30) * absences
-  absencesVT     Int       @default(0) // Faltas (Período VT 08 a 07)
-  transportDeduction Float @default(0) // Desconto de VT: absencesVT * transportDaily
-  otherDeductions Float    @default(0) // Outros descontos gerais
-  bonuses        Float     @default(0) // Acréscimos
-  grossEarnings  Float     @default(0) // Total de Proventos (para CLT)
-  inssDeduction  Float     @default(0) // Valor descontado de INSS (para CLT)
-  irrfDeduction  Float     @default(0) // Valor descontado de IRRF (para CLT)
-  fgtsValue      Float     @default(0) // Valor depositado de FGTS (para CLT)
-  salaryAdvance  Float     @default(0) // Adiantamento salarial (para CLT)
-  hoursAulista   Float?    // Horas aula registradas para professores
-  
-  netTotal       Float     // Total Líquido
-  status         String    @default("PENDING") // PENDING, PAID
-  
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id         String   @id @default(uuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id])
+
+  month Int // 1 a 12
+  year  Int // Ex: 2026
+
+  baseSalary         Float
+  workingDays        Int?
+  transportTotal     Float?
+  absences           Int   @default(0)
+  absenceDeduction   Float @default(0)
+  absencesVT         Int   @default(0)
+  transportDeduction Float @default(0)
+  otherDeductions    Float @default(0)
+  bonuses            Float @default(0)
+  grossEarnings      Float @default(0)
+  inssDeduction      Float @default(0)
+  irrfDeduction      Float @default(0)
+  fgtsValue          Float @default(0)
+  salaryAdvance      Float @default(0)
+  hoursAulista       Float?
+
+  netTotal Float
+  status   String @default("PENDING") // PENDING, PAID
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([employeeId, month, year])
 }
 
 model PayrollAdvance {
-  id          String   @id @default(uuid())
-  employeeId  String
-  employee    Employee @relation(fields: [employeeId], references: [id])
+  id         String   @id @default(uuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id])
 
-  month       Int      // 1-12
-  year        Int      // Ex: 2026
-  amount      Float    // Valor do adiantamento
+  month  Int
+  year   Int
+  amount Float
 
-  status      String   @default("PENDING") // PENDING | PAID
-  paidAt      DateTime?
+  status String    @default("PENDING") // PENDING | PAID
+  paidAt DateTime?
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([employeeId, month, year])
 }
@@ -110,70 +163,65 @@ model PayrollAdvance {
 model FinancialTransaction {
   id          String   @id @default(uuid())
   title       String
-  type        String   // "INCOME" (Receita), "EXPENSE" (Despesa)
+  type        String   // INCOME or EXPENSE
   amount      Float
-  category    String   // Ex: "MENSALIDADE", "MATERIAL", "FOLHA"
+  category    String
   date        DateTime
   status      String   @default("PAID") // PENDING, PAID
   description String?
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Contract {
-  id          String   @id @default(uuid())
-  clientName  String
-  document    String   // CPF/CNPJ
-  title       String
-  content     String   // O conteúdo do contrato ou template preenchido
-  status      String   @default("DRAFT") // DRAFT, ACTIVE, EXPIRED
-  startDate   DateTime
-  endDate     DateTime?
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id         String    @id @default(uuid())
+  clientName String
+  document   String
+  title      String
+  content    String
+  status     String    @default("DRAFT") // DRAFT, ACTIVE, EXPIRED
+  startDate  DateTime
+  endDate    DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Rescisao {
-  id                   String   @id @default(uuid())
-  employeeId           String
-  employee             Employee @relation(fields: [employeeId], references: [id])
+  id         String   @id @default(uuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id])
 
-  month                Int      // Mês da rescisão (1-12)
-  year                 Int      // Ano da rescisão
-  
-  // Dados do desligamento
-  tipoRescisao         String   // SEM_JUSTA_CAUSA | COM_JUSTA_CAUSA | PEDIDO_DEMISSAO | ACORDO_COMUM
-  dataAdmissao         DateTime
-  dataDemissao         DateTime
-  avisoPrevio          String   // TRABALHADO | INDENIZADO | DISPENSADO
-  
-  // Verbas calculadas
-  saldoSalario         Float    @default(0)
-  decimoTerceiroProp   Float    @default(0)
-  decimoTerceiroInd    Float    @default(0)
-  feriasProp           Float    @default(0)
-  feriasInd            Float    @default(0)
-  tercoFeriasProp      Float    @default(0)
-  tercoFeriasInd       Float    @default(0)
-  feriasVencidas       Float    @default(0)
-  avisoPrevioIndeniz   Float    @default(0)
-  fgtsRescisorio       Float    @default(0)
-  multaFgts            Float    @default(0)
-  inss                 Float    @default(0)
-  inss13               Float    @default(0)
-  irrf                 Float    @default(0)
-  
-  // Total
-  totalBruto           Float    @default(0)
-  totalLiquido         Float    @default(0)
-  status               String   @default("PENDING") // PENDING | PAID
-  
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
+  month Int
+  year  Int
 
+  tipoRescisao String
+  dataAdmissao DateTime
+  dataDemissao DateTime
+  avisoPrevio  String
+
+  saldoSalario       Float @default(0)
+  decimoTerceiroProp Float @default(0)
+  decimoTerceiroInd  Float @default(0)
+  feriasProp         Float @default(0)
+  feriasInd          Float @default(0)
+  tercoFeriasProp    Float @default(0)
+  tercoFeriasInd     Float @default(0)
+  feriasVencidas     Float @default(0)
+  avisoPrevioIndeniz Float @default(0)
+  fgtsRescisorio     Float @default(0)
+  multaFgts          Float @default(0)
+  inss               Float @default(0)
+  inss13             Float @default(0)
+  irrf               Float @default(0)
+
+  totalBruto   Float  @default(0)
+  totalLiquido Float  @default(0)
+  status       String @default("PENDING") // PENDING | PAID
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([employeeId, month, year], name: "rescisao_identifier")
 }
-

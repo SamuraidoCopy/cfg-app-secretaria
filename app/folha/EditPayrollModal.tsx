@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { X, Pencil } from "lucide-react";
 import { generatePayrollForEmployee } from "./actions";
 
@@ -46,18 +46,16 @@ export default function EditPayrollModal({ payroll }: { payroll: Payroll }) {
     const [salaryAdvance, setSalaryAdvance] = useState(payroll.salaryAdvance || 0);
     const [hoursAulista, setHoursAulista] = useState(payroll.hoursAulista || 0);
 
-    // Reset state when opening modal
-    useEffect(() => {
-        if (isOpen) {
-            setWorkingDays(payroll.workingDays);
-            setAbsences(payroll.absences);
-            setAbsencesVT(payroll.absencesVT);
-            setOtherDeductions(payroll.otherDeductions);
-            setBonuses(payroll.bonuses);
-            setSalaryAdvance(payroll.salaryAdvance || 0);
-            setHoursAulista(payroll.hoursAulista || 0);
-        }
-    }, [isOpen, payroll]);
+    function openModal() {
+        setWorkingDays(payroll.workingDays);
+        setAbsences(payroll.absences);
+        setAbsencesVT(payroll.absencesVT);
+        setOtherDeductions(payroll.otherDeductions);
+        setBonuses(payroll.bonuses);
+        setSalaryAdvance(payroll.salaryAdvance || 0);
+        setHoursAulista(payroll.hoursAulista || 0);
+        setIsOpen(true);
+    }
 
     async function handleSubmit(formData: FormData) {
         await generatePayrollForEmployee(formData);
@@ -67,7 +65,7 @@ export default function EditPayrollModal({ payroll }: { payroll: Payroll }) {
     return (
         <>
             <button
-                onClick={() => setIsOpen(true)}
+                onClick={openModal}
                 className="p-2 text-wine-600 hover:bg-wine-100 rounded-lg transition-colors"
                 title="Editar Folha"
             >
@@ -117,7 +115,7 @@ export default function EditPayrollModal({ payroll }: { payroll: Payroll }) {
 
                                 {payroll.employee.isAulista && (
                                     <div className="col-span-2 bg-amber-50/50 p-4 rounded-xl border border-amber-100 mb-2">
-                                        <label className="block text-sm font-bold text-amber-900 mb-1 uppercase tracking-tight">Horas Aula no Período</label>
+                                        <label className="block text-sm font-bold text-amber-900 mb-1 uppercase tracking-tight">Aulas do mês (regra 4,5 semanas)</label>
                                         <input 
                                             required 
                                             name="hoursAulista" 
@@ -126,7 +124,7 @@ export default function EditPayrollModal({ payroll }: { payroll: Payroll }) {
                                             defaultValue={hoursAulista}
                                             className="w-full border border-amber-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold text-lg" 
                                         />
-                                        <p className="text-[10px] text-amber-700 mt-1">Valor/Hora: R$ {payroll.employee.hourlyRate?.toFixed(2) || "0.00"}</p>
+                                        <p className="text-[10px] text-amber-700 mt-1">Valor por aula: R$ {payroll.employee.hourlyRate?.toFixed(2) || "0.00"}</p>
                                     </div>
                                 )}
 

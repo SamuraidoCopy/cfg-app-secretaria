@@ -1,9 +1,33 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { WEEKDAY_LABELS, type Weekday } from "@/lib/work-schedule";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 
+type PaymentReportItem = {
+    id: string;
+    month: number;
+    year: number;
+    baseSalary: number;
+    workingDays: number | null;
+    transportTotal: number | null;
+    absences: number;
+    absenceDeduction: number;
+    transportDeduction: number;
+    otherDeductions: number;
+    bonuses: number;
+    netTotal: number;
+    status: string;
+    employee: {
+        id: string;
+        name: string;
+        role: string;
+        cpf: string;
+        baseSalary: number;
+    };
+    isRescisao?: boolean;
+};
 
 export async function getEmployeesList() {
     const session = await getServerSession(authOptions);
@@ -26,6 +50,83 @@ export async function getEmployeesList() {
         return employees;
     } catch (error) {
         console.error("Erro ao buscar lista de colaboradores:", error);
+        return [];
+    }
+}
+
+export async function getEmployeeRegistrationReport() {
+    const session = await getServerSession(authOptions);
+    if (!session) throw new Error("Não autorizado");
+
+    try {
+        const employees = await prisma.employee.findMany({
+            where: { active: true },
+            include: {
+                employeeSubjects: {
+                    include: { subject: true },
+                    orderBy: { subject: { name: "asc" } },
+                },
+                teachingAssignments: {
+                    include: { subject: true },
+                    orderBy: [{ weekday: "asc" }, { startTime: "asc" }],
+                },
+                salaryAdjustments: {
+                    orderBy: { effectiveDate: "desc" },
+                },
+            },
+            orderBy: { name: "asc" },
+        });
+
+        return employees.map((employee) => ({
+            id: employee.id,
+            name: employee.name,
+            cpf: employee.cpf,
+            type: employee.type,
+            role: employee.role,
+            baseSalary: employee.baseSalary,
+            profilePhotoUrl: employee.profilePhotoUrl,
+            startDate: employee.startDate?.toISOString() || null,
+            eatsAtSchool: employee.eatsAtSchool,
+            transportDaily: employee.transportDaily,
+            gasAssistance: employee.gasAssistance,
+            pixKey: employee.pixKey,
+            paymentMethod: employee.paymentMethod,
+            bankName: employee.bankName,
+            accountType: employee.accountType,
+            agency: employee.agency,
+            accountNumber: employee.accountNumber,
+            recurringDeductions: employee.recurringDeductions,
+            temporaryDeductions: employee.temporaryDeductions,
+            temporaryDeductionsDesc: employee.temporaryDeductionsDesc,
+            temporaryDeductionsExpiration: employee.temporaryDeductionsExpiration,
+            hourlyRate: employee.hourlyRate,
+            cestaBasica: employee.cestaBasica,
+            isAulista: employee.isAulista,
+            salaryAdvance: employee.salaryAdvance,
+            active: employee.active,
+            subjects: employee.employeeSubjects.map(({ subject }) => subject.name),
+            teachingAssignments: employee.teachingAssignments.map((assignment) => ({
+                id: assignment.id,
+                weekday: assignment.weekday,
+                weekdayLabel: WEEKDAY_LABELS[assignment.weekday as Weekday] || `Dia ${assignment.weekday}`,
+                subjectName: assignment.subject.name,
+                classGroup: assignment.classGroup,
+                lessonStart: assignment.lessonStart,
+                lessonEnd: assignment.lessonEnd,
+                fullDay: assignment.fullDay,
+                hours: assignment.hours,
+            })),
+            salaryAdjustments: employee.salaryAdjustments.map((adjustment) => ({
+                id: adjustment.id,
+                effectiveDate: adjustment.effectiveDate.toISOString(),
+                previousSalary: adjustment.previousSalary,
+                newSalary: adjustment.newSalary,
+                adjustmentValue: adjustment.adjustmentValue,
+                notes: adjustment.notes,
+            })),
+        }));
+    } catch (error) {
+        console.error("Erro ao gerar relatório cadastral de funcionários:", error);
         return [];
     }
 }
@@ -75,13 +176,13 @@ export async function getMonthlyReport(month: number, year: number) {
             isRescisao: true
         }));
 
-        const allPayments = [...payrolls, ...mappedRescisoes].sort((a: any, b: any) => 
+        const allPayments: PaymentReportItem[] = [...payrolls, ...mappedRescisoes].sort((a, b) =>
             a.employee.name.localeCompare(b.employee.name)
         );
 
         // Calcular totais
         const totals = allPayments.reduce(
-            (acc: { totalNet: number, totalBase: number, count: number }, curr: any) => {
+            (acc: { totalNet: number, totalBase: number, count: number }, curr) => {
                 acc.totalNet += curr.netTotal;
                 acc.totalBase += curr.baseSalary;
                 acc.count += 1;
@@ -142,7 +243,7 @@ export async function getCollaboratorReport(employeeId: string) {
             isRescisao: true
         }));
 
-        const allPayments = [...payrolls, ...mappedRescisoes].sort((a: any, b: any) => {
+        const allPayments: PaymentReportItem[] = [...payrolls, ...mappedRescisoes].sort((a, b) => {
             if (a.year !== b.year) return b.year - a.year;
             return b.month - a.month;
         }).slice(0, 24);

@@ -132,14 +132,17 @@ export function calculateFGTS(baseFgts: number): number {
   return Number((baseFgts * 0.08).toFixed(2));
 }
 
+export const TEACHER_DSR_RATE = 0.1667;
+export const TEACHER_ACTIVITY_RATE = 0.05;
+
 /**
  * Logica especifica para Professores Aulistas (CLT):
- * 1. DSR: 1/6 (16.67%) do salario base (aulas)
- * 2. Hora Atividade: 5% do salario base (aulas)
+ * 1. Hora Atividade: 5% do salario base (aulas)
+ * 2. DSR: 16,67% do salario base (aulas)
  */
 export function calculateTeacherComponents(baseAulas: number) {
-  const dsr = Number((baseAulas * (1 / 6)).toFixed(2));
-  const horaAtividade = Number((baseAulas * 0.05).toFixed(2));
+  const horaAtividade = Number((baseAulas * TEACHER_ACTIVITY_RATE).toFixed(2));
+  const dsr = Number((baseAulas * TEACHER_DSR_RATE).toFixed(2));
   const baseInss = Number((baseAulas + dsr + horaAtividade).toFixed(2));
 
   return {

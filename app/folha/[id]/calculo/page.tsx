@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Calculator, FileText, CheckCircle } from "lucide-react";
+import { calculateTeacherComponents } from "@/lib/payroll-calc";
 
 export default async function CalculoFolhaPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -128,28 +129,29 @@ export default async function CalculoFolhaPage({ params }: { params: Promise<{ i
                             <div className="bg-emerald-50/50 rounded-xl border border-emerald-100/50 p-4 space-y-3">
                                 {employee.isAulista ? (() => {
                                     const aulasBase = (payroll.hoursAulista || 0) * (employee.hourlyRate || 0);
+                                    const teacherComponents = calculateTeacherComponents(aulasBase);
                                     return (
                                     <>
                                         <div className="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm border border-emerald-50">
                                             <div>
-                                                <p className="font-bold text-wine-900 text-sm">Horas Aula</p>
-                                                <p className="text-xs text-wine-500">{payroll.hoursAulista || 0} horas × {currency.format(employee.hourlyRate || 0)}</p>
+                                                <p className="font-bold text-wine-900 text-sm">Aulas do mês</p>
+                                                <p className="text-xs text-wine-500">{payroll.hoursAulista || 0} aulas × {currency.format(employee.hourlyRate || 0)}</p>
                                             </div>
                                             <span className="font-medium text-emerald-700">{currency.format(aulasBase)}</span>
                                         </div>
                                         <div className="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm border border-emerald-50">
                                             <div>
                                                 <p className="font-bold text-wine-900 text-sm">DSR (Descanso Semanal Remunerado)</p>
-                                                <p className="text-xs text-wine-500">1/6 do valor das aulas</p>
+                                                <p className="text-xs text-wine-500">16,67% do valor das aulas</p>
                                             </div>
-                                            <span className="font-medium text-emerald-700">{currency.format(aulasBase * (1/6))}</span>
+                                            <span className="font-medium text-emerald-700">{currency.format(teacherComponents.dsr)}</span>
                                         </div>
                                         <div className="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm border border-emerald-50">
                                             <div>
                                                 <p className="font-bold text-wine-900 text-sm">Hora Atividade</p>
                                                 <p className="text-xs text-wine-500">5% do valor das aulas</p>
                                             </div>
-                                            <span className="font-medium text-emerald-700">{currency.format(aulasBase * 0.05)}</span>
+                                            <span className="font-medium text-emerald-700">{currency.format(teacherComponents.horaAtividade)}</span>
                                         </div>
                                     </>
                                     );
@@ -325,4 +327,3 @@ export default async function CalculoFolhaPage({ params }: { params: Promise<{ i
         </div>
     );
 }
-

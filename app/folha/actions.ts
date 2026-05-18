@@ -3,11 +3,21 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { calculateProgressiveINSS, inssTable2026, calculateIRRF, calculateFGTS, calculateTeacherComponents } from "@/lib/payroll-calc";
+import { calculateAulistaMonthlyLessons, countScheduledWorkDays } from "@/lib/work-schedule";
 
 export async function getPayrolls(month: number, year: number) {
     const payrolls = await prisma.payroll.findMany({
         where: { month, year },
-        include: { employee: true },
+        include: {
+            employee: {
+                include: {
+                    teachingAssignments: {
+                        where: { active: true },
+                        include: { subject: true },
+                    },
+                },
+            },
+        },
         orderBy: { employee: { name: "asc" } },
     });
 
@@ -53,16 +63,30 @@ export async function generatePayrollForEmployee(formData: FormData) {
     const month = parseInt(formData.get("month") as string);
     const year = parseInt(formData.get("year") as string);
 
-    const workingDays = formData.get("workingDays") ? parseInt(formData.get("workingDays") as string) : 0;
+    let workingDays = formData.get("workingDays") ? parseInt(formData.get("workingDays") as string) : 0;
     const totalDays = formData.get("totalDays") ? parseInt(formData.get("totalDays") as string) : 30; // Padrão 30 para cálculo base
     const absences = formData.get("absences") ? parseInt(formData.get("absences") as string) : 0;
     const absencesVT = formData.get("absencesVT") ? parseInt(formData.get("absencesVT") as string) : 0;
     const otherDeductions = formData.get("otherDeductions") ? parseFloat(formData.get("otherDeductions") as string) : 0;
     const bonuses = formData.get("bonuses") ? parseFloat(formData.get("bonuses") as string) : 0;
-    const hoursAulista = formData.get("hoursAulista") ? parseFloat(formData.get("hoursAulista") as string) : 0;
+    let hoursAulista = formData.get("hoursAulista") ? parseFloat(formData.get("hoursAulista") as string) : 0;
 
-    const employee = await prisma.employee.findUnique({ where: { id: employeeId } });
+    const employee = await prisma.employee.findUnique({
+        where: { id: employeeId },
+        include: { teachingAssignments: { where: { active: true } } }
+    });
     if (!employee) throw new Error("Employee not found");
+
+    const periodStart = formData.get("periodStart") as string | null;
+    const periodEnd = formData.get("periodEnd") as string | null;
+    if (periodStart && periodEnd && employee.teachingAssignments.length) {
+        if (!workingDays) {
+            workingDays = countScheduledWorkDays(periodStart, periodEnd, employee.teachingAssignments);
+        }
+        if (employee.isAulista && !hoursAulista) {
+            hoursAulista = calculateAulistaMonthlyLessons(employee.teachingAssignments).monthlyLessons;
+        }
+    }
 
     const baseSalary = employee.baseSalary;
     let salaryProportional = 0;
@@ -90,10 +114,10 @@ export async function generatePayrollForEmployee(formData: FormData) {
 
     // Calcular VT de forma unificada para todos os tipos
     if (employee.transportDaily && workingDays > 0) {
-        transportTotal = Number((workingDays * employee.transportDaily).toFixed(2));
+        const payableTransportDays = Math.max(0, workingDays - absencesVT);
+        transportTotal = Number((payableTransportDays * employee.transportDaily).toFixed(2));
         if (absencesVT > 0) {
             transportDeduction = Number((absencesVT * employee.transportDaily).toFixed(2));
-            transportTotal = Number((transportTotal - transportDeduction).toFixed(2));
         }
     }
 

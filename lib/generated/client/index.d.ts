@@ -24,6 +24,26 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type Employee = $Result.DefaultSelection<Prisma.$EmployeePayload>
 /**
+ * Model Subject
+ * 
+ */
+export type Subject = $Result.DefaultSelection<Prisma.$SubjectPayload>
+/**
+ * Model EmployeeSubject
+ * 
+ */
+export type EmployeeSubject = $Result.DefaultSelection<Prisma.$EmployeeSubjectPayload>
+/**
+ * Model TeachingAssignment
+ * 
+ */
+export type TeachingAssignment = $Result.DefaultSelection<Prisma.$TeachingAssignmentPayload>
+/**
+ * Model SalaryAdjustment
+ * 
+ */
+export type SalaryAdjustment = $Result.DefaultSelection<Prisma.$SalaryAdjustmentPayload>
+/**
  * Model Payroll
  * 
  */
@@ -189,6 +209,46 @@ export class PrismaClient<
     * ```
     */
   get employee(): Prisma.EmployeeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.subject`: Exposes CRUD operations for the **Subject** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Subjects
+    * const subjects = await prisma.subject.findMany()
+    * ```
+    */
+  get subject(): Prisma.SubjectDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.employeeSubject`: Exposes CRUD operations for the **EmployeeSubject** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EmployeeSubjects
+    * const employeeSubjects = await prisma.employeeSubject.findMany()
+    * ```
+    */
+  get employeeSubject(): Prisma.EmployeeSubjectDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.teachingAssignment`: Exposes CRUD operations for the **TeachingAssignment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TeachingAssignments
+    * const teachingAssignments = await prisma.teachingAssignment.findMany()
+    * ```
+    */
+  get teachingAssignment(): Prisma.TeachingAssignmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.salaryAdjustment`: Exposes CRUD operations for the **SalaryAdjustment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SalaryAdjustments
+    * const salaryAdjustments = await prisma.salaryAdjustment.findMany()
+    * ```
+    */
+  get salaryAdjustment(): Prisma.SalaryAdjustmentDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.payroll`: Exposes CRUD operations for the **Payroll** model.
@@ -675,6 +735,10 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Employee: 'Employee',
+    Subject: 'Subject',
+    EmployeeSubject: 'EmployeeSubject',
+    TeachingAssignment: 'TeachingAssignment',
+    SalaryAdjustment: 'SalaryAdjustment',
     Payroll: 'Payroll',
     PayrollAdvance: 'PayrollAdvance',
     FinancialTransaction: 'FinancialTransaction',
@@ -695,7 +759,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "employee" | "payroll" | "payrollAdvance" | "financialTransaction" | "contract" | "rescisao"
+      modelProps: "user" | "employee" | "subject" | "employeeSubject" | "teachingAssignment" | "salaryAdjustment" | "payroll" | "payrollAdvance" | "financialTransaction" | "contract" | "rescisao"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -844,6 +908,302 @@ export namespace Prisma {
           count: {
             args: Prisma.EmployeeCountArgs<ExtArgs>
             result: $Utils.Optional<EmployeeCountAggregateOutputType> | number
+          }
+        }
+      }
+      Subject: {
+        payload: Prisma.$SubjectPayload<ExtArgs>
+        fields: Prisma.SubjectFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SubjectFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubjectFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload>
+          }
+          findFirst: {
+            args: Prisma.SubjectFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubjectFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload>
+          }
+          findMany: {
+            args: Prisma.SubjectFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload>[]
+          }
+          create: {
+            args: Prisma.SubjectCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload>
+          }
+          createMany: {
+            args: Prisma.SubjectCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SubjectCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload>[]
+          }
+          delete: {
+            args: Prisma.SubjectDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload>
+          }
+          update: {
+            args: Prisma.SubjectUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubjectDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubjectUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SubjectUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload>[]
+          }
+          upsert: {
+            args: Prisma.SubjectUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload>
+          }
+          aggregate: {
+            args: Prisma.SubjectAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSubject>
+          }
+          groupBy: {
+            args: Prisma.SubjectGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SubjectGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubjectCountArgs<ExtArgs>
+            result: $Utils.Optional<SubjectCountAggregateOutputType> | number
+          }
+        }
+      }
+      EmployeeSubject: {
+        payload: Prisma.$EmployeeSubjectPayload<ExtArgs>
+        fields: Prisma.EmployeeSubjectFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EmployeeSubjectFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeSubjectPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EmployeeSubjectFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeSubjectPayload>
+          }
+          findFirst: {
+            args: Prisma.EmployeeSubjectFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeSubjectPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EmployeeSubjectFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeSubjectPayload>
+          }
+          findMany: {
+            args: Prisma.EmployeeSubjectFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeSubjectPayload>[]
+          }
+          create: {
+            args: Prisma.EmployeeSubjectCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeSubjectPayload>
+          }
+          createMany: {
+            args: Prisma.EmployeeSubjectCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EmployeeSubjectCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeSubjectPayload>[]
+          }
+          delete: {
+            args: Prisma.EmployeeSubjectDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeSubjectPayload>
+          }
+          update: {
+            args: Prisma.EmployeeSubjectUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeSubjectPayload>
+          }
+          deleteMany: {
+            args: Prisma.EmployeeSubjectDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EmployeeSubjectUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EmployeeSubjectUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeSubjectPayload>[]
+          }
+          upsert: {
+            args: Prisma.EmployeeSubjectUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeSubjectPayload>
+          }
+          aggregate: {
+            args: Prisma.EmployeeSubjectAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEmployeeSubject>
+          }
+          groupBy: {
+            args: Prisma.EmployeeSubjectGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EmployeeSubjectGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EmployeeSubjectCountArgs<ExtArgs>
+            result: $Utils.Optional<EmployeeSubjectCountAggregateOutputType> | number
+          }
+        }
+      }
+      TeachingAssignment: {
+        payload: Prisma.$TeachingAssignmentPayload<ExtArgs>
+        fields: Prisma.TeachingAssignmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TeachingAssignmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeachingAssignmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TeachingAssignmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeachingAssignmentPayload>
+          }
+          findFirst: {
+            args: Prisma.TeachingAssignmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeachingAssignmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TeachingAssignmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeachingAssignmentPayload>
+          }
+          findMany: {
+            args: Prisma.TeachingAssignmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeachingAssignmentPayload>[]
+          }
+          create: {
+            args: Prisma.TeachingAssignmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeachingAssignmentPayload>
+          }
+          createMany: {
+            args: Prisma.TeachingAssignmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TeachingAssignmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeachingAssignmentPayload>[]
+          }
+          delete: {
+            args: Prisma.TeachingAssignmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeachingAssignmentPayload>
+          }
+          update: {
+            args: Prisma.TeachingAssignmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeachingAssignmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.TeachingAssignmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TeachingAssignmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TeachingAssignmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeachingAssignmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.TeachingAssignmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeachingAssignmentPayload>
+          }
+          aggregate: {
+            args: Prisma.TeachingAssignmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTeachingAssignment>
+          }
+          groupBy: {
+            args: Prisma.TeachingAssignmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TeachingAssignmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TeachingAssignmentCountArgs<ExtArgs>
+            result: $Utils.Optional<TeachingAssignmentCountAggregateOutputType> | number
+          }
+        }
+      }
+      SalaryAdjustment: {
+        payload: Prisma.$SalaryAdjustmentPayload<ExtArgs>
+        fields: Prisma.SalaryAdjustmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SalaryAdjustmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdjustmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SalaryAdjustmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdjustmentPayload>
+          }
+          findFirst: {
+            args: Prisma.SalaryAdjustmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdjustmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SalaryAdjustmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdjustmentPayload>
+          }
+          findMany: {
+            args: Prisma.SalaryAdjustmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdjustmentPayload>[]
+          }
+          create: {
+            args: Prisma.SalaryAdjustmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdjustmentPayload>
+          }
+          createMany: {
+            args: Prisma.SalaryAdjustmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SalaryAdjustmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdjustmentPayload>[]
+          }
+          delete: {
+            args: Prisma.SalaryAdjustmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdjustmentPayload>
+          }
+          update: {
+            args: Prisma.SalaryAdjustmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdjustmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.SalaryAdjustmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SalaryAdjustmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SalaryAdjustmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdjustmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.SalaryAdjustmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdjustmentPayload>
+          }
+          aggregate: {
+            args: Prisma.SalaryAdjustmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSalaryAdjustment>
+          }
+          groupBy: {
+            args: Prisma.SalaryAdjustmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SalaryAdjustmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SalaryAdjustmentCountArgs<ExtArgs>
+            result: $Utils.Optional<SalaryAdjustmentCountAggregateOutputType> | number
           }
         }
       }
@@ -1327,6 +1687,10 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     employee?: EmployeeOmit
+    subject?: SubjectOmit
+    employeeSubject?: EmployeeSubjectOmit
+    teachingAssignment?: TeachingAssignmentOmit
+    salaryAdjustment?: SalaryAdjustmentOmit
     payroll?: PayrollOmit
     payrollAdvance?: PayrollAdvanceOmit
     financialTransaction?: FinancialTransactionOmit
@@ -1415,12 +1779,18 @@ export namespace Prisma {
     payrolls: number
     advances: number
     rescisoes: number
+    employeeSubjects: number
+    teachingAssignments: number
+    salaryAdjustments: number
   }
 
   export type EmployeeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     payrolls?: boolean | EmployeeCountOutputTypeCountPayrollsArgs
     advances?: boolean | EmployeeCountOutputTypeCountAdvancesArgs
     rescisoes?: boolean | EmployeeCountOutputTypeCountRescisoesArgs
+    employeeSubjects?: boolean | EmployeeCountOutputTypeCountEmployeeSubjectsArgs
+    teachingAssignments?: boolean | EmployeeCountOutputTypeCountTeachingAssignmentsArgs
+    salaryAdjustments?: boolean | EmployeeCountOutputTypeCountSalaryAdjustmentsArgs
   }
 
   // Custom InputTypes
@@ -1453,6 +1823,67 @@ export namespace Prisma {
    */
   export type EmployeeCountOutputTypeCountRescisoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RescisaoWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountEmployeeSubjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmployeeSubjectWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountTeachingAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeachingAssignmentWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountSalaryAdjustmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SalaryAdjustmentWhereInput
+  }
+
+
+  /**
+   * Count Type SubjectCountOutputType
+   */
+
+  export type SubjectCountOutputType = {
+    employeeSubjects: number
+    teachingAssignments: number
+  }
+
+  export type SubjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employeeSubjects?: boolean | SubjectCountOutputTypeCountEmployeeSubjectsArgs
+    teachingAssignments?: boolean | SubjectCountOutputTypeCountTeachingAssignmentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SubjectCountOutputType without action
+   */
+  export type SubjectCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectCountOutputType
+     */
+    select?: SubjectCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SubjectCountOutputType without action
+   */
+  export type SubjectCountOutputTypeCountEmployeeSubjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmployeeSubjectWhereInput
+  }
+
+  /**
+   * SubjectCountOutputType without action
+   */
+  export type SubjectCountOutputTypeCountTeachingAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeachingAssignmentWhereInput
   }
 
 
@@ -2522,6 +2953,9 @@ export namespace Prisma {
     type: string | null
     role: string | null
     baseSalary: number | null
+    profilePhotoUrl: string | null
+    startDate: Date | null
+    eatsAtSchool: boolean | null
     transportDaily: number | null
     gasAssistance: number | null
     pixKey: string | null
@@ -2550,6 +2984,9 @@ export namespace Prisma {
     type: string | null
     role: string | null
     baseSalary: number | null
+    profilePhotoUrl: string | null
+    startDate: Date | null
+    eatsAtSchool: boolean | null
     transportDaily: number | null
     gasAssistance: number | null
     pixKey: string | null
@@ -2578,6 +3015,9 @@ export namespace Prisma {
     type: number
     role: number
     baseSalary: number
+    profilePhotoUrl: number
+    startDate: number
+    eatsAtSchool: number
     transportDaily: number
     gasAssistance: number
     pixKey: number
@@ -2630,6 +3070,9 @@ export namespace Prisma {
     type?: true
     role?: true
     baseSalary?: true
+    profilePhotoUrl?: true
+    startDate?: true
+    eatsAtSchool?: true
     transportDaily?: true
     gasAssistance?: true
     pixKey?: true
@@ -2658,6 +3101,9 @@ export namespace Prisma {
     type?: true
     role?: true
     baseSalary?: true
+    profilePhotoUrl?: true
+    startDate?: true
+    eatsAtSchool?: true
     transportDaily?: true
     gasAssistance?: true
     pixKey?: true
@@ -2686,6 +3132,9 @@ export namespace Prisma {
     type?: true
     role?: true
     baseSalary?: true
+    profilePhotoUrl?: true
+    startDate?: true
+    eatsAtSchool?: true
     transportDaily?: true
     gasAssistance?: true
     pixKey?: true
@@ -2801,6 +3250,9 @@ export namespace Prisma {
     type: string
     role: string
     baseSalary: number
+    profilePhotoUrl: string | null
+    startDate: Date | null
+    eatsAtSchool: boolean
     transportDaily: number | null
     gasAssistance: number | null
     pixKey: string | null
@@ -2848,6 +3300,9 @@ export namespace Prisma {
     type?: boolean
     role?: boolean
     baseSalary?: boolean
+    profilePhotoUrl?: boolean
+    startDate?: boolean
+    eatsAtSchool?: boolean
     transportDaily?: boolean
     gasAssistance?: boolean
     pixKey?: boolean
@@ -2870,6 +3325,9 @@ export namespace Prisma {
     payrolls?: boolean | Employee$payrollsArgs<ExtArgs>
     advances?: boolean | Employee$advancesArgs<ExtArgs>
     rescisoes?: boolean | Employee$rescisoesArgs<ExtArgs>
+    employeeSubjects?: boolean | Employee$employeeSubjectsArgs<ExtArgs>
+    teachingAssignments?: boolean | Employee$teachingAssignmentsArgs<ExtArgs>
+    salaryAdjustments?: boolean | Employee$salaryAdjustmentsArgs<ExtArgs>
     _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["employee"]>
 
@@ -2880,6 +3338,9 @@ export namespace Prisma {
     type?: boolean
     role?: boolean
     baseSalary?: boolean
+    profilePhotoUrl?: boolean
+    startDate?: boolean
+    eatsAtSchool?: boolean
     transportDaily?: boolean
     gasAssistance?: boolean
     pixKey?: boolean
@@ -2908,6 +3369,9 @@ export namespace Prisma {
     type?: boolean
     role?: boolean
     baseSalary?: boolean
+    profilePhotoUrl?: boolean
+    startDate?: boolean
+    eatsAtSchool?: boolean
     transportDaily?: boolean
     gasAssistance?: boolean
     pixKey?: boolean
@@ -2936,6 +3400,9 @@ export namespace Prisma {
     type?: boolean
     role?: boolean
     baseSalary?: boolean
+    profilePhotoUrl?: boolean
+    startDate?: boolean
+    eatsAtSchool?: boolean
     transportDaily?: boolean
     gasAssistance?: boolean
     pixKey?: boolean
@@ -2957,11 +3424,14 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type EmployeeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "cpf" | "type" | "role" | "baseSalary" | "transportDaily" | "gasAssistance" | "pixKey" | "paymentMethod" | "bankName" | "accountType" | "agency" | "accountNumber" | "recurringDeductions" | "temporaryDeductions" | "temporaryDeductionsDesc" | "temporaryDeductionsExpiration" | "hourlyRate" | "cestaBasica" | "isAulista" | "salaryAdvance" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["employee"]>
+  export type EmployeeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "cpf" | "type" | "role" | "baseSalary" | "profilePhotoUrl" | "startDate" | "eatsAtSchool" | "transportDaily" | "gasAssistance" | "pixKey" | "paymentMethod" | "bankName" | "accountType" | "agency" | "accountNumber" | "recurringDeductions" | "temporaryDeductions" | "temporaryDeductionsDesc" | "temporaryDeductionsExpiration" | "hourlyRate" | "cestaBasica" | "isAulista" | "salaryAdvance" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["employee"]>
   export type EmployeeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     payrolls?: boolean | Employee$payrollsArgs<ExtArgs>
     advances?: boolean | Employee$advancesArgs<ExtArgs>
     rescisoes?: boolean | Employee$rescisoesArgs<ExtArgs>
+    employeeSubjects?: boolean | Employee$employeeSubjectsArgs<ExtArgs>
+    teachingAssignments?: boolean | Employee$teachingAssignmentsArgs<ExtArgs>
+    salaryAdjustments?: boolean | Employee$salaryAdjustmentsArgs<ExtArgs>
     _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type EmployeeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2973,6 +3443,9 @@ export namespace Prisma {
       payrolls: Prisma.$PayrollPayload<ExtArgs>[]
       advances: Prisma.$PayrollAdvancePayload<ExtArgs>[]
       rescisoes: Prisma.$RescisaoPayload<ExtArgs>[]
+      employeeSubjects: Prisma.$EmployeeSubjectPayload<ExtArgs>[]
+      teachingAssignments: Prisma.$TeachingAssignmentPayload<ExtArgs>[]
+      salaryAdjustments: Prisma.$SalaryAdjustmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2981,6 +3454,9 @@ export namespace Prisma {
       type: string
       role: string
       baseSalary: number
+      profilePhotoUrl: string | null
+      startDate: Date | null
+      eatsAtSchool: boolean
       transportDaily: number | null
       gasAssistance: number | null
       pixKey: string | null
@@ -3397,6 +3873,9 @@ export namespace Prisma {
     payrolls<T extends Employee$payrollsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$payrollsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PayrollPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     advances<T extends Employee$advancesArgs<ExtArgs> = {}>(args?: Subset<T, Employee$advancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PayrollAdvancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     rescisoes<T extends Employee$rescisoesArgs<ExtArgs> = {}>(args?: Subset<T, Employee$rescisoesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RescisaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    employeeSubjects<T extends Employee$employeeSubjectsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$employeeSubjectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeeSubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    teachingAssignments<T extends Employee$teachingAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$teachingAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeachingAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    salaryAdjustments<T extends Employee$salaryAdjustmentsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$salaryAdjustmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalaryAdjustmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3432,6 +3911,9 @@ export namespace Prisma {
     readonly type: FieldRef<"Employee", 'String'>
     readonly role: FieldRef<"Employee", 'String'>
     readonly baseSalary: FieldRef<"Employee", 'Float'>
+    readonly profilePhotoUrl: FieldRef<"Employee", 'String'>
+    readonly startDate: FieldRef<"Employee", 'DateTime'>
+    readonly eatsAtSchool: FieldRef<"Employee", 'Boolean'>
     readonly transportDaily: FieldRef<"Employee", 'Float'>
     readonly gasAssistance: FieldRef<"Employee", 'Float'>
     readonly pixKey: FieldRef<"Employee", 'String'>
@@ -3911,6 +4393,78 @@ export namespace Prisma {
   }
 
   /**
+   * Employee.employeeSubjects
+   */
+  export type Employee$employeeSubjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmployeeSubject
+     */
+    select?: EmployeeSubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmployeeSubject
+     */
+    omit?: EmployeeSubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeSubjectInclude<ExtArgs> | null
+    where?: EmployeeSubjectWhereInput
+    orderBy?: EmployeeSubjectOrderByWithRelationInput | EmployeeSubjectOrderByWithRelationInput[]
+    cursor?: EmployeeSubjectWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EmployeeSubjectScalarFieldEnum | EmployeeSubjectScalarFieldEnum[]
+  }
+
+  /**
+   * Employee.teachingAssignments
+   */
+  export type Employee$teachingAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeachingAssignment
+     */
+    select?: TeachingAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeachingAssignment
+     */
+    omit?: TeachingAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeachingAssignmentInclude<ExtArgs> | null
+    where?: TeachingAssignmentWhereInput
+    orderBy?: TeachingAssignmentOrderByWithRelationInput | TeachingAssignmentOrderByWithRelationInput[]
+    cursor?: TeachingAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TeachingAssignmentScalarFieldEnum | TeachingAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * Employee.salaryAdjustments
+   */
+  export type Employee$salaryAdjustmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdjustment
+     */
+    select?: SalaryAdjustmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdjustment
+     */
+    omit?: SalaryAdjustmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdjustmentInclude<ExtArgs> | null
+    where?: SalaryAdjustmentWhereInput
+    orderBy?: SalaryAdjustmentOrderByWithRelationInput | SalaryAdjustmentOrderByWithRelationInput[]
+    cursor?: SalaryAdjustmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SalaryAdjustmentScalarFieldEnum | SalaryAdjustmentScalarFieldEnum[]
+  }
+
+  /**
    * Employee without action
    */
   export type EmployeeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3926,6 +4480,4512 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: EmployeeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Subject
+   */
+
+  export type AggregateSubject = {
+    _count: SubjectCountAggregateOutputType | null
+    _min: SubjectMinAggregateOutputType | null
+    _max: SubjectMaxAggregateOutputType | null
+  }
+
+  export type SubjectMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubjectMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubjectCountAggregateOutputType = {
+    id: number
+    name: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SubjectMinAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubjectMaxAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubjectCountAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SubjectAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Subject to aggregate.
+     */
+    where?: SubjectWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subjects to fetch.
+     */
+    orderBy?: SubjectOrderByWithRelationInput | SubjectOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubjectWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subjects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subjects.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Subjects
+    **/
+    _count?: true | SubjectCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubjectMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubjectMaxAggregateInputType
+  }
+
+  export type GetSubjectAggregateType<T extends SubjectAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubject]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubject[P]>
+      : GetScalarType<T[P], AggregateSubject[P]>
+  }
+
+
+
+
+  export type SubjectGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubjectWhereInput
+    orderBy?: SubjectOrderByWithAggregationInput | SubjectOrderByWithAggregationInput[]
+    by: SubjectScalarFieldEnum[] | SubjectScalarFieldEnum
+    having?: SubjectScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubjectCountAggregateInputType | true
+    _min?: SubjectMinAggregateInputType
+    _max?: SubjectMaxAggregateInputType
+  }
+
+  export type SubjectGroupByOutputType = {
+    id: string
+    name: string
+    createdAt: Date
+    updatedAt: Date
+    _count: SubjectCountAggregateOutputType | null
+    _min: SubjectMinAggregateOutputType | null
+    _max: SubjectMaxAggregateOutputType | null
+  }
+
+  type GetSubjectGroupByPayload<T extends SubjectGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SubjectGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubjectGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubjectGroupByOutputType[P]>
+            : GetScalarType<T[P], SubjectGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubjectSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employeeSubjects?: boolean | Subject$employeeSubjectsArgs<ExtArgs>
+    teachingAssignments?: boolean | Subject$teachingAssignmentsArgs<ExtArgs>
+    _count?: boolean | SubjectCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subject"]>
+
+  export type SubjectSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subject"]>
+
+  export type SubjectSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subject"]>
+
+  export type SubjectSelectScalar = {
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SubjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt", ExtArgs["result"]["subject"]>
+  export type SubjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employeeSubjects?: boolean | Subject$employeeSubjectsArgs<ExtArgs>
+    teachingAssignments?: boolean | Subject$teachingAssignmentsArgs<ExtArgs>
+    _count?: boolean | SubjectCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type SubjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type SubjectIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $SubjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Subject"
+    objects: {
+      employeeSubjects: Prisma.$EmployeeSubjectPayload<ExtArgs>[]
+      teachingAssignments: Prisma.$TeachingAssignmentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["subject"]>
+    composites: {}
+  }
+
+  type SubjectGetPayload<S extends boolean | null | undefined | SubjectDefaultArgs> = $Result.GetResult<Prisma.$SubjectPayload, S>
+
+  type SubjectCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SubjectFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SubjectCountAggregateInputType | true
+    }
+
+  export interface SubjectDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Subject'], meta: { name: 'Subject' } }
+    /**
+     * Find zero or one Subject that matches the filter.
+     * @param {SubjectFindUniqueArgs} args - Arguments to find a Subject
+     * @example
+     * // Get one Subject
+     * const subject = await prisma.subject.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SubjectFindUniqueArgs>(args: SelectSubset<T, SubjectFindUniqueArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Subject that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SubjectFindUniqueOrThrowArgs} args - Arguments to find a Subject
+     * @example
+     * // Get one Subject
+     * const subject = await prisma.subject.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SubjectFindUniqueOrThrowArgs>(args: SelectSubset<T, SubjectFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Subject that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectFindFirstArgs} args - Arguments to find a Subject
+     * @example
+     * // Get one Subject
+     * const subject = await prisma.subject.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SubjectFindFirstArgs>(args?: SelectSubset<T, SubjectFindFirstArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Subject that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectFindFirstOrThrowArgs} args - Arguments to find a Subject
+     * @example
+     * // Get one Subject
+     * const subject = await prisma.subject.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SubjectFindFirstOrThrowArgs>(args?: SelectSubset<T, SubjectFindFirstOrThrowArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Subjects that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Subjects
+     * const subjects = await prisma.subject.findMany()
+     * 
+     * // Get first 10 Subjects
+     * const subjects = await prisma.subject.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subjectWithIdOnly = await prisma.subject.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SubjectFindManyArgs>(args?: SelectSubset<T, SubjectFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Subject.
+     * @param {SubjectCreateArgs} args - Arguments to create a Subject.
+     * @example
+     * // Create one Subject
+     * const Subject = await prisma.subject.create({
+     *   data: {
+     *     // ... data to create a Subject
+     *   }
+     * })
+     * 
+     */
+    create<T extends SubjectCreateArgs>(args: SelectSubset<T, SubjectCreateArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Subjects.
+     * @param {SubjectCreateManyArgs} args - Arguments to create many Subjects.
+     * @example
+     * // Create many Subjects
+     * const subject = await prisma.subject.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SubjectCreateManyArgs>(args?: SelectSubset<T, SubjectCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Subjects and returns the data saved in the database.
+     * @param {SubjectCreateManyAndReturnArgs} args - Arguments to create many Subjects.
+     * @example
+     * // Create many Subjects
+     * const subject = await prisma.subject.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Subjects and only return the `id`
+     * const subjectWithIdOnly = await prisma.subject.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SubjectCreateManyAndReturnArgs>(args?: SelectSubset<T, SubjectCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Subject.
+     * @param {SubjectDeleteArgs} args - Arguments to delete one Subject.
+     * @example
+     * // Delete one Subject
+     * const Subject = await prisma.subject.delete({
+     *   where: {
+     *     // ... filter to delete one Subject
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SubjectDeleteArgs>(args: SelectSubset<T, SubjectDeleteArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Subject.
+     * @param {SubjectUpdateArgs} args - Arguments to update one Subject.
+     * @example
+     * // Update one Subject
+     * const subject = await prisma.subject.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SubjectUpdateArgs>(args: SelectSubset<T, SubjectUpdateArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Subjects.
+     * @param {SubjectDeleteManyArgs} args - Arguments to filter Subjects to delete.
+     * @example
+     * // Delete a few Subjects
+     * const { count } = await prisma.subject.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SubjectDeleteManyArgs>(args?: SelectSubset<T, SubjectDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Subjects.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Subjects
+     * const subject = await prisma.subject.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SubjectUpdateManyArgs>(args: SelectSubset<T, SubjectUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Subjects and returns the data updated in the database.
+     * @param {SubjectUpdateManyAndReturnArgs} args - Arguments to update many Subjects.
+     * @example
+     * // Update many Subjects
+     * const subject = await prisma.subject.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Subjects and only return the `id`
+     * const subjectWithIdOnly = await prisma.subject.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SubjectUpdateManyAndReturnArgs>(args: SelectSubset<T, SubjectUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Subject.
+     * @param {SubjectUpsertArgs} args - Arguments to update or create a Subject.
+     * @example
+     * // Update or create a Subject
+     * const subject = await prisma.subject.upsert({
+     *   create: {
+     *     // ... data to create a Subject
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Subject we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SubjectUpsertArgs>(args: SelectSubset<T, SubjectUpsertArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Subjects.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectCountArgs} args - Arguments to filter Subjects to count.
+     * @example
+     * // Count the number of Subjects
+     * const count = await prisma.subject.count({
+     *   where: {
+     *     // ... the filter for the Subjects we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubjectCountArgs>(
+      args?: Subset<T, SubjectCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubjectCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Subject.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubjectAggregateArgs>(args: Subset<T, SubjectAggregateArgs>): Prisma.PrismaPromise<GetSubjectAggregateType<T>>
+
+    /**
+     * Group by Subject.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubjectGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubjectGroupByArgs['orderBy'] }
+        : { orderBy?: SubjectGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubjectGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubjectGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Subject model
+   */
+  readonly fields: SubjectFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Subject.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SubjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    employeeSubjects<T extends Subject$employeeSubjectsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$employeeSubjectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeeSubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    teachingAssignments<T extends Subject$teachingAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$teachingAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeachingAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Subject model
+   */
+  interface SubjectFieldRefs {
+    readonly id: FieldRef<"Subject", 'String'>
+    readonly name: FieldRef<"Subject", 'String'>
+    readonly createdAt: FieldRef<"Subject", 'DateTime'>
+    readonly updatedAt: FieldRef<"Subject", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Subject findUnique
+   */
+  export type SubjectFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subject
+     */
+    omit?: SubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * Filter, which Subject to fetch.
+     */
+    where: SubjectWhereUniqueInput
+  }
+
+  /**
+   * Subject findUniqueOrThrow
+   */
+  export type SubjectFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subject
+     */
+    omit?: SubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * Filter, which Subject to fetch.
+     */
+    where: SubjectWhereUniqueInput
+  }
+
+  /**
+   * Subject findFirst
+   */
+  export type SubjectFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subject
+     */
+    omit?: SubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * Filter, which Subject to fetch.
+     */
+    where?: SubjectWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subjects to fetch.
+     */
+    orderBy?: SubjectOrderByWithRelationInput | SubjectOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Subjects.
+     */
+    cursor?: SubjectWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subjects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subjects.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Subjects.
+     */
+    distinct?: SubjectScalarFieldEnum | SubjectScalarFieldEnum[]
+  }
+
+  /**
+   * Subject findFirstOrThrow
+   */
+  export type SubjectFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subject
+     */
+    omit?: SubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * Filter, which Subject to fetch.
+     */
+    where?: SubjectWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subjects to fetch.
+     */
+    orderBy?: SubjectOrderByWithRelationInput | SubjectOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Subjects.
+     */
+    cursor?: SubjectWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subjects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subjects.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Subjects.
+     */
+    distinct?: SubjectScalarFieldEnum | SubjectScalarFieldEnum[]
+  }
+
+  /**
+   * Subject findMany
+   */
+  export type SubjectFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subject
+     */
+    omit?: SubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * Filter, which Subjects to fetch.
+     */
+    where?: SubjectWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subjects to fetch.
+     */
+    orderBy?: SubjectOrderByWithRelationInput | SubjectOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Subjects.
+     */
+    cursor?: SubjectWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subjects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subjects.
+     */
+    skip?: number
+    distinct?: SubjectScalarFieldEnum | SubjectScalarFieldEnum[]
+  }
+
+  /**
+   * Subject create
+   */
+  export type SubjectCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subject
+     */
+    omit?: SubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Subject.
+     */
+    data: XOR<SubjectCreateInput, SubjectUncheckedCreateInput>
+  }
+
+  /**
+   * Subject createMany
+   */
+  export type SubjectCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Subjects.
+     */
+    data: SubjectCreateManyInput | SubjectCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Subject createManyAndReturn
+   */
+  export type SubjectCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subject
+     */
+    omit?: SubjectOmit<ExtArgs> | null
+    /**
+     * The data used to create many Subjects.
+     */
+    data: SubjectCreateManyInput | SubjectCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Subject update
+   */
+  export type SubjectUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subject
+     */
+    omit?: SubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Subject.
+     */
+    data: XOR<SubjectUpdateInput, SubjectUncheckedUpdateInput>
+    /**
+     * Choose, which Subject to update.
+     */
+    where: SubjectWhereUniqueInput
+  }
+
+  /**
+   * Subject updateMany
+   */
+  export type SubjectUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Subjects.
+     */
+    data: XOR<SubjectUpdateManyMutationInput, SubjectUncheckedUpdateManyInput>
+    /**
+     * Filter which Subjects to update
+     */
+    where?: SubjectWhereInput
+    /**
+     * Limit how many Subjects to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Subject updateManyAndReturn
+   */
+  export type SubjectUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subject
+     */
+    omit?: SubjectOmit<ExtArgs> | null
+    /**
+     * The data used to update Subjects.
+     */
+    data: XOR<SubjectUpdateManyMutationInput, SubjectUncheckedUpdateManyInput>
+    /**
+     * Filter which Subjects to update
+     */
+    where?: SubjectWhereInput
+    /**
+     * Limit how many Subjects to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Subject upsert
+   */
+  export type SubjectUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subject
+     */
+    omit?: SubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Subject to update in case it exists.
+     */
+    where: SubjectWhereUniqueInput
+    /**
+     * In case the Subject found by the `where` argument doesn't exist, create a new Subject with this data.
+     */
+    create: XOR<SubjectCreateInput, SubjectUncheckedCreateInput>
+    /**
+     * In case the Subject was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubjectUpdateInput, SubjectUncheckedUpdateInput>
+  }
+
+  /**
+   * Subject delete
+   */
+  export type SubjectDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subject
+     */
+    omit?: SubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * Filter which Subject to delete.
+     */
+    where: SubjectWhereUniqueInput
+  }
+
+  /**
+   * Subject deleteMany
+   */
+  export type SubjectDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Subjects to delete
+     */
+    where?: SubjectWhereInput
+    /**
+     * Limit how many Subjects to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Subject.employeeSubjects
+   */
+  export type Subject$employeeSubjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmployeeSubject
+     */
+    select?: EmployeeSubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmployeeSubject
+     */
+    omit?: EmployeeSubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeSubjectInclude<ExtArgs> | null
+    where?: EmployeeSubjectWhereInput
+    orderBy?: EmployeeSubjectOrderByWithRelationInput | EmployeeSubjectOrderByWithRelationInput[]
+    cursor?: EmployeeSubjectWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EmployeeSubjectScalarFieldEnum | EmployeeSubjectScalarFieldEnum[]
+  }
+
+  /**
+   * Subject.teachingAssignments
+   */
+  export type Subject$teachingAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeachingAssignment
+     */
+    select?: TeachingAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeachingAssignment
+     */
+    omit?: TeachingAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeachingAssignmentInclude<ExtArgs> | null
+    where?: TeachingAssignmentWhereInput
+    orderBy?: TeachingAssignmentOrderByWithRelationInput | TeachingAssignmentOrderByWithRelationInput[]
+    cursor?: TeachingAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TeachingAssignmentScalarFieldEnum | TeachingAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * Subject without action
+   */
+  export type SubjectDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subject
+     */
+    omit?: SubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubjectInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model EmployeeSubject
+   */
+
+  export type AggregateEmployeeSubject = {
+    _count: EmployeeSubjectCountAggregateOutputType | null
+    _min: EmployeeSubjectMinAggregateOutputType | null
+    _max: EmployeeSubjectMaxAggregateOutputType | null
+  }
+
+  export type EmployeeSubjectMinAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    subjectId: string | null
+    createdAt: Date | null
+  }
+
+  export type EmployeeSubjectMaxAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    subjectId: string | null
+    createdAt: Date | null
+  }
+
+  export type EmployeeSubjectCountAggregateOutputType = {
+    id: number
+    employeeId: number
+    subjectId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type EmployeeSubjectMinAggregateInputType = {
+    id?: true
+    employeeId?: true
+    subjectId?: true
+    createdAt?: true
+  }
+
+  export type EmployeeSubjectMaxAggregateInputType = {
+    id?: true
+    employeeId?: true
+    subjectId?: true
+    createdAt?: true
+  }
+
+  export type EmployeeSubjectCountAggregateInputType = {
+    id?: true
+    employeeId?: true
+    subjectId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type EmployeeSubjectAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EmployeeSubject to aggregate.
+     */
+    where?: EmployeeSubjectWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmployeeSubjects to fetch.
+     */
+    orderBy?: EmployeeSubjectOrderByWithRelationInput | EmployeeSubjectOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EmployeeSubjectWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmployeeSubjects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmployeeSubjects.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EmployeeSubjects
+    **/
+    _count?: true | EmployeeSubjectCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EmployeeSubjectMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EmployeeSubjectMaxAggregateInputType
+  }
+
+  export type GetEmployeeSubjectAggregateType<T extends EmployeeSubjectAggregateArgs> = {
+        [P in keyof T & keyof AggregateEmployeeSubject]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEmployeeSubject[P]>
+      : GetScalarType<T[P], AggregateEmployeeSubject[P]>
+  }
+
+
+
+
+  export type EmployeeSubjectGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmployeeSubjectWhereInput
+    orderBy?: EmployeeSubjectOrderByWithAggregationInput | EmployeeSubjectOrderByWithAggregationInput[]
+    by: EmployeeSubjectScalarFieldEnum[] | EmployeeSubjectScalarFieldEnum
+    having?: EmployeeSubjectScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EmployeeSubjectCountAggregateInputType | true
+    _min?: EmployeeSubjectMinAggregateInputType
+    _max?: EmployeeSubjectMaxAggregateInputType
+  }
+
+  export type EmployeeSubjectGroupByOutputType = {
+    id: string
+    employeeId: string
+    subjectId: string
+    createdAt: Date
+    _count: EmployeeSubjectCountAggregateOutputType | null
+    _min: EmployeeSubjectMinAggregateOutputType | null
+    _max: EmployeeSubjectMaxAggregateOutputType | null
+  }
+
+  type GetEmployeeSubjectGroupByPayload<T extends EmployeeSubjectGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EmployeeSubjectGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EmployeeSubjectGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EmployeeSubjectGroupByOutputType[P]>
+            : GetScalarType<T[P], EmployeeSubjectGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EmployeeSubjectSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    subjectId?: boolean
+    createdAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["employeeSubject"]>
+
+  export type EmployeeSubjectSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    subjectId?: boolean
+    createdAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["employeeSubject"]>
+
+  export type EmployeeSubjectSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    subjectId?: boolean
+    createdAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["employeeSubject"]>
+
+  export type EmployeeSubjectSelectScalar = {
+    id?: boolean
+    employeeId?: boolean
+    subjectId?: boolean
+    createdAt?: boolean
+  }
+
+  export type EmployeeSubjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "subjectId" | "createdAt", ExtArgs["result"]["employeeSubject"]>
+  export type EmployeeSubjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }
+  export type EmployeeSubjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }
+  export type EmployeeSubjectIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }
+
+  export type $EmployeeSubjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EmployeeSubject"
+    objects: {
+      employee: Prisma.$EmployeePayload<ExtArgs>
+      subject: Prisma.$SubjectPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      employeeId: string
+      subjectId: string
+      createdAt: Date
+    }, ExtArgs["result"]["employeeSubject"]>
+    composites: {}
+  }
+
+  type EmployeeSubjectGetPayload<S extends boolean | null | undefined | EmployeeSubjectDefaultArgs> = $Result.GetResult<Prisma.$EmployeeSubjectPayload, S>
+
+  type EmployeeSubjectCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EmployeeSubjectFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EmployeeSubjectCountAggregateInputType | true
+    }
+
+  export interface EmployeeSubjectDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EmployeeSubject'], meta: { name: 'EmployeeSubject' } }
+    /**
+     * Find zero or one EmployeeSubject that matches the filter.
+     * @param {EmployeeSubjectFindUniqueArgs} args - Arguments to find a EmployeeSubject
+     * @example
+     * // Get one EmployeeSubject
+     * const employeeSubject = await prisma.employeeSubject.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EmployeeSubjectFindUniqueArgs>(args: SelectSubset<T, EmployeeSubjectFindUniqueArgs<ExtArgs>>): Prisma__EmployeeSubjectClient<$Result.GetResult<Prisma.$EmployeeSubjectPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EmployeeSubject that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EmployeeSubjectFindUniqueOrThrowArgs} args - Arguments to find a EmployeeSubject
+     * @example
+     * // Get one EmployeeSubject
+     * const employeeSubject = await prisma.employeeSubject.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EmployeeSubjectFindUniqueOrThrowArgs>(args: SelectSubset<T, EmployeeSubjectFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EmployeeSubjectClient<$Result.GetResult<Prisma.$EmployeeSubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EmployeeSubject that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmployeeSubjectFindFirstArgs} args - Arguments to find a EmployeeSubject
+     * @example
+     * // Get one EmployeeSubject
+     * const employeeSubject = await prisma.employeeSubject.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EmployeeSubjectFindFirstArgs>(args?: SelectSubset<T, EmployeeSubjectFindFirstArgs<ExtArgs>>): Prisma__EmployeeSubjectClient<$Result.GetResult<Prisma.$EmployeeSubjectPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EmployeeSubject that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmployeeSubjectFindFirstOrThrowArgs} args - Arguments to find a EmployeeSubject
+     * @example
+     * // Get one EmployeeSubject
+     * const employeeSubject = await prisma.employeeSubject.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EmployeeSubjectFindFirstOrThrowArgs>(args?: SelectSubset<T, EmployeeSubjectFindFirstOrThrowArgs<ExtArgs>>): Prisma__EmployeeSubjectClient<$Result.GetResult<Prisma.$EmployeeSubjectPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EmployeeSubjects that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmployeeSubjectFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EmployeeSubjects
+     * const employeeSubjects = await prisma.employeeSubject.findMany()
+     * 
+     * // Get first 10 EmployeeSubjects
+     * const employeeSubjects = await prisma.employeeSubject.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const employeeSubjectWithIdOnly = await prisma.employeeSubject.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EmployeeSubjectFindManyArgs>(args?: SelectSubset<T, EmployeeSubjectFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeeSubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EmployeeSubject.
+     * @param {EmployeeSubjectCreateArgs} args - Arguments to create a EmployeeSubject.
+     * @example
+     * // Create one EmployeeSubject
+     * const EmployeeSubject = await prisma.employeeSubject.create({
+     *   data: {
+     *     // ... data to create a EmployeeSubject
+     *   }
+     * })
+     * 
+     */
+    create<T extends EmployeeSubjectCreateArgs>(args: SelectSubset<T, EmployeeSubjectCreateArgs<ExtArgs>>): Prisma__EmployeeSubjectClient<$Result.GetResult<Prisma.$EmployeeSubjectPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EmployeeSubjects.
+     * @param {EmployeeSubjectCreateManyArgs} args - Arguments to create many EmployeeSubjects.
+     * @example
+     * // Create many EmployeeSubjects
+     * const employeeSubject = await prisma.employeeSubject.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EmployeeSubjectCreateManyArgs>(args?: SelectSubset<T, EmployeeSubjectCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EmployeeSubjects and returns the data saved in the database.
+     * @param {EmployeeSubjectCreateManyAndReturnArgs} args - Arguments to create many EmployeeSubjects.
+     * @example
+     * // Create many EmployeeSubjects
+     * const employeeSubject = await prisma.employeeSubject.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EmployeeSubjects and only return the `id`
+     * const employeeSubjectWithIdOnly = await prisma.employeeSubject.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EmployeeSubjectCreateManyAndReturnArgs>(args?: SelectSubset<T, EmployeeSubjectCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeeSubjectPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EmployeeSubject.
+     * @param {EmployeeSubjectDeleteArgs} args - Arguments to delete one EmployeeSubject.
+     * @example
+     * // Delete one EmployeeSubject
+     * const EmployeeSubject = await prisma.employeeSubject.delete({
+     *   where: {
+     *     // ... filter to delete one EmployeeSubject
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EmployeeSubjectDeleteArgs>(args: SelectSubset<T, EmployeeSubjectDeleteArgs<ExtArgs>>): Prisma__EmployeeSubjectClient<$Result.GetResult<Prisma.$EmployeeSubjectPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EmployeeSubject.
+     * @param {EmployeeSubjectUpdateArgs} args - Arguments to update one EmployeeSubject.
+     * @example
+     * // Update one EmployeeSubject
+     * const employeeSubject = await prisma.employeeSubject.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EmployeeSubjectUpdateArgs>(args: SelectSubset<T, EmployeeSubjectUpdateArgs<ExtArgs>>): Prisma__EmployeeSubjectClient<$Result.GetResult<Prisma.$EmployeeSubjectPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EmployeeSubjects.
+     * @param {EmployeeSubjectDeleteManyArgs} args - Arguments to filter EmployeeSubjects to delete.
+     * @example
+     * // Delete a few EmployeeSubjects
+     * const { count } = await prisma.employeeSubject.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EmployeeSubjectDeleteManyArgs>(args?: SelectSubset<T, EmployeeSubjectDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EmployeeSubjects.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmployeeSubjectUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EmployeeSubjects
+     * const employeeSubject = await prisma.employeeSubject.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EmployeeSubjectUpdateManyArgs>(args: SelectSubset<T, EmployeeSubjectUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EmployeeSubjects and returns the data updated in the database.
+     * @param {EmployeeSubjectUpdateManyAndReturnArgs} args - Arguments to update many EmployeeSubjects.
+     * @example
+     * // Update many EmployeeSubjects
+     * const employeeSubject = await prisma.employeeSubject.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EmployeeSubjects and only return the `id`
+     * const employeeSubjectWithIdOnly = await prisma.employeeSubject.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EmployeeSubjectUpdateManyAndReturnArgs>(args: SelectSubset<T, EmployeeSubjectUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeeSubjectPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EmployeeSubject.
+     * @param {EmployeeSubjectUpsertArgs} args - Arguments to update or create a EmployeeSubject.
+     * @example
+     * // Update or create a EmployeeSubject
+     * const employeeSubject = await prisma.employeeSubject.upsert({
+     *   create: {
+     *     // ... data to create a EmployeeSubject
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EmployeeSubject we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EmployeeSubjectUpsertArgs>(args: SelectSubset<T, EmployeeSubjectUpsertArgs<ExtArgs>>): Prisma__EmployeeSubjectClient<$Result.GetResult<Prisma.$EmployeeSubjectPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EmployeeSubjects.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmployeeSubjectCountArgs} args - Arguments to filter EmployeeSubjects to count.
+     * @example
+     * // Count the number of EmployeeSubjects
+     * const count = await prisma.employeeSubject.count({
+     *   where: {
+     *     // ... the filter for the EmployeeSubjects we want to count
+     *   }
+     * })
+    **/
+    count<T extends EmployeeSubjectCountArgs>(
+      args?: Subset<T, EmployeeSubjectCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EmployeeSubjectCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EmployeeSubject.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmployeeSubjectAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EmployeeSubjectAggregateArgs>(args: Subset<T, EmployeeSubjectAggregateArgs>): Prisma.PrismaPromise<GetEmployeeSubjectAggregateType<T>>
+
+    /**
+     * Group by EmployeeSubject.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmployeeSubjectGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EmployeeSubjectGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EmployeeSubjectGroupByArgs['orderBy'] }
+        : { orderBy?: EmployeeSubjectGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EmployeeSubjectGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEmployeeSubjectGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EmployeeSubject model
+   */
+  readonly fields: EmployeeSubjectFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EmployeeSubject.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EmployeeSubjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    subject<T extends SubjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SubjectDefaultArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EmployeeSubject model
+   */
+  interface EmployeeSubjectFieldRefs {
+    readonly id: FieldRef<"EmployeeSubject", 'String'>
+    readonly employeeId: FieldRef<"EmployeeSubject", 'String'>
+    readonly subjectId: FieldRef<"EmployeeSubject", 'String'>
+    readonly createdAt: FieldRef<"EmployeeSubject", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EmployeeSubject findUnique
+   */
+  export type EmployeeSubjectFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmployeeSubject
+     */
+    select?: EmployeeSubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmployeeSubject
+     */
+    omit?: EmployeeSubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeSubjectInclude<ExtArgs> | null
+    /**
+     * Filter, which EmployeeSubject to fetch.
+     */
+    where: EmployeeSubjectWhereUniqueInput
+  }
+
+  /**
+   * EmployeeSubject findUniqueOrThrow
+   */
+  export type EmployeeSubjectFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmployeeSubject
+     */
+    select?: EmployeeSubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmployeeSubject
+     */
+    omit?: EmployeeSubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeSubjectInclude<ExtArgs> | null
+    /**
+     * Filter, which EmployeeSubject to fetch.
+     */
+    where: EmployeeSubjectWhereUniqueInput
+  }
+
+  /**
+   * EmployeeSubject findFirst
+   */
+  export type EmployeeSubjectFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmployeeSubject
+     */
+    select?: EmployeeSubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmployeeSubject
+     */
+    omit?: EmployeeSubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeSubjectInclude<ExtArgs> | null
+    /**
+     * Filter, which EmployeeSubject to fetch.
+     */
+    where?: EmployeeSubjectWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmployeeSubjects to fetch.
+     */
+    orderBy?: EmployeeSubjectOrderByWithRelationInput | EmployeeSubjectOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EmployeeSubjects.
+     */
+    cursor?: EmployeeSubjectWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmployeeSubjects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmployeeSubjects.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EmployeeSubjects.
+     */
+    distinct?: EmployeeSubjectScalarFieldEnum | EmployeeSubjectScalarFieldEnum[]
+  }
+
+  /**
+   * EmployeeSubject findFirstOrThrow
+   */
+  export type EmployeeSubjectFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmployeeSubject
+     */
+    select?: EmployeeSubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmployeeSubject
+     */
+    omit?: EmployeeSubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeSubjectInclude<ExtArgs> | null
+    /**
+     * Filter, which EmployeeSubject to fetch.
+     */
+    where?: EmployeeSubjectWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmployeeSubjects to fetch.
+     */
+    orderBy?: EmployeeSubjectOrderByWithRelationInput | EmployeeSubjectOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EmployeeSubjects.
+     */
+    cursor?: EmployeeSubjectWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmployeeSubjects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmployeeSubjects.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EmployeeSubjects.
+     */
+    distinct?: EmployeeSubjectScalarFieldEnum | EmployeeSubjectScalarFieldEnum[]
+  }
+
+  /**
+   * EmployeeSubject findMany
+   */
+  export type EmployeeSubjectFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmployeeSubject
+     */
+    select?: EmployeeSubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmployeeSubject
+     */
+    omit?: EmployeeSubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeSubjectInclude<ExtArgs> | null
+    /**
+     * Filter, which EmployeeSubjects to fetch.
+     */
+    where?: EmployeeSubjectWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmployeeSubjects to fetch.
+     */
+    orderBy?: EmployeeSubjectOrderByWithRelationInput | EmployeeSubjectOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EmployeeSubjects.
+     */
+    cursor?: EmployeeSubjectWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmployeeSubjects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmployeeSubjects.
+     */
+    skip?: number
+    distinct?: EmployeeSubjectScalarFieldEnum | EmployeeSubjectScalarFieldEnum[]
+  }
+
+  /**
+   * EmployeeSubject create
+   */
+  export type EmployeeSubjectCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmployeeSubject
+     */
+    select?: EmployeeSubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmployeeSubject
+     */
+    omit?: EmployeeSubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeSubjectInclude<ExtArgs> | null
+    /**
+     * The data needed to create a EmployeeSubject.
+     */
+    data: XOR<EmployeeSubjectCreateInput, EmployeeSubjectUncheckedCreateInput>
+  }
+
+  /**
+   * EmployeeSubject createMany
+   */
+  export type EmployeeSubjectCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EmployeeSubjects.
+     */
+    data: EmployeeSubjectCreateManyInput | EmployeeSubjectCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EmployeeSubject createManyAndReturn
+   */
+  export type EmployeeSubjectCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmployeeSubject
+     */
+    select?: EmployeeSubjectSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmployeeSubject
+     */
+    omit?: EmployeeSubjectOmit<ExtArgs> | null
+    /**
+     * The data used to create many EmployeeSubjects.
+     */
+    data: EmployeeSubjectCreateManyInput | EmployeeSubjectCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeSubjectIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EmployeeSubject update
+   */
+  export type EmployeeSubjectUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmployeeSubject
+     */
+    select?: EmployeeSubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmployeeSubject
+     */
+    omit?: EmployeeSubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeSubjectInclude<ExtArgs> | null
+    /**
+     * The data needed to update a EmployeeSubject.
+     */
+    data: XOR<EmployeeSubjectUpdateInput, EmployeeSubjectUncheckedUpdateInput>
+    /**
+     * Choose, which EmployeeSubject to update.
+     */
+    where: EmployeeSubjectWhereUniqueInput
+  }
+
+  /**
+   * EmployeeSubject updateMany
+   */
+  export type EmployeeSubjectUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EmployeeSubjects.
+     */
+    data: XOR<EmployeeSubjectUpdateManyMutationInput, EmployeeSubjectUncheckedUpdateManyInput>
+    /**
+     * Filter which EmployeeSubjects to update
+     */
+    where?: EmployeeSubjectWhereInput
+    /**
+     * Limit how many EmployeeSubjects to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EmployeeSubject updateManyAndReturn
+   */
+  export type EmployeeSubjectUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmployeeSubject
+     */
+    select?: EmployeeSubjectSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmployeeSubject
+     */
+    omit?: EmployeeSubjectOmit<ExtArgs> | null
+    /**
+     * The data used to update EmployeeSubjects.
+     */
+    data: XOR<EmployeeSubjectUpdateManyMutationInput, EmployeeSubjectUncheckedUpdateManyInput>
+    /**
+     * Filter which EmployeeSubjects to update
+     */
+    where?: EmployeeSubjectWhereInput
+    /**
+     * Limit how many EmployeeSubjects to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeSubjectIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EmployeeSubject upsert
+   */
+  export type EmployeeSubjectUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmployeeSubject
+     */
+    select?: EmployeeSubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmployeeSubject
+     */
+    omit?: EmployeeSubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeSubjectInclude<ExtArgs> | null
+    /**
+     * The filter to search for the EmployeeSubject to update in case it exists.
+     */
+    where: EmployeeSubjectWhereUniqueInput
+    /**
+     * In case the EmployeeSubject found by the `where` argument doesn't exist, create a new EmployeeSubject with this data.
+     */
+    create: XOR<EmployeeSubjectCreateInput, EmployeeSubjectUncheckedCreateInput>
+    /**
+     * In case the EmployeeSubject was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EmployeeSubjectUpdateInput, EmployeeSubjectUncheckedUpdateInput>
+  }
+
+  /**
+   * EmployeeSubject delete
+   */
+  export type EmployeeSubjectDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmployeeSubject
+     */
+    select?: EmployeeSubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmployeeSubject
+     */
+    omit?: EmployeeSubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeSubjectInclude<ExtArgs> | null
+    /**
+     * Filter which EmployeeSubject to delete.
+     */
+    where: EmployeeSubjectWhereUniqueInput
+  }
+
+  /**
+   * EmployeeSubject deleteMany
+   */
+  export type EmployeeSubjectDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EmployeeSubjects to delete
+     */
+    where?: EmployeeSubjectWhereInput
+    /**
+     * Limit how many EmployeeSubjects to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EmployeeSubject without action
+   */
+  export type EmployeeSubjectDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmployeeSubject
+     */
+    select?: EmployeeSubjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmployeeSubject
+     */
+    omit?: EmployeeSubjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeSubjectInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TeachingAssignment
+   */
+
+  export type AggregateTeachingAssignment = {
+    _count: TeachingAssignmentCountAggregateOutputType | null
+    _avg: TeachingAssignmentAvgAggregateOutputType | null
+    _sum: TeachingAssignmentSumAggregateOutputType | null
+    _min: TeachingAssignmentMinAggregateOutputType | null
+    _max: TeachingAssignmentMaxAggregateOutputType | null
+  }
+
+  export type TeachingAssignmentAvgAggregateOutputType = {
+    weekday: number | null
+    lessonStart: number | null
+    lessonEnd: number | null
+    hours: number | null
+  }
+
+  export type TeachingAssignmentSumAggregateOutputType = {
+    weekday: number | null
+    lessonStart: number | null
+    lessonEnd: number | null
+    hours: number | null
+  }
+
+  export type TeachingAssignmentMinAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    subjectId: string | null
+    weekday: number | null
+    startTime: string | null
+    endTime: string | null
+    classGroup: string | null
+    lessonStart: number | null
+    lessonEnd: number | null
+    fullDay: boolean | null
+    hours: number | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TeachingAssignmentMaxAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    subjectId: string | null
+    weekday: number | null
+    startTime: string | null
+    endTime: string | null
+    classGroup: string | null
+    lessonStart: number | null
+    lessonEnd: number | null
+    fullDay: boolean | null
+    hours: number | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TeachingAssignmentCountAggregateOutputType = {
+    id: number
+    employeeId: number
+    subjectId: number
+    weekday: number
+    startTime: number
+    endTime: number
+    classGroup: number
+    lessonStart: number
+    lessonEnd: number
+    fullDay: number
+    hours: number
+    active: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TeachingAssignmentAvgAggregateInputType = {
+    weekday?: true
+    lessonStart?: true
+    lessonEnd?: true
+    hours?: true
+  }
+
+  export type TeachingAssignmentSumAggregateInputType = {
+    weekday?: true
+    lessonStart?: true
+    lessonEnd?: true
+    hours?: true
+  }
+
+  export type TeachingAssignmentMinAggregateInputType = {
+    id?: true
+    employeeId?: true
+    subjectId?: true
+    weekday?: true
+    startTime?: true
+    endTime?: true
+    classGroup?: true
+    lessonStart?: true
+    lessonEnd?: true
+    fullDay?: true
+    hours?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TeachingAssignmentMaxAggregateInputType = {
+    id?: true
+    employeeId?: true
+    subjectId?: true
+    weekday?: true
+    startTime?: true
+    endTime?: true
+    classGroup?: true
+    lessonStart?: true
+    lessonEnd?: true
+    fullDay?: true
+    hours?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TeachingAssignmentCountAggregateInputType = {
+    id?: true
+    employeeId?: true
+    subjectId?: true
+    weekday?: true
+    startTime?: true
+    endTime?: true
+    classGroup?: true
+    lessonStart?: true
+    lessonEnd?: true
+    fullDay?: true
+    hours?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TeachingAssignmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TeachingAssignment to aggregate.
+     */
+    where?: TeachingAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeachingAssignments to fetch.
+     */
+    orderBy?: TeachingAssignmentOrderByWithRelationInput | TeachingAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TeachingAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeachingAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeachingAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TeachingAssignments
+    **/
+    _count?: true | TeachingAssignmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TeachingAssignmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TeachingAssignmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TeachingAssignmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TeachingAssignmentMaxAggregateInputType
+  }
+
+  export type GetTeachingAssignmentAggregateType<T extends TeachingAssignmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateTeachingAssignment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTeachingAssignment[P]>
+      : GetScalarType<T[P], AggregateTeachingAssignment[P]>
+  }
+
+
+
+
+  export type TeachingAssignmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeachingAssignmentWhereInput
+    orderBy?: TeachingAssignmentOrderByWithAggregationInput | TeachingAssignmentOrderByWithAggregationInput[]
+    by: TeachingAssignmentScalarFieldEnum[] | TeachingAssignmentScalarFieldEnum
+    having?: TeachingAssignmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TeachingAssignmentCountAggregateInputType | true
+    _avg?: TeachingAssignmentAvgAggregateInputType
+    _sum?: TeachingAssignmentSumAggregateInputType
+    _min?: TeachingAssignmentMinAggregateInputType
+    _max?: TeachingAssignmentMaxAggregateInputType
+  }
+
+  export type TeachingAssignmentGroupByOutputType = {
+    id: string
+    employeeId: string
+    subjectId: string
+    weekday: number
+    startTime: string
+    endTime: string
+    classGroup: string | null
+    lessonStart: number | null
+    lessonEnd: number | null
+    fullDay: boolean
+    hours: number
+    active: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: TeachingAssignmentCountAggregateOutputType | null
+    _avg: TeachingAssignmentAvgAggregateOutputType | null
+    _sum: TeachingAssignmentSumAggregateOutputType | null
+    _min: TeachingAssignmentMinAggregateOutputType | null
+    _max: TeachingAssignmentMaxAggregateOutputType | null
+  }
+
+  type GetTeachingAssignmentGroupByPayload<T extends TeachingAssignmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TeachingAssignmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TeachingAssignmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TeachingAssignmentGroupByOutputType[P]>
+            : GetScalarType<T[P], TeachingAssignmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TeachingAssignmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    subjectId?: boolean
+    weekday?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    classGroup?: boolean
+    lessonStart?: boolean
+    lessonEnd?: boolean
+    fullDay?: boolean
+    hours?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["teachingAssignment"]>
+
+  export type TeachingAssignmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    subjectId?: boolean
+    weekday?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    classGroup?: boolean
+    lessonStart?: boolean
+    lessonEnd?: boolean
+    fullDay?: boolean
+    hours?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["teachingAssignment"]>
+
+  export type TeachingAssignmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    subjectId?: boolean
+    weekday?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    classGroup?: boolean
+    lessonStart?: boolean
+    lessonEnd?: boolean
+    fullDay?: boolean
+    hours?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["teachingAssignment"]>
+
+  export type TeachingAssignmentSelectScalar = {
+    id?: boolean
+    employeeId?: boolean
+    subjectId?: boolean
+    weekday?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    classGroup?: boolean
+    lessonStart?: boolean
+    lessonEnd?: boolean
+    fullDay?: boolean
+    hours?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TeachingAssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "subjectId" | "weekday" | "startTime" | "endTime" | "classGroup" | "lessonStart" | "lessonEnd" | "fullDay" | "hours" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["teachingAssignment"]>
+  export type TeachingAssignmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }
+  export type TeachingAssignmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }
+  export type TeachingAssignmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }
+
+  export type $TeachingAssignmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TeachingAssignment"
+    objects: {
+      employee: Prisma.$EmployeePayload<ExtArgs>
+      subject: Prisma.$SubjectPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      employeeId: string
+      subjectId: string
+      weekday: number
+      startTime: string
+      endTime: string
+      classGroup: string | null
+      lessonStart: number | null
+      lessonEnd: number | null
+      fullDay: boolean
+      hours: number
+      active: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["teachingAssignment"]>
+    composites: {}
+  }
+
+  type TeachingAssignmentGetPayload<S extends boolean | null | undefined | TeachingAssignmentDefaultArgs> = $Result.GetResult<Prisma.$TeachingAssignmentPayload, S>
+
+  type TeachingAssignmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TeachingAssignmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TeachingAssignmentCountAggregateInputType | true
+    }
+
+  export interface TeachingAssignmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TeachingAssignment'], meta: { name: 'TeachingAssignment' } }
+    /**
+     * Find zero or one TeachingAssignment that matches the filter.
+     * @param {TeachingAssignmentFindUniqueArgs} args - Arguments to find a TeachingAssignment
+     * @example
+     * // Get one TeachingAssignment
+     * const teachingAssignment = await prisma.teachingAssignment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TeachingAssignmentFindUniqueArgs>(args: SelectSubset<T, TeachingAssignmentFindUniqueArgs<ExtArgs>>): Prisma__TeachingAssignmentClient<$Result.GetResult<Prisma.$TeachingAssignmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TeachingAssignment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TeachingAssignmentFindUniqueOrThrowArgs} args - Arguments to find a TeachingAssignment
+     * @example
+     * // Get one TeachingAssignment
+     * const teachingAssignment = await prisma.teachingAssignment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TeachingAssignmentFindUniqueOrThrowArgs>(args: SelectSubset<T, TeachingAssignmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TeachingAssignmentClient<$Result.GetResult<Prisma.$TeachingAssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TeachingAssignment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeachingAssignmentFindFirstArgs} args - Arguments to find a TeachingAssignment
+     * @example
+     * // Get one TeachingAssignment
+     * const teachingAssignment = await prisma.teachingAssignment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TeachingAssignmentFindFirstArgs>(args?: SelectSubset<T, TeachingAssignmentFindFirstArgs<ExtArgs>>): Prisma__TeachingAssignmentClient<$Result.GetResult<Prisma.$TeachingAssignmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TeachingAssignment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeachingAssignmentFindFirstOrThrowArgs} args - Arguments to find a TeachingAssignment
+     * @example
+     * // Get one TeachingAssignment
+     * const teachingAssignment = await prisma.teachingAssignment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TeachingAssignmentFindFirstOrThrowArgs>(args?: SelectSubset<T, TeachingAssignmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__TeachingAssignmentClient<$Result.GetResult<Prisma.$TeachingAssignmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TeachingAssignments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeachingAssignmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TeachingAssignments
+     * const teachingAssignments = await prisma.teachingAssignment.findMany()
+     * 
+     * // Get first 10 TeachingAssignments
+     * const teachingAssignments = await prisma.teachingAssignment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const teachingAssignmentWithIdOnly = await prisma.teachingAssignment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TeachingAssignmentFindManyArgs>(args?: SelectSubset<T, TeachingAssignmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeachingAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TeachingAssignment.
+     * @param {TeachingAssignmentCreateArgs} args - Arguments to create a TeachingAssignment.
+     * @example
+     * // Create one TeachingAssignment
+     * const TeachingAssignment = await prisma.teachingAssignment.create({
+     *   data: {
+     *     // ... data to create a TeachingAssignment
+     *   }
+     * })
+     * 
+     */
+    create<T extends TeachingAssignmentCreateArgs>(args: SelectSubset<T, TeachingAssignmentCreateArgs<ExtArgs>>): Prisma__TeachingAssignmentClient<$Result.GetResult<Prisma.$TeachingAssignmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TeachingAssignments.
+     * @param {TeachingAssignmentCreateManyArgs} args - Arguments to create many TeachingAssignments.
+     * @example
+     * // Create many TeachingAssignments
+     * const teachingAssignment = await prisma.teachingAssignment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TeachingAssignmentCreateManyArgs>(args?: SelectSubset<T, TeachingAssignmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TeachingAssignments and returns the data saved in the database.
+     * @param {TeachingAssignmentCreateManyAndReturnArgs} args - Arguments to create many TeachingAssignments.
+     * @example
+     * // Create many TeachingAssignments
+     * const teachingAssignment = await prisma.teachingAssignment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TeachingAssignments and only return the `id`
+     * const teachingAssignmentWithIdOnly = await prisma.teachingAssignment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TeachingAssignmentCreateManyAndReturnArgs>(args?: SelectSubset<T, TeachingAssignmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeachingAssignmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TeachingAssignment.
+     * @param {TeachingAssignmentDeleteArgs} args - Arguments to delete one TeachingAssignment.
+     * @example
+     * // Delete one TeachingAssignment
+     * const TeachingAssignment = await prisma.teachingAssignment.delete({
+     *   where: {
+     *     // ... filter to delete one TeachingAssignment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TeachingAssignmentDeleteArgs>(args: SelectSubset<T, TeachingAssignmentDeleteArgs<ExtArgs>>): Prisma__TeachingAssignmentClient<$Result.GetResult<Prisma.$TeachingAssignmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TeachingAssignment.
+     * @param {TeachingAssignmentUpdateArgs} args - Arguments to update one TeachingAssignment.
+     * @example
+     * // Update one TeachingAssignment
+     * const teachingAssignment = await prisma.teachingAssignment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TeachingAssignmentUpdateArgs>(args: SelectSubset<T, TeachingAssignmentUpdateArgs<ExtArgs>>): Prisma__TeachingAssignmentClient<$Result.GetResult<Prisma.$TeachingAssignmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TeachingAssignments.
+     * @param {TeachingAssignmentDeleteManyArgs} args - Arguments to filter TeachingAssignments to delete.
+     * @example
+     * // Delete a few TeachingAssignments
+     * const { count } = await prisma.teachingAssignment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TeachingAssignmentDeleteManyArgs>(args?: SelectSubset<T, TeachingAssignmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TeachingAssignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeachingAssignmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TeachingAssignments
+     * const teachingAssignment = await prisma.teachingAssignment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TeachingAssignmentUpdateManyArgs>(args: SelectSubset<T, TeachingAssignmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TeachingAssignments and returns the data updated in the database.
+     * @param {TeachingAssignmentUpdateManyAndReturnArgs} args - Arguments to update many TeachingAssignments.
+     * @example
+     * // Update many TeachingAssignments
+     * const teachingAssignment = await prisma.teachingAssignment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TeachingAssignments and only return the `id`
+     * const teachingAssignmentWithIdOnly = await prisma.teachingAssignment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TeachingAssignmentUpdateManyAndReturnArgs>(args: SelectSubset<T, TeachingAssignmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeachingAssignmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TeachingAssignment.
+     * @param {TeachingAssignmentUpsertArgs} args - Arguments to update or create a TeachingAssignment.
+     * @example
+     * // Update or create a TeachingAssignment
+     * const teachingAssignment = await prisma.teachingAssignment.upsert({
+     *   create: {
+     *     // ... data to create a TeachingAssignment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TeachingAssignment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TeachingAssignmentUpsertArgs>(args: SelectSubset<T, TeachingAssignmentUpsertArgs<ExtArgs>>): Prisma__TeachingAssignmentClient<$Result.GetResult<Prisma.$TeachingAssignmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TeachingAssignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeachingAssignmentCountArgs} args - Arguments to filter TeachingAssignments to count.
+     * @example
+     * // Count the number of TeachingAssignments
+     * const count = await prisma.teachingAssignment.count({
+     *   where: {
+     *     // ... the filter for the TeachingAssignments we want to count
+     *   }
+     * })
+    **/
+    count<T extends TeachingAssignmentCountArgs>(
+      args?: Subset<T, TeachingAssignmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TeachingAssignmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TeachingAssignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeachingAssignmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TeachingAssignmentAggregateArgs>(args: Subset<T, TeachingAssignmentAggregateArgs>): Prisma.PrismaPromise<GetTeachingAssignmentAggregateType<T>>
+
+    /**
+     * Group by TeachingAssignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeachingAssignmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TeachingAssignmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TeachingAssignmentGroupByArgs['orderBy'] }
+        : { orderBy?: TeachingAssignmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TeachingAssignmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTeachingAssignmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TeachingAssignment model
+   */
+  readonly fields: TeachingAssignmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TeachingAssignment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TeachingAssignmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    subject<T extends SubjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SubjectDefaultArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TeachingAssignment model
+   */
+  interface TeachingAssignmentFieldRefs {
+    readonly id: FieldRef<"TeachingAssignment", 'String'>
+    readonly employeeId: FieldRef<"TeachingAssignment", 'String'>
+    readonly subjectId: FieldRef<"TeachingAssignment", 'String'>
+    readonly weekday: FieldRef<"TeachingAssignment", 'Int'>
+    readonly startTime: FieldRef<"TeachingAssignment", 'String'>
+    readonly endTime: FieldRef<"TeachingAssignment", 'String'>
+    readonly classGroup: FieldRef<"TeachingAssignment", 'String'>
+    readonly lessonStart: FieldRef<"TeachingAssignment", 'Int'>
+    readonly lessonEnd: FieldRef<"TeachingAssignment", 'Int'>
+    readonly fullDay: FieldRef<"TeachingAssignment", 'Boolean'>
+    readonly hours: FieldRef<"TeachingAssignment", 'Float'>
+    readonly active: FieldRef<"TeachingAssignment", 'Boolean'>
+    readonly createdAt: FieldRef<"TeachingAssignment", 'DateTime'>
+    readonly updatedAt: FieldRef<"TeachingAssignment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TeachingAssignment findUnique
+   */
+  export type TeachingAssignmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeachingAssignment
+     */
+    select?: TeachingAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeachingAssignment
+     */
+    omit?: TeachingAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeachingAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which TeachingAssignment to fetch.
+     */
+    where: TeachingAssignmentWhereUniqueInput
+  }
+
+  /**
+   * TeachingAssignment findUniqueOrThrow
+   */
+  export type TeachingAssignmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeachingAssignment
+     */
+    select?: TeachingAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeachingAssignment
+     */
+    omit?: TeachingAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeachingAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which TeachingAssignment to fetch.
+     */
+    where: TeachingAssignmentWhereUniqueInput
+  }
+
+  /**
+   * TeachingAssignment findFirst
+   */
+  export type TeachingAssignmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeachingAssignment
+     */
+    select?: TeachingAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeachingAssignment
+     */
+    omit?: TeachingAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeachingAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which TeachingAssignment to fetch.
+     */
+    where?: TeachingAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeachingAssignments to fetch.
+     */
+    orderBy?: TeachingAssignmentOrderByWithRelationInput | TeachingAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TeachingAssignments.
+     */
+    cursor?: TeachingAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeachingAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeachingAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TeachingAssignments.
+     */
+    distinct?: TeachingAssignmentScalarFieldEnum | TeachingAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * TeachingAssignment findFirstOrThrow
+   */
+  export type TeachingAssignmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeachingAssignment
+     */
+    select?: TeachingAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeachingAssignment
+     */
+    omit?: TeachingAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeachingAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which TeachingAssignment to fetch.
+     */
+    where?: TeachingAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeachingAssignments to fetch.
+     */
+    orderBy?: TeachingAssignmentOrderByWithRelationInput | TeachingAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TeachingAssignments.
+     */
+    cursor?: TeachingAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeachingAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeachingAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TeachingAssignments.
+     */
+    distinct?: TeachingAssignmentScalarFieldEnum | TeachingAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * TeachingAssignment findMany
+   */
+  export type TeachingAssignmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeachingAssignment
+     */
+    select?: TeachingAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeachingAssignment
+     */
+    omit?: TeachingAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeachingAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which TeachingAssignments to fetch.
+     */
+    where?: TeachingAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeachingAssignments to fetch.
+     */
+    orderBy?: TeachingAssignmentOrderByWithRelationInput | TeachingAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TeachingAssignments.
+     */
+    cursor?: TeachingAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeachingAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeachingAssignments.
+     */
+    skip?: number
+    distinct?: TeachingAssignmentScalarFieldEnum | TeachingAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * TeachingAssignment create
+   */
+  export type TeachingAssignmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeachingAssignment
+     */
+    select?: TeachingAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeachingAssignment
+     */
+    omit?: TeachingAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeachingAssignmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TeachingAssignment.
+     */
+    data: XOR<TeachingAssignmentCreateInput, TeachingAssignmentUncheckedCreateInput>
+  }
+
+  /**
+   * TeachingAssignment createMany
+   */
+  export type TeachingAssignmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TeachingAssignments.
+     */
+    data: TeachingAssignmentCreateManyInput | TeachingAssignmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TeachingAssignment createManyAndReturn
+   */
+  export type TeachingAssignmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeachingAssignment
+     */
+    select?: TeachingAssignmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeachingAssignment
+     */
+    omit?: TeachingAssignmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many TeachingAssignments.
+     */
+    data: TeachingAssignmentCreateManyInput | TeachingAssignmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeachingAssignmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TeachingAssignment update
+   */
+  export type TeachingAssignmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeachingAssignment
+     */
+    select?: TeachingAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeachingAssignment
+     */
+    omit?: TeachingAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeachingAssignmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TeachingAssignment.
+     */
+    data: XOR<TeachingAssignmentUpdateInput, TeachingAssignmentUncheckedUpdateInput>
+    /**
+     * Choose, which TeachingAssignment to update.
+     */
+    where: TeachingAssignmentWhereUniqueInput
+  }
+
+  /**
+   * TeachingAssignment updateMany
+   */
+  export type TeachingAssignmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TeachingAssignments.
+     */
+    data: XOR<TeachingAssignmentUpdateManyMutationInput, TeachingAssignmentUncheckedUpdateManyInput>
+    /**
+     * Filter which TeachingAssignments to update
+     */
+    where?: TeachingAssignmentWhereInput
+    /**
+     * Limit how many TeachingAssignments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TeachingAssignment updateManyAndReturn
+   */
+  export type TeachingAssignmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeachingAssignment
+     */
+    select?: TeachingAssignmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeachingAssignment
+     */
+    omit?: TeachingAssignmentOmit<ExtArgs> | null
+    /**
+     * The data used to update TeachingAssignments.
+     */
+    data: XOR<TeachingAssignmentUpdateManyMutationInput, TeachingAssignmentUncheckedUpdateManyInput>
+    /**
+     * Filter which TeachingAssignments to update
+     */
+    where?: TeachingAssignmentWhereInput
+    /**
+     * Limit how many TeachingAssignments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeachingAssignmentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TeachingAssignment upsert
+   */
+  export type TeachingAssignmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeachingAssignment
+     */
+    select?: TeachingAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeachingAssignment
+     */
+    omit?: TeachingAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeachingAssignmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TeachingAssignment to update in case it exists.
+     */
+    where: TeachingAssignmentWhereUniqueInput
+    /**
+     * In case the TeachingAssignment found by the `where` argument doesn't exist, create a new TeachingAssignment with this data.
+     */
+    create: XOR<TeachingAssignmentCreateInput, TeachingAssignmentUncheckedCreateInput>
+    /**
+     * In case the TeachingAssignment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TeachingAssignmentUpdateInput, TeachingAssignmentUncheckedUpdateInput>
+  }
+
+  /**
+   * TeachingAssignment delete
+   */
+  export type TeachingAssignmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeachingAssignment
+     */
+    select?: TeachingAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeachingAssignment
+     */
+    omit?: TeachingAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeachingAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter which TeachingAssignment to delete.
+     */
+    where: TeachingAssignmentWhereUniqueInput
+  }
+
+  /**
+   * TeachingAssignment deleteMany
+   */
+  export type TeachingAssignmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TeachingAssignments to delete
+     */
+    where?: TeachingAssignmentWhereInput
+    /**
+     * Limit how many TeachingAssignments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TeachingAssignment without action
+   */
+  export type TeachingAssignmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeachingAssignment
+     */
+    select?: TeachingAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeachingAssignment
+     */
+    omit?: TeachingAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeachingAssignmentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SalaryAdjustment
+   */
+
+  export type AggregateSalaryAdjustment = {
+    _count: SalaryAdjustmentCountAggregateOutputType | null
+    _avg: SalaryAdjustmentAvgAggregateOutputType | null
+    _sum: SalaryAdjustmentSumAggregateOutputType | null
+    _min: SalaryAdjustmentMinAggregateOutputType | null
+    _max: SalaryAdjustmentMaxAggregateOutputType | null
+  }
+
+  export type SalaryAdjustmentAvgAggregateOutputType = {
+    previousSalary: number | null
+    newSalary: number | null
+    adjustmentValue: number | null
+  }
+
+  export type SalaryAdjustmentSumAggregateOutputType = {
+    previousSalary: number | null
+    newSalary: number | null
+    adjustmentValue: number | null
+  }
+
+  export type SalaryAdjustmentMinAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    effectiveDate: Date | null
+    previousSalary: number | null
+    newSalary: number | null
+    adjustmentValue: number | null
+    notes: string | null
+    createdAt: Date | null
+  }
+
+  export type SalaryAdjustmentMaxAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    effectiveDate: Date | null
+    previousSalary: number | null
+    newSalary: number | null
+    adjustmentValue: number | null
+    notes: string | null
+    createdAt: Date | null
+  }
+
+  export type SalaryAdjustmentCountAggregateOutputType = {
+    id: number
+    employeeId: number
+    effectiveDate: number
+    previousSalary: number
+    newSalary: number
+    adjustmentValue: number
+    notes: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SalaryAdjustmentAvgAggregateInputType = {
+    previousSalary?: true
+    newSalary?: true
+    adjustmentValue?: true
+  }
+
+  export type SalaryAdjustmentSumAggregateInputType = {
+    previousSalary?: true
+    newSalary?: true
+    adjustmentValue?: true
+  }
+
+  export type SalaryAdjustmentMinAggregateInputType = {
+    id?: true
+    employeeId?: true
+    effectiveDate?: true
+    previousSalary?: true
+    newSalary?: true
+    adjustmentValue?: true
+    notes?: true
+    createdAt?: true
+  }
+
+  export type SalaryAdjustmentMaxAggregateInputType = {
+    id?: true
+    employeeId?: true
+    effectiveDate?: true
+    previousSalary?: true
+    newSalary?: true
+    adjustmentValue?: true
+    notes?: true
+    createdAt?: true
+  }
+
+  export type SalaryAdjustmentCountAggregateInputType = {
+    id?: true
+    employeeId?: true
+    effectiveDate?: true
+    previousSalary?: true
+    newSalary?: true
+    adjustmentValue?: true
+    notes?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SalaryAdjustmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SalaryAdjustment to aggregate.
+     */
+    where?: SalaryAdjustmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalaryAdjustments to fetch.
+     */
+    orderBy?: SalaryAdjustmentOrderByWithRelationInput | SalaryAdjustmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SalaryAdjustmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalaryAdjustments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalaryAdjustments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SalaryAdjustments
+    **/
+    _count?: true | SalaryAdjustmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SalaryAdjustmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SalaryAdjustmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SalaryAdjustmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SalaryAdjustmentMaxAggregateInputType
+  }
+
+  export type GetSalaryAdjustmentAggregateType<T extends SalaryAdjustmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateSalaryAdjustment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSalaryAdjustment[P]>
+      : GetScalarType<T[P], AggregateSalaryAdjustment[P]>
+  }
+
+
+
+
+  export type SalaryAdjustmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SalaryAdjustmentWhereInput
+    orderBy?: SalaryAdjustmentOrderByWithAggregationInput | SalaryAdjustmentOrderByWithAggregationInput[]
+    by: SalaryAdjustmentScalarFieldEnum[] | SalaryAdjustmentScalarFieldEnum
+    having?: SalaryAdjustmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SalaryAdjustmentCountAggregateInputType | true
+    _avg?: SalaryAdjustmentAvgAggregateInputType
+    _sum?: SalaryAdjustmentSumAggregateInputType
+    _min?: SalaryAdjustmentMinAggregateInputType
+    _max?: SalaryAdjustmentMaxAggregateInputType
+  }
+
+  export type SalaryAdjustmentGroupByOutputType = {
+    id: string
+    employeeId: string
+    effectiveDate: Date
+    previousSalary: number
+    newSalary: number
+    adjustmentValue: number
+    notes: string | null
+    createdAt: Date
+    _count: SalaryAdjustmentCountAggregateOutputType | null
+    _avg: SalaryAdjustmentAvgAggregateOutputType | null
+    _sum: SalaryAdjustmentSumAggregateOutputType | null
+    _min: SalaryAdjustmentMinAggregateOutputType | null
+    _max: SalaryAdjustmentMaxAggregateOutputType | null
+  }
+
+  type GetSalaryAdjustmentGroupByPayload<T extends SalaryAdjustmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SalaryAdjustmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SalaryAdjustmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SalaryAdjustmentGroupByOutputType[P]>
+            : GetScalarType<T[P], SalaryAdjustmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SalaryAdjustmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    effectiveDate?: boolean
+    previousSalary?: boolean
+    newSalary?: boolean
+    adjustmentValue?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["salaryAdjustment"]>
+
+  export type SalaryAdjustmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    effectiveDate?: boolean
+    previousSalary?: boolean
+    newSalary?: boolean
+    adjustmentValue?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["salaryAdjustment"]>
+
+  export type SalaryAdjustmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    effectiveDate?: boolean
+    previousSalary?: boolean
+    newSalary?: boolean
+    adjustmentValue?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["salaryAdjustment"]>
+
+  export type SalaryAdjustmentSelectScalar = {
+    id?: boolean
+    employeeId?: boolean
+    effectiveDate?: boolean
+    previousSalary?: boolean
+    newSalary?: boolean
+    adjustmentValue?: boolean
+    notes?: boolean
+    createdAt?: boolean
+  }
+
+  export type SalaryAdjustmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "effectiveDate" | "previousSalary" | "newSalary" | "adjustmentValue" | "notes" | "createdAt", ExtArgs["result"]["salaryAdjustment"]>
+  export type SalaryAdjustmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type SalaryAdjustmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type SalaryAdjustmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+
+  export type $SalaryAdjustmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SalaryAdjustment"
+    objects: {
+      employee: Prisma.$EmployeePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      employeeId: string
+      effectiveDate: Date
+      previousSalary: number
+      newSalary: number
+      adjustmentValue: number
+      notes: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["salaryAdjustment"]>
+    composites: {}
+  }
+
+  type SalaryAdjustmentGetPayload<S extends boolean | null | undefined | SalaryAdjustmentDefaultArgs> = $Result.GetResult<Prisma.$SalaryAdjustmentPayload, S>
+
+  type SalaryAdjustmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SalaryAdjustmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SalaryAdjustmentCountAggregateInputType | true
+    }
+
+  export interface SalaryAdjustmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SalaryAdjustment'], meta: { name: 'SalaryAdjustment' } }
+    /**
+     * Find zero or one SalaryAdjustment that matches the filter.
+     * @param {SalaryAdjustmentFindUniqueArgs} args - Arguments to find a SalaryAdjustment
+     * @example
+     * // Get one SalaryAdjustment
+     * const salaryAdjustment = await prisma.salaryAdjustment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SalaryAdjustmentFindUniqueArgs>(args: SelectSubset<T, SalaryAdjustmentFindUniqueArgs<ExtArgs>>): Prisma__SalaryAdjustmentClient<$Result.GetResult<Prisma.$SalaryAdjustmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SalaryAdjustment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SalaryAdjustmentFindUniqueOrThrowArgs} args - Arguments to find a SalaryAdjustment
+     * @example
+     * // Get one SalaryAdjustment
+     * const salaryAdjustment = await prisma.salaryAdjustment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SalaryAdjustmentFindUniqueOrThrowArgs>(args: SelectSubset<T, SalaryAdjustmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SalaryAdjustmentClient<$Result.GetResult<Prisma.$SalaryAdjustmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SalaryAdjustment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryAdjustmentFindFirstArgs} args - Arguments to find a SalaryAdjustment
+     * @example
+     * // Get one SalaryAdjustment
+     * const salaryAdjustment = await prisma.salaryAdjustment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SalaryAdjustmentFindFirstArgs>(args?: SelectSubset<T, SalaryAdjustmentFindFirstArgs<ExtArgs>>): Prisma__SalaryAdjustmentClient<$Result.GetResult<Prisma.$SalaryAdjustmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SalaryAdjustment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryAdjustmentFindFirstOrThrowArgs} args - Arguments to find a SalaryAdjustment
+     * @example
+     * // Get one SalaryAdjustment
+     * const salaryAdjustment = await prisma.salaryAdjustment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SalaryAdjustmentFindFirstOrThrowArgs>(args?: SelectSubset<T, SalaryAdjustmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__SalaryAdjustmentClient<$Result.GetResult<Prisma.$SalaryAdjustmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SalaryAdjustments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryAdjustmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SalaryAdjustments
+     * const salaryAdjustments = await prisma.salaryAdjustment.findMany()
+     * 
+     * // Get first 10 SalaryAdjustments
+     * const salaryAdjustments = await prisma.salaryAdjustment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const salaryAdjustmentWithIdOnly = await prisma.salaryAdjustment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SalaryAdjustmentFindManyArgs>(args?: SelectSubset<T, SalaryAdjustmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalaryAdjustmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SalaryAdjustment.
+     * @param {SalaryAdjustmentCreateArgs} args - Arguments to create a SalaryAdjustment.
+     * @example
+     * // Create one SalaryAdjustment
+     * const SalaryAdjustment = await prisma.salaryAdjustment.create({
+     *   data: {
+     *     // ... data to create a SalaryAdjustment
+     *   }
+     * })
+     * 
+     */
+    create<T extends SalaryAdjustmentCreateArgs>(args: SelectSubset<T, SalaryAdjustmentCreateArgs<ExtArgs>>): Prisma__SalaryAdjustmentClient<$Result.GetResult<Prisma.$SalaryAdjustmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SalaryAdjustments.
+     * @param {SalaryAdjustmentCreateManyArgs} args - Arguments to create many SalaryAdjustments.
+     * @example
+     * // Create many SalaryAdjustments
+     * const salaryAdjustment = await prisma.salaryAdjustment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SalaryAdjustmentCreateManyArgs>(args?: SelectSubset<T, SalaryAdjustmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SalaryAdjustments and returns the data saved in the database.
+     * @param {SalaryAdjustmentCreateManyAndReturnArgs} args - Arguments to create many SalaryAdjustments.
+     * @example
+     * // Create many SalaryAdjustments
+     * const salaryAdjustment = await prisma.salaryAdjustment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SalaryAdjustments and only return the `id`
+     * const salaryAdjustmentWithIdOnly = await prisma.salaryAdjustment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SalaryAdjustmentCreateManyAndReturnArgs>(args?: SelectSubset<T, SalaryAdjustmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalaryAdjustmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SalaryAdjustment.
+     * @param {SalaryAdjustmentDeleteArgs} args - Arguments to delete one SalaryAdjustment.
+     * @example
+     * // Delete one SalaryAdjustment
+     * const SalaryAdjustment = await prisma.salaryAdjustment.delete({
+     *   where: {
+     *     // ... filter to delete one SalaryAdjustment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SalaryAdjustmentDeleteArgs>(args: SelectSubset<T, SalaryAdjustmentDeleteArgs<ExtArgs>>): Prisma__SalaryAdjustmentClient<$Result.GetResult<Prisma.$SalaryAdjustmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SalaryAdjustment.
+     * @param {SalaryAdjustmentUpdateArgs} args - Arguments to update one SalaryAdjustment.
+     * @example
+     * // Update one SalaryAdjustment
+     * const salaryAdjustment = await prisma.salaryAdjustment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SalaryAdjustmentUpdateArgs>(args: SelectSubset<T, SalaryAdjustmentUpdateArgs<ExtArgs>>): Prisma__SalaryAdjustmentClient<$Result.GetResult<Prisma.$SalaryAdjustmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SalaryAdjustments.
+     * @param {SalaryAdjustmentDeleteManyArgs} args - Arguments to filter SalaryAdjustments to delete.
+     * @example
+     * // Delete a few SalaryAdjustments
+     * const { count } = await prisma.salaryAdjustment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SalaryAdjustmentDeleteManyArgs>(args?: SelectSubset<T, SalaryAdjustmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SalaryAdjustments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryAdjustmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SalaryAdjustments
+     * const salaryAdjustment = await prisma.salaryAdjustment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SalaryAdjustmentUpdateManyArgs>(args: SelectSubset<T, SalaryAdjustmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SalaryAdjustments and returns the data updated in the database.
+     * @param {SalaryAdjustmentUpdateManyAndReturnArgs} args - Arguments to update many SalaryAdjustments.
+     * @example
+     * // Update many SalaryAdjustments
+     * const salaryAdjustment = await prisma.salaryAdjustment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SalaryAdjustments and only return the `id`
+     * const salaryAdjustmentWithIdOnly = await prisma.salaryAdjustment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SalaryAdjustmentUpdateManyAndReturnArgs>(args: SelectSubset<T, SalaryAdjustmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalaryAdjustmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SalaryAdjustment.
+     * @param {SalaryAdjustmentUpsertArgs} args - Arguments to update or create a SalaryAdjustment.
+     * @example
+     * // Update or create a SalaryAdjustment
+     * const salaryAdjustment = await prisma.salaryAdjustment.upsert({
+     *   create: {
+     *     // ... data to create a SalaryAdjustment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SalaryAdjustment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SalaryAdjustmentUpsertArgs>(args: SelectSubset<T, SalaryAdjustmentUpsertArgs<ExtArgs>>): Prisma__SalaryAdjustmentClient<$Result.GetResult<Prisma.$SalaryAdjustmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SalaryAdjustments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryAdjustmentCountArgs} args - Arguments to filter SalaryAdjustments to count.
+     * @example
+     * // Count the number of SalaryAdjustments
+     * const count = await prisma.salaryAdjustment.count({
+     *   where: {
+     *     // ... the filter for the SalaryAdjustments we want to count
+     *   }
+     * })
+    **/
+    count<T extends SalaryAdjustmentCountArgs>(
+      args?: Subset<T, SalaryAdjustmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SalaryAdjustmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SalaryAdjustment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryAdjustmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SalaryAdjustmentAggregateArgs>(args: Subset<T, SalaryAdjustmentAggregateArgs>): Prisma.PrismaPromise<GetSalaryAdjustmentAggregateType<T>>
+
+    /**
+     * Group by SalaryAdjustment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryAdjustmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SalaryAdjustmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SalaryAdjustmentGroupByArgs['orderBy'] }
+        : { orderBy?: SalaryAdjustmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SalaryAdjustmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSalaryAdjustmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SalaryAdjustment model
+   */
+  readonly fields: SalaryAdjustmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SalaryAdjustment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SalaryAdjustmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SalaryAdjustment model
+   */
+  interface SalaryAdjustmentFieldRefs {
+    readonly id: FieldRef<"SalaryAdjustment", 'String'>
+    readonly employeeId: FieldRef<"SalaryAdjustment", 'String'>
+    readonly effectiveDate: FieldRef<"SalaryAdjustment", 'DateTime'>
+    readonly previousSalary: FieldRef<"SalaryAdjustment", 'Float'>
+    readonly newSalary: FieldRef<"SalaryAdjustment", 'Float'>
+    readonly adjustmentValue: FieldRef<"SalaryAdjustment", 'Float'>
+    readonly notes: FieldRef<"SalaryAdjustment", 'String'>
+    readonly createdAt: FieldRef<"SalaryAdjustment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SalaryAdjustment findUnique
+   */
+  export type SalaryAdjustmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdjustment
+     */
+    select?: SalaryAdjustmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdjustment
+     */
+    omit?: SalaryAdjustmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdjustmentInclude<ExtArgs> | null
+    /**
+     * Filter, which SalaryAdjustment to fetch.
+     */
+    where: SalaryAdjustmentWhereUniqueInput
+  }
+
+  /**
+   * SalaryAdjustment findUniqueOrThrow
+   */
+  export type SalaryAdjustmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdjustment
+     */
+    select?: SalaryAdjustmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdjustment
+     */
+    omit?: SalaryAdjustmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdjustmentInclude<ExtArgs> | null
+    /**
+     * Filter, which SalaryAdjustment to fetch.
+     */
+    where: SalaryAdjustmentWhereUniqueInput
+  }
+
+  /**
+   * SalaryAdjustment findFirst
+   */
+  export type SalaryAdjustmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdjustment
+     */
+    select?: SalaryAdjustmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdjustment
+     */
+    omit?: SalaryAdjustmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdjustmentInclude<ExtArgs> | null
+    /**
+     * Filter, which SalaryAdjustment to fetch.
+     */
+    where?: SalaryAdjustmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalaryAdjustments to fetch.
+     */
+    orderBy?: SalaryAdjustmentOrderByWithRelationInput | SalaryAdjustmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SalaryAdjustments.
+     */
+    cursor?: SalaryAdjustmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalaryAdjustments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalaryAdjustments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SalaryAdjustments.
+     */
+    distinct?: SalaryAdjustmentScalarFieldEnum | SalaryAdjustmentScalarFieldEnum[]
+  }
+
+  /**
+   * SalaryAdjustment findFirstOrThrow
+   */
+  export type SalaryAdjustmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdjustment
+     */
+    select?: SalaryAdjustmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdjustment
+     */
+    omit?: SalaryAdjustmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdjustmentInclude<ExtArgs> | null
+    /**
+     * Filter, which SalaryAdjustment to fetch.
+     */
+    where?: SalaryAdjustmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalaryAdjustments to fetch.
+     */
+    orderBy?: SalaryAdjustmentOrderByWithRelationInput | SalaryAdjustmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SalaryAdjustments.
+     */
+    cursor?: SalaryAdjustmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalaryAdjustments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalaryAdjustments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SalaryAdjustments.
+     */
+    distinct?: SalaryAdjustmentScalarFieldEnum | SalaryAdjustmentScalarFieldEnum[]
+  }
+
+  /**
+   * SalaryAdjustment findMany
+   */
+  export type SalaryAdjustmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdjustment
+     */
+    select?: SalaryAdjustmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdjustment
+     */
+    omit?: SalaryAdjustmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdjustmentInclude<ExtArgs> | null
+    /**
+     * Filter, which SalaryAdjustments to fetch.
+     */
+    where?: SalaryAdjustmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalaryAdjustments to fetch.
+     */
+    orderBy?: SalaryAdjustmentOrderByWithRelationInput | SalaryAdjustmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SalaryAdjustments.
+     */
+    cursor?: SalaryAdjustmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalaryAdjustments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalaryAdjustments.
+     */
+    skip?: number
+    distinct?: SalaryAdjustmentScalarFieldEnum | SalaryAdjustmentScalarFieldEnum[]
+  }
+
+  /**
+   * SalaryAdjustment create
+   */
+  export type SalaryAdjustmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdjustment
+     */
+    select?: SalaryAdjustmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdjustment
+     */
+    omit?: SalaryAdjustmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdjustmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SalaryAdjustment.
+     */
+    data: XOR<SalaryAdjustmentCreateInput, SalaryAdjustmentUncheckedCreateInput>
+  }
+
+  /**
+   * SalaryAdjustment createMany
+   */
+  export type SalaryAdjustmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SalaryAdjustments.
+     */
+    data: SalaryAdjustmentCreateManyInput | SalaryAdjustmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SalaryAdjustment createManyAndReturn
+   */
+  export type SalaryAdjustmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdjustment
+     */
+    select?: SalaryAdjustmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdjustment
+     */
+    omit?: SalaryAdjustmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many SalaryAdjustments.
+     */
+    data: SalaryAdjustmentCreateManyInput | SalaryAdjustmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdjustmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SalaryAdjustment update
+   */
+  export type SalaryAdjustmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdjustment
+     */
+    select?: SalaryAdjustmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdjustment
+     */
+    omit?: SalaryAdjustmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdjustmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SalaryAdjustment.
+     */
+    data: XOR<SalaryAdjustmentUpdateInput, SalaryAdjustmentUncheckedUpdateInput>
+    /**
+     * Choose, which SalaryAdjustment to update.
+     */
+    where: SalaryAdjustmentWhereUniqueInput
+  }
+
+  /**
+   * SalaryAdjustment updateMany
+   */
+  export type SalaryAdjustmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SalaryAdjustments.
+     */
+    data: XOR<SalaryAdjustmentUpdateManyMutationInput, SalaryAdjustmentUncheckedUpdateManyInput>
+    /**
+     * Filter which SalaryAdjustments to update
+     */
+    where?: SalaryAdjustmentWhereInput
+    /**
+     * Limit how many SalaryAdjustments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SalaryAdjustment updateManyAndReturn
+   */
+  export type SalaryAdjustmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdjustment
+     */
+    select?: SalaryAdjustmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdjustment
+     */
+    omit?: SalaryAdjustmentOmit<ExtArgs> | null
+    /**
+     * The data used to update SalaryAdjustments.
+     */
+    data: XOR<SalaryAdjustmentUpdateManyMutationInput, SalaryAdjustmentUncheckedUpdateManyInput>
+    /**
+     * Filter which SalaryAdjustments to update
+     */
+    where?: SalaryAdjustmentWhereInput
+    /**
+     * Limit how many SalaryAdjustments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdjustmentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SalaryAdjustment upsert
+   */
+  export type SalaryAdjustmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdjustment
+     */
+    select?: SalaryAdjustmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdjustment
+     */
+    omit?: SalaryAdjustmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdjustmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SalaryAdjustment to update in case it exists.
+     */
+    where: SalaryAdjustmentWhereUniqueInput
+    /**
+     * In case the SalaryAdjustment found by the `where` argument doesn't exist, create a new SalaryAdjustment with this data.
+     */
+    create: XOR<SalaryAdjustmentCreateInput, SalaryAdjustmentUncheckedCreateInput>
+    /**
+     * In case the SalaryAdjustment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SalaryAdjustmentUpdateInput, SalaryAdjustmentUncheckedUpdateInput>
+  }
+
+  /**
+   * SalaryAdjustment delete
+   */
+  export type SalaryAdjustmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdjustment
+     */
+    select?: SalaryAdjustmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdjustment
+     */
+    omit?: SalaryAdjustmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdjustmentInclude<ExtArgs> | null
+    /**
+     * Filter which SalaryAdjustment to delete.
+     */
+    where: SalaryAdjustmentWhereUniqueInput
+  }
+
+  /**
+   * SalaryAdjustment deleteMany
+   */
+  export type SalaryAdjustmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SalaryAdjustments to delete
+     */
+    where?: SalaryAdjustmentWhereInput
+    /**
+     * Limit how many SalaryAdjustments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SalaryAdjustment without action
+   */
+  export type SalaryAdjustmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdjustment
+     */
+    select?: SalaryAdjustmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdjustment
+     */
+    omit?: SalaryAdjustmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdjustmentInclude<ExtArgs> | null
   }
 
 
@@ -10109,6 +15169,9 @@ export namespace Prisma {
     type: 'type',
     role: 'role',
     baseSalary: 'baseSalary',
+    profilePhotoUrl: 'profilePhotoUrl',
+    startDate: 'startDate',
+    eatsAtSchool: 'eatsAtSchool',
     transportDaily: 'transportDaily',
     gasAssistance: 'gasAssistance',
     pixKey: 'pixKey',
@@ -10131,6 +15194,60 @@ export namespace Prisma {
   };
 
   export type EmployeeScalarFieldEnum = (typeof EmployeeScalarFieldEnum)[keyof typeof EmployeeScalarFieldEnum]
+
+
+  export const SubjectScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SubjectScalarFieldEnum = (typeof SubjectScalarFieldEnum)[keyof typeof SubjectScalarFieldEnum]
+
+
+  export const EmployeeSubjectScalarFieldEnum: {
+    id: 'id',
+    employeeId: 'employeeId',
+    subjectId: 'subjectId',
+    createdAt: 'createdAt'
+  };
+
+  export type EmployeeSubjectScalarFieldEnum = (typeof EmployeeSubjectScalarFieldEnum)[keyof typeof EmployeeSubjectScalarFieldEnum]
+
+
+  export const TeachingAssignmentScalarFieldEnum: {
+    id: 'id',
+    employeeId: 'employeeId',
+    subjectId: 'subjectId',
+    weekday: 'weekday',
+    startTime: 'startTime',
+    endTime: 'endTime',
+    classGroup: 'classGroup',
+    lessonStart: 'lessonStart',
+    lessonEnd: 'lessonEnd',
+    fullDay: 'fullDay',
+    hours: 'hours',
+    active: 'active',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TeachingAssignmentScalarFieldEnum = (typeof TeachingAssignmentScalarFieldEnum)[keyof typeof TeachingAssignmentScalarFieldEnum]
+
+
+  export const SalaryAdjustmentScalarFieldEnum: {
+    id: 'id',
+    employeeId: 'employeeId',
+    effectiveDate: 'effectiveDate',
+    previousSalary: 'previousSalary',
+    newSalary: 'newSalary',
+    adjustmentValue: 'adjustmentValue',
+    notes: 'notes',
+    createdAt: 'createdAt'
+  };
+
+  export type SalaryAdjustmentScalarFieldEnum = (typeof SalaryAdjustmentScalarFieldEnum)[keyof typeof SalaryAdjustmentScalarFieldEnum]
 
 
   export const PayrollScalarFieldEnum: {
@@ -10409,6 +15526,9 @@ export namespace Prisma {
     type?: StringFilter<"Employee"> | string
     role?: StringFilter<"Employee"> | string
     baseSalary?: FloatFilter<"Employee"> | number
+    profilePhotoUrl?: StringNullableFilter<"Employee"> | string | null
+    startDate?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    eatsAtSchool?: BoolFilter<"Employee"> | boolean
     transportDaily?: FloatNullableFilter<"Employee"> | number | null
     gasAssistance?: FloatNullableFilter<"Employee"> | number | null
     pixKey?: StringNullableFilter<"Employee"> | string | null
@@ -10431,6 +15551,9 @@ export namespace Prisma {
     payrolls?: PayrollListRelationFilter
     advances?: PayrollAdvanceListRelationFilter
     rescisoes?: RescisaoListRelationFilter
+    employeeSubjects?: EmployeeSubjectListRelationFilter
+    teachingAssignments?: TeachingAssignmentListRelationFilter
+    salaryAdjustments?: SalaryAdjustmentListRelationFilter
   }
 
   export type EmployeeOrderByWithRelationInput = {
@@ -10440,6 +15563,9 @@ export namespace Prisma {
     type?: SortOrder
     role?: SortOrder
     baseSalary?: SortOrder
+    profilePhotoUrl?: SortOrderInput | SortOrder
+    startDate?: SortOrderInput | SortOrder
+    eatsAtSchool?: SortOrder
     transportDaily?: SortOrderInput | SortOrder
     gasAssistance?: SortOrderInput | SortOrder
     pixKey?: SortOrderInput | SortOrder
@@ -10462,6 +15588,9 @@ export namespace Prisma {
     payrolls?: PayrollOrderByRelationAggregateInput
     advances?: PayrollAdvanceOrderByRelationAggregateInput
     rescisoes?: RescisaoOrderByRelationAggregateInput
+    employeeSubjects?: EmployeeSubjectOrderByRelationAggregateInput
+    teachingAssignments?: TeachingAssignmentOrderByRelationAggregateInput
+    salaryAdjustments?: SalaryAdjustmentOrderByRelationAggregateInput
   }
 
   export type EmployeeWhereUniqueInput = Prisma.AtLeast<{
@@ -10474,6 +15603,9 @@ export namespace Prisma {
     type?: StringFilter<"Employee"> | string
     role?: StringFilter<"Employee"> | string
     baseSalary?: FloatFilter<"Employee"> | number
+    profilePhotoUrl?: StringNullableFilter<"Employee"> | string | null
+    startDate?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    eatsAtSchool?: BoolFilter<"Employee"> | boolean
     transportDaily?: FloatNullableFilter<"Employee"> | number | null
     gasAssistance?: FloatNullableFilter<"Employee"> | number | null
     pixKey?: StringNullableFilter<"Employee"> | string | null
@@ -10496,6 +15628,9 @@ export namespace Prisma {
     payrolls?: PayrollListRelationFilter
     advances?: PayrollAdvanceListRelationFilter
     rescisoes?: RescisaoListRelationFilter
+    employeeSubjects?: EmployeeSubjectListRelationFilter
+    teachingAssignments?: TeachingAssignmentListRelationFilter
+    salaryAdjustments?: SalaryAdjustmentListRelationFilter
   }, "id" | "cpf">
 
   export type EmployeeOrderByWithAggregationInput = {
@@ -10505,6 +15640,9 @@ export namespace Prisma {
     type?: SortOrder
     role?: SortOrder
     baseSalary?: SortOrder
+    profilePhotoUrl?: SortOrderInput | SortOrder
+    startDate?: SortOrderInput | SortOrder
+    eatsAtSchool?: SortOrder
     transportDaily?: SortOrderInput | SortOrder
     gasAssistance?: SortOrderInput | SortOrder
     pixKey?: SortOrderInput | SortOrder
@@ -10541,6 +15679,9 @@ export namespace Prisma {
     type?: StringWithAggregatesFilter<"Employee"> | string
     role?: StringWithAggregatesFilter<"Employee"> | string
     baseSalary?: FloatWithAggregatesFilter<"Employee"> | number
+    profilePhotoUrl?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    startDate?: DateTimeNullableWithAggregatesFilter<"Employee"> | Date | string | null
+    eatsAtSchool?: BoolWithAggregatesFilter<"Employee"> | boolean
     transportDaily?: FloatNullableWithAggregatesFilter<"Employee"> | number | null
     gasAssistance?: FloatNullableWithAggregatesFilter<"Employee"> | number | null
     pixKey?: StringNullableWithAggregatesFilter<"Employee"> | string | null
@@ -10560,6 +15701,290 @@ export namespace Prisma {
     active?: BoolWithAggregatesFilter<"Employee"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
+  }
+
+  export type SubjectWhereInput = {
+    AND?: SubjectWhereInput | SubjectWhereInput[]
+    OR?: SubjectWhereInput[]
+    NOT?: SubjectWhereInput | SubjectWhereInput[]
+    id?: StringFilter<"Subject"> | string
+    name?: StringFilter<"Subject"> | string
+    createdAt?: DateTimeFilter<"Subject"> | Date | string
+    updatedAt?: DateTimeFilter<"Subject"> | Date | string
+    employeeSubjects?: EmployeeSubjectListRelationFilter
+    teachingAssignments?: TeachingAssignmentListRelationFilter
+  }
+
+  export type SubjectOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    employeeSubjects?: EmployeeSubjectOrderByRelationAggregateInput
+    teachingAssignments?: TeachingAssignmentOrderByRelationAggregateInput
+  }
+
+  export type SubjectWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    name?: string
+    AND?: SubjectWhereInput | SubjectWhereInput[]
+    OR?: SubjectWhereInput[]
+    NOT?: SubjectWhereInput | SubjectWhereInput[]
+    createdAt?: DateTimeFilter<"Subject"> | Date | string
+    updatedAt?: DateTimeFilter<"Subject"> | Date | string
+    employeeSubjects?: EmployeeSubjectListRelationFilter
+    teachingAssignments?: TeachingAssignmentListRelationFilter
+  }, "id" | "name">
+
+  export type SubjectOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SubjectCountOrderByAggregateInput
+    _max?: SubjectMaxOrderByAggregateInput
+    _min?: SubjectMinOrderByAggregateInput
+  }
+
+  export type SubjectScalarWhereWithAggregatesInput = {
+    AND?: SubjectScalarWhereWithAggregatesInput | SubjectScalarWhereWithAggregatesInput[]
+    OR?: SubjectScalarWhereWithAggregatesInput[]
+    NOT?: SubjectScalarWhereWithAggregatesInput | SubjectScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Subject"> | string
+    name?: StringWithAggregatesFilter<"Subject"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Subject"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Subject"> | Date | string
+  }
+
+  export type EmployeeSubjectWhereInput = {
+    AND?: EmployeeSubjectWhereInput | EmployeeSubjectWhereInput[]
+    OR?: EmployeeSubjectWhereInput[]
+    NOT?: EmployeeSubjectWhereInput | EmployeeSubjectWhereInput[]
+    id?: StringFilter<"EmployeeSubject"> | string
+    employeeId?: StringFilter<"EmployeeSubject"> | string
+    subjectId?: StringFilter<"EmployeeSubject"> | string
+    createdAt?: DateTimeFilter<"EmployeeSubject"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+    subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+  }
+
+  export type EmployeeSubjectOrderByWithRelationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    subjectId?: SortOrder
+    createdAt?: SortOrder
+    employee?: EmployeeOrderByWithRelationInput
+    subject?: SubjectOrderByWithRelationInput
+  }
+
+  export type EmployeeSubjectWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    employeeId_subjectId?: EmployeeSubjectEmployeeIdSubjectIdCompoundUniqueInput
+    AND?: EmployeeSubjectWhereInput | EmployeeSubjectWhereInput[]
+    OR?: EmployeeSubjectWhereInput[]
+    NOT?: EmployeeSubjectWhereInput | EmployeeSubjectWhereInput[]
+    employeeId?: StringFilter<"EmployeeSubject"> | string
+    subjectId?: StringFilter<"EmployeeSubject"> | string
+    createdAt?: DateTimeFilter<"EmployeeSubject"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+    subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+  }, "id" | "employeeId_subjectId">
+
+  export type EmployeeSubjectOrderByWithAggregationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    subjectId?: SortOrder
+    createdAt?: SortOrder
+    _count?: EmployeeSubjectCountOrderByAggregateInput
+    _max?: EmployeeSubjectMaxOrderByAggregateInput
+    _min?: EmployeeSubjectMinOrderByAggregateInput
+  }
+
+  export type EmployeeSubjectScalarWhereWithAggregatesInput = {
+    AND?: EmployeeSubjectScalarWhereWithAggregatesInput | EmployeeSubjectScalarWhereWithAggregatesInput[]
+    OR?: EmployeeSubjectScalarWhereWithAggregatesInput[]
+    NOT?: EmployeeSubjectScalarWhereWithAggregatesInput | EmployeeSubjectScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"EmployeeSubject"> | string
+    employeeId?: StringWithAggregatesFilter<"EmployeeSubject"> | string
+    subjectId?: StringWithAggregatesFilter<"EmployeeSubject"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"EmployeeSubject"> | Date | string
+  }
+
+  export type TeachingAssignmentWhereInput = {
+    AND?: TeachingAssignmentWhereInput | TeachingAssignmentWhereInput[]
+    OR?: TeachingAssignmentWhereInput[]
+    NOT?: TeachingAssignmentWhereInput | TeachingAssignmentWhereInput[]
+    id?: StringFilter<"TeachingAssignment"> | string
+    employeeId?: StringFilter<"TeachingAssignment"> | string
+    subjectId?: StringFilter<"TeachingAssignment"> | string
+    weekday?: IntFilter<"TeachingAssignment"> | number
+    startTime?: StringFilter<"TeachingAssignment"> | string
+    endTime?: StringFilter<"TeachingAssignment"> | string
+    classGroup?: StringNullableFilter<"TeachingAssignment"> | string | null
+    lessonStart?: IntNullableFilter<"TeachingAssignment"> | number | null
+    lessonEnd?: IntNullableFilter<"TeachingAssignment"> | number | null
+    fullDay?: BoolFilter<"TeachingAssignment"> | boolean
+    hours?: FloatFilter<"TeachingAssignment"> | number
+    active?: BoolFilter<"TeachingAssignment"> | boolean
+    createdAt?: DateTimeFilter<"TeachingAssignment"> | Date | string
+    updatedAt?: DateTimeFilter<"TeachingAssignment"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+    subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+  }
+
+  export type TeachingAssignmentOrderByWithRelationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    subjectId?: SortOrder
+    weekday?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    classGroup?: SortOrderInput | SortOrder
+    lessonStart?: SortOrderInput | SortOrder
+    lessonEnd?: SortOrderInput | SortOrder
+    fullDay?: SortOrder
+    hours?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    employee?: EmployeeOrderByWithRelationInput
+    subject?: SubjectOrderByWithRelationInput
+  }
+
+  export type TeachingAssignmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TeachingAssignmentWhereInput | TeachingAssignmentWhereInput[]
+    OR?: TeachingAssignmentWhereInput[]
+    NOT?: TeachingAssignmentWhereInput | TeachingAssignmentWhereInput[]
+    employeeId?: StringFilter<"TeachingAssignment"> | string
+    subjectId?: StringFilter<"TeachingAssignment"> | string
+    weekday?: IntFilter<"TeachingAssignment"> | number
+    startTime?: StringFilter<"TeachingAssignment"> | string
+    endTime?: StringFilter<"TeachingAssignment"> | string
+    classGroup?: StringNullableFilter<"TeachingAssignment"> | string | null
+    lessonStart?: IntNullableFilter<"TeachingAssignment"> | number | null
+    lessonEnd?: IntNullableFilter<"TeachingAssignment"> | number | null
+    fullDay?: BoolFilter<"TeachingAssignment"> | boolean
+    hours?: FloatFilter<"TeachingAssignment"> | number
+    active?: BoolFilter<"TeachingAssignment"> | boolean
+    createdAt?: DateTimeFilter<"TeachingAssignment"> | Date | string
+    updatedAt?: DateTimeFilter<"TeachingAssignment"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+    subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+  }, "id">
+
+  export type TeachingAssignmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    subjectId?: SortOrder
+    weekday?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    classGroup?: SortOrderInput | SortOrder
+    lessonStart?: SortOrderInput | SortOrder
+    lessonEnd?: SortOrderInput | SortOrder
+    fullDay?: SortOrder
+    hours?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TeachingAssignmentCountOrderByAggregateInput
+    _avg?: TeachingAssignmentAvgOrderByAggregateInput
+    _max?: TeachingAssignmentMaxOrderByAggregateInput
+    _min?: TeachingAssignmentMinOrderByAggregateInput
+    _sum?: TeachingAssignmentSumOrderByAggregateInput
+  }
+
+  export type TeachingAssignmentScalarWhereWithAggregatesInput = {
+    AND?: TeachingAssignmentScalarWhereWithAggregatesInput | TeachingAssignmentScalarWhereWithAggregatesInput[]
+    OR?: TeachingAssignmentScalarWhereWithAggregatesInput[]
+    NOT?: TeachingAssignmentScalarWhereWithAggregatesInput | TeachingAssignmentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TeachingAssignment"> | string
+    employeeId?: StringWithAggregatesFilter<"TeachingAssignment"> | string
+    subjectId?: StringWithAggregatesFilter<"TeachingAssignment"> | string
+    weekday?: IntWithAggregatesFilter<"TeachingAssignment"> | number
+    startTime?: StringWithAggregatesFilter<"TeachingAssignment"> | string
+    endTime?: StringWithAggregatesFilter<"TeachingAssignment"> | string
+    classGroup?: StringNullableWithAggregatesFilter<"TeachingAssignment"> | string | null
+    lessonStart?: IntNullableWithAggregatesFilter<"TeachingAssignment"> | number | null
+    lessonEnd?: IntNullableWithAggregatesFilter<"TeachingAssignment"> | number | null
+    fullDay?: BoolWithAggregatesFilter<"TeachingAssignment"> | boolean
+    hours?: FloatWithAggregatesFilter<"TeachingAssignment"> | number
+    active?: BoolWithAggregatesFilter<"TeachingAssignment"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"TeachingAssignment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TeachingAssignment"> | Date | string
+  }
+
+  export type SalaryAdjustmentWhereInput = {
+    AND?: SalaryAdjustmentWhereInput | SalaryAdjustmentWhereInput[]
+    OR?: SalaryAdjustmentWhereInput[]
+    NOT?: SalaryAdjustmentWhereInput | SalaryAdjustmentWhereInput[]
+    id?: StringFilter<"SalaryAdjustment"> | string
+    employeeId?: StringFilter<"SalaryAdjustment"> | string
+    effectiveDate?: DateTimeFilter<"SalaryAdjustment"> | Date | string
+    previousSalary?: FloatFilter<"SalaryAdjustment"> | number
+    newSalary?: FloatFilter<"SalaryAdjustment"> | number
+    adjustmentValue?: FloatFilter<"SalaryAdjustment"> | number
+    notes?: StringNullableFilter<"SalaryAdjustment"> | string | null
+    createdAt?: DateTimeFilter<"SalaryAdjustment"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }
+
+  export type SalaryAdjustmentOrderByWithRelationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    effectiveDate?: SortOrder
+    previousSalary?: SortOrder
+    newSalary?: SortOrder
+    adjustmentValue?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    employee?: EmployeeOrderByWithRelationInput
+  }
+
+  export type SalaryAdjustmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SalaryAdjustmentWhereInput | SalaryAdjustmentWhereInput[]
+    OR?: SalaryAdjustmentWhereInput[]
+    NOT?: SalaryAdjustmentWhereInput | SalaryAdjustmentWhereInput[]
+    employeeId?: StringFilter<"SalaryAdjustment"> | string
+    effectiveDate?: DateTimeFilter<"SalaryAdjustment"> | Date | string
+    previousSalary?: FloatFilter<"SalaryAdjustment"> | number
+    newSalary?: FloatFilter<"SalaryAdjustment"> | number
+    adjustmentValue?: FloatFilter<"SalaryAdjustment"> | number
+    notes?: StringNullableFilter<"SalaryAdjustment"> | string | null
+    createdAt?: DateTimeFilter<"SalaryAdjustment"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }, "id">
+
+  export type SalaryAdjustmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    effectiveDate?: SortOrder
+    previousSalary?: SortOrder
+    newSalary?: SortOrder
+    adjustmentValue?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: SalaryAdjustmentCountOrderByAggregateInput
+    _avg?: SalaryAdjustmentAvgOrderByAggregateInput
+    _max?: SalaryAdjustmentMaxOrderByAggregateInput
+    _min?: SalaryAdjustmentMinOrderByAggregateInput
+    _sum?: SalaryAdjustmentSumOrderByAggregateInput
+  }
+
+  export type SalaryAdjustmentScalarWhereWithAggregatesInput = {
+    AND?: SalaryAdjustmentScalarWhereWithAggregatesInput | SalaryAdjustmentScalarWhereWithAggregatesInput[]
+    OR?: SalaryAdjustmentScalarWhereWithAggregatesInput[]
+    NOT?: SalaryAdjustmentScalarWhereWithAggregatesInput | SalaryAdjustmentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SalaryAdjustment"> | string
+    employeeId?: StringWithAggregatesFilter<"SalaryAdjustment"> | string
+    effectiveDate?: DateTimeWithAggregatesFilter<"SalaryAdjustment"> | Date | string
+    previousSalary?: FloatWithAggregatesFilter<"SalaryAdjustment"> | number
+    newSalary?: FloatWithAggregatesFilter<"SalaryAdjustment"> | number
+    adjustmentValue?: FloatWithAggregatesFilter<"SalaryAdjustment"> | number
+    notes?: StringNullableWithAggregatesFilter<"SalaryAdjustment"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"SalaryAdjustment"> | Date | string
   }
 
   export type PayrollWhereInput = {
@@ -11189,6 +16614,9 @@ export namespace Prisma {
     type: string
     role: string
     baseSalary: number
+    profilePhotoUrl?: string | null
+    startDate?: Date | string | null
+    eatsAtSchool?: boolean
     transportDaily?: number | null
     gasAssistance?: number | null
     pixKey?: string | null
@@ -11211,6 +16639,9 @@ export namespace Prisma {
     payrolls?: PayrollCreateNestedManyWithoutEmployeeInput
     advances?: PayrollAdvanceCreateNestedManyWithoutEmployeeInput
     rescisoes?: RescisaoCreateNestedManyWithoutEmployeeInput
+    employeeSubjects?: EmployeeSubjectCreateNestedManyWithoutEmployeeInput
+    teachingAssignments?: TeachingAssignmentCreateNestedManyWithoutEmployeeInput
+    salaryAdjustments?: SalaryAdjustmentCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateInput = {
@@ -11220,6 +16651,9 @@ export namespace Prisma {
     type: string
     role: string
     baseSalary: number
+    profilePhotoUrl?: string | null
+    startDate?: Date | string | null
+    eatsAtSchool?: boolean
     transportDaily?: number | null
     gasAssistance?: number | null
     pixKey?: string | null
@@ -11242,6 +16676,9 @@ export namespace Prisma {
     payrolls?: PayrollUncheckedCreateNestedManyWithoutEmployeeInput
     advances?: PayrollAdvanceUncheckedCreateNestedManyWithoutEmployeeInput
     rescisoes?: RescisaoUncheckedCreateNestedManyWithoutEmployeeInput
+    employeeSubjects?: EmployeeSubjectUncheckedCreateNestedManyWithoutEmployeeInput
+    teachingAssignments?: TeachingAssignmentUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdjustments?: SalaryAdjustmentUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUpdateInput = {
@@ -11251,6 +16688,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     baseSalary?: FloatFieldUpdateOperationsInput | number
+    profilePhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    eatsAtSchool?: BoolFieldUpdateOperationsInput | boolean
     transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
     gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
     pixKey?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11273,6 +16713,9 @@ export namespace Prisma {
     payrolls?: PayrollUpdateManyWithoutEmployeeNestedInput
     advances?: PayrollAdvanceUpdateManyWithoutEmployeeNestedInput
     rescisoes?: RescisaoUpdateManyWithoutEmployeeNestedInput
+    employeeSubjects?: EmployeeSubjectUpdateManyWithoutEmployeeNestedInput
+    teachingAssignments?: TeachingAssignmentUpdateManyWithoutEmployeeNestedInput
+    salaryAdjustments?: SalaryAdjustmentUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateInput = {
@@ -11282,6 +16725,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     baseSalary?: FloatFieldUpdateOperationsInput | number
+    profilePhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    eatsAtSchool?: BoolFieldUpdateOperationsInput | boolean
     transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
     gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
     pixKey?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11304,6 +16750,9 @@ export namespace Prisma {
     payrolls?: PayrollUncheckedUpdateManyWithoutEmployeeNestedInput
     advances?: PayrollAdvanceUncheckedUpdateManyWithoutEmployeeNestedInput
     rescisoes?: RescisaoUncheckedUpdateManyWithoutEmployeeNestedInput
+    employeeSubjects?: EmployeeSubjectUncheckedUpdateManyWithoutEmployeeNestedInput
+    teachingAssignments?: TeachingAssignmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdjustments?: SalaryAdjustmentUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateManyInput = {
@@ -11313,6 +16762,9 @@ export namespace Prisma {
     type: string
     role: string
     baseSalary: number
+    profilePhotoUrl?: string | null
+    startDate?: Date | string | null
+    eatsAtSchool?: boolean
     transportDaily?: number | null
     gasAssistance?: number | null
     pixKey?: string | null
@@ -11341,6 +16793,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     baseSalary?: FloatFieldUpdateOperationsInput | number
+    profilePhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    eatsAtSchool?: BoolFieldUpdateOperationsInput | boolean
     transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
     gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
     pixKey?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11369,6 +16824,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     baseSalary?: FloatFieldUpdateOperationsInput | number
+    profilePhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    eatsAtSchool?: BoolFieldUpdateOperationsInput | boolean
     transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
     gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
     pixKey?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11388,6 +16846,303 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employeeSubjects?: EmployeeSubjectCreateNestedManyWithoutSubjectInput
+    teachingAssignments?: TeachingAssignmentCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectUncheckedCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employeeSubjects?: EmployeeSubjectUncheckedCreateNestedManyWithoutSubjectInput
+    teachingAssignments?: TeachingAssignmentUncheckedCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employeeSubjects?: EmployeeSubjectUpdateManyWithoutSubjectNestedInput
+    teachingAssignments?: TeachingAssignmentUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type SubjectUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employeeSubjects?: EmployeeSubjectUncheckedUpdateManyWithoutSubjectNestedInput
+    teachingAssignments?: TeachingAssignmentUncheckedUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type SubjectCreateManyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmployeeSubjectCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutEmployeeSubjectsInput
+    subject: SubjectCreateNestedOneWithoutEmployeeSubjectsInput
+  }
+
+  export type EmployeeSubjectUncheckedCreateInput = {
+    id?: string
+    employeeId: string
+    subjectId: string
+    createdAt?: Date | string
+  }
+
+  export type EmployeeSubjectUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutEmployeeSubjectsNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutEmployeeSubjectsNestedInput
+  }
+
+  export type EmployeeSubjectUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmployeeSubjectCreateManyInput = {
+    id?: string
+    employeeId: string
+    subjectId: string
+    createdAt?: Date | string
+  }
+
+  export type EmployeeSubjectUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmployeeSubjectUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeachingAssignmentCreateInput = {
+    id?: string
+    weekday: number
+    startTime: string
+    endTime: string
+    classGroup?: string | null
+    lessonStart?: number | null
+    lessonEnd?: number | null
+    fullDay?: boolean
+    hours: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutTeachingAssignmentsInput
+    subject: SubjectCreateNestedOneWithoutTeachingAssignmentsInput
+  }
+
+  export type TeachingAssignmentUncheckedCreateInput = {
+    id?: string
+    employeeId: string
+    subjectId: string
+    weekday: number
+    startTime: string
+    endTime: string
+    classGroup?: string | null
+    lessonStart?: number | null
+    lessonEnd?: number | null
+    fullDay?: boolean
+    hours: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TeachingAssignmentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    weekday?: IntFieldUpdateOperationsInput | number
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    classGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonStart?: NullableIntFieldUpdateOperationsInput | number | null
+    lessonEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    fullDay?: BoolFieldUpdateOperationsInput | boolean
+    hours?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutTeachingAssignmentsNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutTeachingAssignmentsNestedInput
+  }
+
+  export type TeachingAssignmentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    weekday?: IntFieldUpdateOperationsInput | number
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    classGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonStart?: NullableIntFieldUpdateOperationsInput | number | null
+    lessonEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    fullDay?: BoolFieldUpdateOperationsInput | boolean
+    hours?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeachingAssignmentCreateManyInput = {
+    id?: string
+    employeeId: string
+    subjectId: string
+    weekday: number
+    startTime: string
+    endTime: string
+    classGroup?: string | null
+    lessonStart?: number | null
+    lessonEnd?: number | null
+    fullDay?: boolean
+    hours: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TeachingAssignmentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    weekday?: IntFieldUpdateOperationsInput | number
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    classGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonStart?: NullableIntFieldUpdateOperationsInput | number | null
+    lessonEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    fullDay?: BoolFieldUpdateOperationsInput | boolean
+    hours?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeachingAssignmentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    weekday?: IntFieldUpdateOperationsInput | number
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    classGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonStart?: NullableIntFieldUpdateOperationsInput | number | null
+    lessonEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    fullDay?: BoolFieldUpdateOperationsInput | boolean
+    hours?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryAdjustmentCreateInput = {
+    id?: string
+    effectiveDate: Date | string
+    previousSalary: number
+    newSalary: number
+    adjustmentValue: number
+    notes?: string | null
+    createdAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutSalaryAdjustmentsInput
+  }
+
+  export type SalaryAdjustmentUncheckedCreateInput = {
+    id?: string
+    employeeId: string
+    effectiveDate: Date | string
+    previousSalary: number
+    newSalary: number
+    adjustmentValue: number
+    notes?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SalaryAdjustmentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    effectiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    previousSalary?: FloatFieldUpdateOperationsInput | number
+    newSalary?: FloatFieldUpdateOperationsInput | number
+    adjustmentValue?: FloatFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutSalaryAdjustmentsNestedInput
+  }
+
+  export type SalaryAdjustmentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    effectiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    previousSalary?: FloatFieldUpdateOperationsInput | number
+    newSalary?: FloatFieldUpdateOperationsInput | number
+    adjustmentValue?: FloatFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryAdjustmentCreateManyInput = {
+    id?: string
+    employeeId: string
+    effectiveDate: Date | string
+    previousSalary: number
+    newSalary: number
+    adjustmentValue: number
+    notes?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SalaryAdjustmentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    effectiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    previousSalary?: FloatFieldUpdateOperationsInput | number
+    newSalary?: FloatFieldUpdateOperationsInput | number
+    adjustmentValue?: FloatFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryAdjustmentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    effectiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    previousSalary?: FloatFieldUpdateOperationsInput | number
+    newSalary?: FloatFieldUpdateOperationsInput | number
+    adjustmentValue?: FloatFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PayrollCreateInput = {
@@ -12144,17 +17899,6 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type FloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -12170,9 +17914,31 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type PayrollListRelationFilter = {
@@ -12193,6 +17959,24 @@ export namespace Prisma {
     none?: RescisaoWhereInput
   }
 
+  export type EmployeeSubjectListRelationFilter = {
+    every?: EmployeeSubjectWhereInput
+    some?: EmployeeSubjectWhereInput
+    none?: EmployeeSubjectWhereInput
+  }
+
+  export type TeachingAssignmentListRelationFilter = {
+    every?: TeachingAssignmentWhereInput
+    some?: TeachingAssignmentWhereInput
+    none?: TeachingAssignmentWhereInput
+  }
+
+  export type SalaryAdjustmentListRelationFilter = {
+    every?: SalaryAdjustmentWhereInput
+    some?: SalaryAdjustmentWhereInput
+    none?: SalaryAdjustmentWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -12210,6 +17994,18 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type EmployeeSubjectOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TeachingAssignmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SalaryAdjustmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type EmployeeCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -12217,6 +18013,9 @@ export namespace Prisma {
     type?: SortOrder
     role?: SortOrder
     baseSalary?: SortOrder
+    profilePhotoUrl?: SortOrder
+    startDate?: SortOrder
+    eatsAtSchool?: SortOrder
     transportDaily?: SortOrder
     gasAssistance?: SortOrder
     pixKey?: SortOrder
@@ -12256,6 +18055,9 @@ export namespace Prisma {
     type?: SortOrder
     role?: SortOrder
     baseSalary?: SortOrder
+    profilePhotoUrl?: SortOrder
+    startDate?: SortOrder
+    eatsAtSchool?: SortOrder
     transportDaily?: SortOrder
     gasAssistance?: SortOrder
     pixKey?: SortOrder
@@ -12284,6 +18086,9 @@ export namespace Prisma {
     type?: SortOrder
     role?: SortOrder
     baseSalary?: SortOrder
+    profilePhotoUrl?: SortOrder
+    startDate?: SortOrder
+    eatsAtSchool?: SortOrder
     transportDaily?: SortOrder
     gasAssistance?: SortOrder
     pixKey?: SortOrder
@@ -12332,22 +18137,6 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -12366,12 +18155,99 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type SubjectCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmployeeScalarRelationFilter = {
+    is?: EmployeeWhereInput
+    isNot?: EmployeeWhereInput
+  }
+
+  export type SubjectScalarRelationFilter = {
+    is?: SubjectWhereInput
+    isNot?: SubjectWhereInput
+  }
+
+  export type EmployeeSubjectEmployeeIdSubjectIdCompoundUniqueInput = {
+    employeeId: string
+    subjectId: string
+  }
+
+  export type EmployeeSubjectCountOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    subjectId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EmployeeSubjectMaxOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    subjectId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EmployeeSubjectMinOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    subjectId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -12396,9 +18272,146 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type EmployeeScalarRelationFilter = {
-    is?: EmployeeWhereInput
-    isNot?: EmployeeWhereInput
+  export type TeachingAssignmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    subjectId?: SortOrder
+    weekday?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    classGroup?: SortOrder
+    lessonStart?: SortOrder
+    lessonEnd?: SortOrder
+    fullDay?: SortOrder
+    hours?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TeachingAssignmentAvgOrderByAggregateInput = {
+    weekday?: SortOrder
+    lessonStart?: SortOrder
+    lessonEnd?: SortOrder
+    hours?: SortOrder
+  }
+
+  export type TeachingAssignmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    subjectId?: SortOrder
+    weekday?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    classGroup?: SortOrder
+    lessonStart?: SortOrder
+    lessonEnd?: SortOrder
+    fullDay?: SortOrder
+    hours?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TeachingAssignmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    subjectId?: SortOrder
+    weekday?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    classGroup?: SortOrder
+    lessonStart?: SortOrder
+    lessonEnd?: SortOrder
+    fullDay?: SortOrder
+    hours?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TeachingAssignmentSumOrderByAggregateInput = {
+    weekday?: SortOrder
+    lessonStart?: SortOrder
+    lessonEnd?: SortOrder
+    hours?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type SalaryAdjustmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    effectiveDate?: SortOrder
+    previousSalary?: SortOrder
+    newSalary?: SortOrder
+    adjustmentValue?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SalaryAdjustmentAvgOrderByAggregateInput = {
+    previousSalary?: SortOrder
+    newSalary?: SortOrder
+    adjustmentValue?: SortOrder
+  }
+
+  export type SalaryAdjustmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    effectiveDate?: SortOrder
+    previousSalary?: SortOrder
+    newSalary?: SortOrder
+    adjustmentValue?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SalaryAdjustmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    effectiveDate?: SortOrder
+    previousSalary?: SortOrder
+    newSalary?: SortOrder
+    adjustmentValue?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SalaryAdjustmentSumOrderByAggregateInput = {
+    previousSalary?: SortOrder
+    newSalary?: SortOrder
+    adjustmentValue?: SortOrder
   }
 
   export type PayrollEmployeeIdMonthYearCompoundUniqueInput = {
@@ -12527,49 +18540,6 @@ export namespace Prisma {
     netTotal?: SortOrder
   }
 
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type PayrollAdvanceEmployeeIdMonthYearCompoundUniqueInput = {
     employeeId: string
     month: number
@@ -12622,20 +18592,6 @@ export namespace Prisma {
     month?: SortOrder
     year?: SortOrder
     amount?: SortOrder
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type FinancialTransactionCountOrderByAggregateInput = {
@@ -12891,6 +18847,27 @@ export namespace Prisma {
     connect?: RescisaoWhereUniqueInput | RescisaoWhereUniqueInput[]
   }
 
+  export type EmployeeSubjectCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<EmployeeSubjectCreateWithoutEmployeeInput, EmployeeSubjectUncheckedCreateWithoutEmployeeInput> | EmployeeSubjectCreateWithoutEmployeeInput[] | EmployeeSubjectUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: EmployeeSubjectCreateOrConnectWithoutEmployeeInput | EmployeeSubjectCreateOrConnectWithoutEmployeeInput[]
+    createMany?: EmployeeSubjectCreateManyEmployeeInputEnvelope
+    connect?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+  }
+
+  export type TeachingAssignmentCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<TeachingAssignmentCreateWithoutEmployeeInput, TeachingAssignmentUncheckedCreateWithoutEmployeeInput> | TeachingAssignmentCreateWithoutEmployeeInput[] | TeachingAssignmentUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: TeachingAssignmentCreateOrConnectWithoutEmployeeInput | TeachingAssignmentCreateOrConnectWithoutEmployeeInput[]
+    createMany?: TeachingAssignmentCreateManyEmployeeInputEnvelope
+    connect?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+  }
+
+  export type SalaryAdjustmentCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<SalaryAdjustmentCreateWithoutEmployeeInput, SalaryAdjustmentUncheckedCreateWithoutEmployeeInput> | SalaryAdjustmentCreateWithoutEmployeeInput[] | SalaryAdjustmentUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: SalaryAdjustmentCreateOrConnectWithoutEmployeeInput | SalaryAdjustmentCreateOrConnectWithoutEmployeeInput[]
+    createMany?: SalaryAdjustmentCreateManyEmployeeInputEnvelope
+    connect?: SalaryAdjustmentWhereUniqueInput | SalaryAdjustmentWhereUniqueInput[]
+  }
+
   export type PayrollUncheckedCreateNestedManyWithoutEmployeeInput = {
     create?: XOR<PayrollCreateWithoutEmployeeInput, PayrollUncheckedCreateWithoutEmployeeInput> | PayrollCreateWithoutEmployeeInput[] | PayrollUncheckedCreateWithoutEmployeeInput[]
     connectOrCreate?: PayrollCreateOrConnectWithoutEmployeeInput | PayrollCreateOrConnectWithoutEmployeeInput[]
@@ -12912,16 +18889,29 @@ export namespace Prisma {
     connect?: RescisaoWhereUniqueInput | RescisaoWhereUniqueInput[]
   }
 
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type EmployeeSubjectUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<EmployeeSubjectCreateWithoutEmployeeInput, EmployeeSubjectUncheckedCreateWithoutEmployeeInput> | EmployeeSubjectCreateWithoutEmployeeInput[] | EmployeeSubjectUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: EmployeeSubjectCreateOrConnectWithoutEmployeeInput | EmployeeSubjectCreateOrConnectWithoutEmployeeInput[]
+    createMany?: EmployeeSubjectCreateManyEmployeeInputEnvelope
+    connect?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
   }
 
-  export type NullableFloatFieldUpdateOperationsInput = {
-    set?: number | null
+  export type TeachingAssignmentUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<TeachingAssignmentCreateWithoutEmployeeInput, TeachingAssignmentUncheckedCreateWithoutEmployeeInput> | TeachingAssignmentCreateWithoutEmployeeInput[] | TeachingAssignmentUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: TeachingAssignmentCreateOrConnectWithoutEmployeeInput | TeachingAssignmentCreateOrConnectWithoutEmployeeInput[]
+    createMany?: TeachingAssignmentCreateManyEmployeeInputEnvelope
+    connect?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+  }
+
+  export type SalaryAdjustmentUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<SalaryAdjustmentCreateWithoutEmployeeInput, SalaryAdjustmentUncheckedCreateWithoutEmployeeInput> | SalaryAdjustmentCreateWithoutEmployeeInput[] | SalaryAdjustmentUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: SalaryAdjustmentCreateOrConnectWithoutEmployeeInput | SalaryAdjustmentCreateOrConnectWithoutEmployeeInput[]
+    createMany?: SalaryAdjustmentCreateManyEmployeeInputEnvelope
+    connect?: SalaryAdjustmentWhereUniqueInput | SalaryAdjustmentWhereUniqueInput[]
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
     increment?: number
     decrement?: number
     multiply?: number
@@ -12932,8 +18922,20 @@ export namespace Prisma {
     set?: string | null
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type PayrollUpdateManyWithoutEmployeeNestedInput = {
@@ -12978,6 +18980,48 @@ export namespace Prisma {
     deleteMany?: RescisaoScalarWhereInput | RescisaoScalarWhereInput[]
   }
 
+  export type EmployeeSubjectUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<EmployeeSubjectCreateWithoutEmployeeInput, EmployeeSubjectUncheckedCreateWithoutEmployeeInput> | EmployeeSubjectCreateWithoutEmployeeInput[] | EmployeeSubjectUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: EmployeeSubjectCreateOrConnectWithoutEmployeeInput | EmployeeSubjectCreateOrConnectWithoutEmployeeInput[]
+    upsert?: EmployeeSubjectUpsertWithWhereUniqueWithoutEmployeeInput | EmployeeSubjectUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: EmployeeSubjectCreateManyEmployeeInputEnvelope
+    set?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+    disconnect?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+    delete?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+    connect?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+    update?: EmployeeSubjectUpdateWithWhereUniqueWithoutEmployeeInput | EmployeeSubjectUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: EmployeeSubjectUpdateManyWithWhereWithoutEmployeeInput | EmployeeSubjectUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: EmployeeSubjectScalarWhereInput | EmployeeSubjectScalarWhereInput[]
+  }
+
+  export type TeachingAssignmentUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<TeachingAssignmentCreateWithoutEmployeeInput, TeachingAssignmentUncheckedCreateWithoutEmployeeInput> | TeachingAssignmentCreateWithoutEmployeeInput[] | TeachingAssignmentUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: TeachingAssignmentCreateOrConnectWithoutEmployeeInput | TeachingAssignmentCreateOrConnectWithoutEmployeeInput[]
+    upsert?: TeachingAssignmentUpsertWithWhereUniqueWithoutEmployeeInput | TeachingAssignmentUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: TeachingAssignmentCreateManyEmployeeInputEnvelope
+    set?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+    disconnect?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+    delete?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+    connect?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+    update?: TeachingAssignmentUpdateWithWhereUniqueWithoutEmployeeInput | TeachingAssignmentUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: TeachingAssignmentUpdateManyWithWhereWithoutEmployeeInput | TeachingAssignmentUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: TeachingAssignmentScalarWhereInput | TeachingAssignmentScalarWhereInput[]
+  }
+
+  export type SalaryAdjustmentUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<SalaryAdjustmentCreateWithoutEmployeeInput, SalaryAdjustmentUncheckedCreateWithoutEmployeeInput> | SalaryAdjustmentCreateWithoutEmployeeInput[] | SalaryAdjustmentUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: SalaryAdjustmentCreateOrConnectWithoutEmployeeInput | SalaryAdjustmentCreateOrConnectWithoutEmployeeInput[]
+    upsert?: SalaryAdjustmentUpsertWithWhereUniqueWithoutEmployeeInput | SalaryAdjustmentUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: SalaryAdjustmentCreateManyEmployeeInputEnvelope
+    set?: SalaryAdjustmentWhereUniqueInput | SalaryAdjustmentWhereUniqueInput[]
+    disconnect?: SalaryAdjustmentWhereUniqueInput | SalaryAdjustmentWhereUniqueInput[]
+    delete?: SalaryAdjustmentWhereUniqueInput | SalaryAdjustmentWhereUniqueInput[]
+    connect?: SalaryAdjustmentWhereUniqueInput | SalaryAdjustmentWhereUniqueInput[]
+    update?: SalaryAdjustmentUpdateWithWhereUniqueWithoutEmployeeInput | SalaryAdjustmentUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: SalaryAdjustmentUpdateManyWithWhereWithoutEmployeeInput | SalaryAdjustmentUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: SalaryAdjustmentScalarWhereInput | SalaryAdjustmentScalarWhereInput[]
+  }
+
   export type PayrollUncheckedUpdateManyWithoutEmployeeNestedInput = {
     create?: XOR<PayrollCreateWithoutEmployeeInput, PayrollUncheckedCreateWithoutEmployeeInput> | PayrollCreateWithoutEmployeeInput[] | PayrollUncheckedCreateWithoutEmployeeInput[]
     connectOrCreate?: PayrollCreateOrConnectWithoutEmployeeInput | PayrollCreateOrConnectWithoutEmployeeInput[]
@@ -13020,10 +19064,170 @@ export namespace Prisma {
     deleteMany?: RescisaoScalarWhereInput | RescisaoScalarWhereInput[]
   }
 
-  export type EmployeeCreateNestedOneWithoutPayrollsInput = {
-    create?: XOR<EmployeeCreateWithoutPayrollsInput, EmployeeUncheckedCreateWithoutPayrollsInput>
-    connectOrCreate?: EmployeeCreateOrConnectWithoutPayrollsInput
+  export type EmployeeSubjectUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<EmployeeSubjectCreateWithoutEmployeeInput, EmployeeSubjectUncheckedCreateWithoutEmployeeInput> | EmployeeSubjectCreateWithoutEmployeeInput[] | EmployeeSubjectUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: EmployeeSubjectCreateOrConnectWithoutEmployeeInput | EmployeeSubjectCreateOrConnectWithoutEmployeeInput[]
+    upsert?: EmployeeSubjectUpsertWithWhereUniqueWithoutEmployeeInput | EmployeeSubjectUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: EmployeeSubjectCreateManyEmployeeInputEnvelope
+    set?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+    disconnect?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+    delete?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+    connect?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+    update?: EmployeeSubjectUpdateWithWhereUniqueWithoutEmployeeInput | EmployeeSubjectUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: EmployeeSubjectUpdateManyWithWhereWithoutEmployeeInput | EmployeeSubjectUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: EmployeeSubjectScalarWhereInput | EmployeeSubjectScalarWhereInput[]
+  }
+
+  export type TeachingAssignmentUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<TeachingAssignmentCreateWithoutEmployeeInput, TeachingAssignmentUncheckedCreateWithoutEmployeeInput> | TeachingAssignmentCreateWithoutEmployeeInput[] | TeachingAssignmentUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: TeachingAssignmentCreateOrConnectWithoutEmployeeInput | TeachingAssignmentCreateOrConnectWithoutEmployeeInput[]
+    upsert?: TeachingAssignmentUpsertWithWhereUniqueWithoutEmployeeInput | TeachingAssignmentUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: TeachingAssignmentCreateManyEmployeeInputEnvelope
+    set?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+    disconnect?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+    delete?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+    connect?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+    update?: TeachingAssignmentUpdateWithWhereUniqueWithoutEmployeeInput | TeachingAssignmentUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: TeachingAssignmentUpdateManyWithWhereWithoutEmployeeInput | TeachingAssignmentUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: TeachingAssignmentScalarWhereInput | TeachingAssignmentScalarWhereInput[]
+  }
+
+  export type SalaryAdjustmentUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<SalaryAdjustmentCreateWithoutEmployeeInput, SalaryAdjustmentUncheckedCreateWithoutEmployeeInput> | SalaryAdjustmentCreateWithoutEmployeeInput[] | SalaryAdjustmentUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: SalaryAdjustmentCreateOrConnectWithoutEmployeeInput | SalaryAdjustmentCreateOrConnectWithoutEmployeeInput[]
+    upsert?: SalaryAdjustmentUpsertWithWhereUniqueWithoutEmployeeInput | SalaryAdjustmentUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: SalaryAdjustmentCreateManyEmployeeInputEnvelope
+    set?: SalaryAdjustmentWhereUniqueInput | SalaryAdjustmentWhereUniqueInput[]
+    disconnect?: SalaryAdjustmentWhereUniqueInput | SalaryAdjustmentWhereUniqueInput[]
+    delete?: SalaryAdjustmentWhereUniqueInput | SalaryAdjustmentWhereUniqueInput[]
+    connect?: SalaryAdjustmentWhereUniqueInput | SalaryAdjustmentWhereUniqueInput[]
+    update?: SalaryAdjustmentUpdateWithWhereUniqueWithoutEmployeeInput | SalaryAdjustmentUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: SalaryAdjustmentUpdateManyWithWhereWithoutEmployeeInput | SalaryAdjustmentUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: SalaryAdjustmentScalarWhereInput | SalaryAdjustmentScalarWhereInput[]
+  }
+
+  export type EmployeeSubjectCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<EmployeeSubjectCreateWithoutSubjectInput, EmployeeSubjectUncheckedCreateWithoutSubjectInput> | EmployeeSubjectCreateWithoutSubjectInput[] | EmployeeSubjectUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: EmployeeSubjectCreateOrConnectWithoutSubjectInput | EmployeeSubjectCreateOrConnectWithoutSubjectInput[]
+    createMany?: EmployeeSubjectCreateManySubjectInputEnvelope
+    connect?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+  }
+
+  export type TeachingAssignmentCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<TeachingAssignmentCreateWithoutSubjectInput, TeachingAssignmentUncheckedCreateWithoutSubjectInput> | TeachingAssignmentCreateWithoutSubjectInput[] | TeachingAssignmentUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: TeachingAssignmentCreateOrConnectWithoutSubjectInput | TeachingAssignmentCreateOrConnectWithoutSubjectInput[]
+    createMany?: TeachingAssignmentCreateManySubjectInputEnvelope
+    connect?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+  }
+
+  export type EmployeeSubjectUncheckedCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<EmployeeSubjectCreateWithoutSubjectInput, EmployeeSubjectUncheckedCreateWithoutSubjectInput> | EmployeeSubjectCreateWithoutSubjectInput[] | EmployeeSubjectUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: EmployeeSubjectCreateOrConnectWithoutSubjectInput | EmployeeSubjectCreateOrConnectWithoutSubjectInput[]
+    createMany?: EmployeeSubjectCreateManySubjectInputEnvelope
+    connect?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+  }
+
+  export type TeachingAssignmentUncheckedCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<TeachingAssignmentCreateWithoutSubjectInput, TeachingAssignmentUncheckedCreateWithoutSubjectInput> | TeachingAssignmentCreateWithoutSubjectInput[] | TeachingAssignmentUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: TeachingAssignmentCreateOrConnectWithoutSubjectInput | TeachingAssignmentCreateOrConnectWithoutSubjectInput[]
+    createMany?: TeachingAssignmentCreateManySubjectInputEnvelope
+    connect?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+  }
+
+  export type EmployeeSubjectUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<EmployeeSubjectCreateWithoutSubjectInput, EmployeeSubjectUncheckedCreateWithoutSubjectInput> | EmployeeSubjectCreateWithoutSubjectInput[] | EmployeeSubjectUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: EmployeeSubjectCreateOrConnectWithoutSubjectInput | EmployeeSubjectCreateOrConnectWithoutSubjectInput[]
+    upsert?: EmployeeSubjectUpsertWithWhereUniqueWithoutSubjectInput | EmployeeSubjectUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: EmployeeSubjectCreateManySubjectInputEnvelope
+    set?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+    disconnect?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+    delete?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+    connect?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+    update?: EmployeeSubjectUpdateWithWhereUniqueWithoutSubjectInput | EmployeeSubjectUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: EmployeeSubjectUpdateManyWithWhereWithoutSubjectInput | EmployeeSubjectUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: EmployeeSubjectScalarWhereInput | EmployeeSubjectScalarWhereInput[]
+  }
+
+  export type TeachingAssignmentUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<TeachingAssignmentCreateWithoutSubjectInput, TeachingAssignmentUncheckedCreateWithoutSubjectInput> | TeachingAssignmentCreateWithoutSubjectInput[] | TeachingAssignmentUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: TeachingAssignmentCreateOrConnectWithoutSubjectInput | TeachingAssignmentCreateOrConnectWithoutSubjectInput[]
+    upsert?: TeachingAssignmentUpsertWithWhereUniqueWithoutSubjectInput | TeachingAssignmentUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: TeachingAssignmentCreateManySubjectInputEnvelope
+    set?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+    disconnect?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+    delete?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+    connect?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+    update?: TeachingAssignmentUpdateWithWhereUniqueWithoutSubjectInput | TeachingAssignmentUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: TeachingAssignmentUpdateManyWithWhereWithoutSubjectInput | TeachingAssignmentUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: TeachingAssignmentScalarWhereInput | TeachingAssignmentScalarWhereInput[]
+  }
+
+  export type EmployeeSubjectUncheckedUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<EmployeeSubjectCreateWithoutSubjectInput, EmployeeSubjectUncheckedCreateWithoutSubjectInput> | EmployeeSubjectCreateWithoutSubjectInput[] | EmployeeSubjectUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: EmployeeSubjectCreateOrConnectWithoutSubjectInput | EmployeeSubjectCreateOrConnectWithoutSubjectInput[]
+    upsert?: EmployeeSubjectUpsertWithWhereUniqueWithoutSubjectInput | EmployeeSubjectUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: EmployeeSubjectCreateManySubjectInputEnvelope
+    set?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+    disconnect?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+    delete?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+    connect?: EmployeeSubjectWhereUniqueInput | EmployeeSubjectWhereUniqueInput[]
+    update?: EmployeeSubjectUpdateWithWhereUniqueWithoutSubjectInput | EmployeeSubjectUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: EmployeeSubjectUpdateManyWithWhereWithoutSubjectInput | EmployeeSubjectUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: EmployeeSubjectScalarWhereInput | EmployeeSubjectScalarWhereInput[]
+  }
+
+  export type TeachingAssignmentUncheckedUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<TeachingAssignmentCreateWithoutSubjectInput, TeachingAssignmentUncheckedCreateWithoutSubjectInput> | TeachingAssignmentCreateWithoutSubjectInput[] | TeachingAssignmentUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: TeachingAssignmentCreateOrConnectWithoutSubjectInput | TeachingAssignmentCreateOrConnectWithoutSubjectInput[]
+    upsert?: TeachingAssignmentUpsertWithWhereUniqueWithoutSubjectInput | TeachingAssignmentUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: TeachingAssignmentCreateManySubjectInputEnvelope
+    set?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+    disconnect?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+    delete?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+    connect?: TeachingAssignmentWhereUniqueInput | TeachingAssignmentWhereUniqueInput[]
+    update?: TeachingAssignmentUpdateWithWhereUniqueWithoutSubjectInput | TeachingAssignmentUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: TeachingAssignmentUpdateManyWithWhereWithoutSubjectInput | TeachingAssignmentUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: TeachingAssignmentScalarWhereInput | TeachingAssignmentScalarWhereInput[]
+  }
+
+  export type EmployeeCreateNestedOneWithoutEmployeeSubjectsInput = {
+    create?: XOR<EmployeeCreateWithoutEmployeeSubjectsInput, EmployeeUncheckedCreateWithoutEmployeeSubjectsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutEmployeeSubjectsInput
     connect?: EmployeeWhereUniqueInput
+  }
+
+  export type SubjectCreateNestedOneWithoutEmployeeSubjectsInput = {
+    create?: XOR<SubjectCreateWithoutEmployeeSubjectsInput, SubjectUncheckedCreateWithoutEmployeeSubjectsInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutEmployeeSubjectsInput
+    connect?: SubjectWhereUniqueInput
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutEmployeeSubjectsNestedInput = {
+    create?: XOR<EmployeeCreateWithoutEmployeeSubjectsInput, EmployeeUncheckedCreateWithoutEmployeeSubjectsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutEmployeeSubjectsInput
+    upsert?: EmployeeUpsertWithoutEmployeeSubjectsInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutEmployeeSubjectsInput, EmployeeUpdateWithoutEmployeeSubjectsInput>, EmployeeUncheckedUpdateWithoutEmployeeSubjectsInput>
+  }
+
+  export type SubjectUpdateOneRequiredWithoutEmployeeSubjectsNestedInput = {
+    create?: XOR<SubjectCreateWithoutEmployeeSubjectsInput, SubjectUncheckedCreateWithoutEmployeeSubjectsInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutEmployeeSubjectsInput
+    upsert?: SubjectUpsertWithoutEmployeeSubjectsInput
+    connect?: SubjectWhereUniqueInput
+    update?: XOR<XOR<SubjectUpdateToOneWithWhereWithoutEmployeeSubjectsInput, SubjectUpdateWithoutEmployeeSubjectsInput>, SubjectUncheckedUpdateWithoutEmployeeSubjectsInput>
+  }
+
+  export type EmployeeCreateNestedOneWithoutTeachingAssignmentsInput = {
+    create?: XOR<EmployeeCreateWithoutTeachingAssignmentsInput, EmployeeUncheckedCreateWithoutTeachingAssignmentsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutTeachingAssignmentsInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type SubjectCreateNestedOneWithoutTeachingAssignmentsInput = {
+    create?: XOR<SubjectCreateWithoutTeachingAssignmentsInput, SubjectUncheckedCreateWithoutTeachingAssignmentsInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutTeachingAssignmentsInput
+    connect?: SubjectWhereUniqueInput
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -13042,6 +19246,42 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type EmployeeUpdateOneRequiredWithoutTeachingAssignmentsNestedInput = {
+    create?: XOR<EmployeeCreateWithoutTeachingAssignmentsInput, EmployeeUncheckedCreateWithoutTeachingAssignmentsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutTeachingAssignmentsInput
+    upsert?: EmployeeUpsertWithoutTeachingAssignmentsInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutTeachingAssignmentsInput, EmployeeUpdateWithoutTeachingAssignmentsInput>, EmployeeUncheckedUpdateWithoutTeachingAssignmentsInput>
+  }
+
+  export type SubjectUpdateOneRequiredWithoutTeachingAssignmentsNestedInput = {
+    create?: XOR<SubjectCreateWithoutTeachingAssignmentsInput, SubjectUncheckedCreateWithoutTeachingAssignmentsInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutTeachingAssignmentsInput
+    upsert?: SubjectUpsertWithoutTeachingAssignmentsInput
+    connect?: SubjectWhereUniqueInput
+    update?: XOR<XOR<SubjectUpdateToOneWithWhereWithoutTeachingAssignmentsInput, SubjectUpdateWithoutTeachingAssignmentsInput>, SubjectUncheckedUpdateWithoutTeachingAssignmentsInput>
+  }
+
+  export type EmployeeCreateNestedOneWithoutSalaryAdjustmentsInput = {
+    create?: XOR<EmployeeCreateWithoutSalaryAdjustmentsInput, EmployeeUncheckedCreateWithoutSalaryAdjustmentsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutSalaryAdjustmentsInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutSalaryAdjustmentsNestedInput = {
+    create?: XOR<EmployeeCreateWithoutSalaryAdjustmentsInput, EmployeeUncheckedCreateWithoutSalaryAdjustmentsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutSalaryAdjustmentsInput
+    upsert?: EmployeeUpsertWithoutSalaryAdjustmentsInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutSalaryAdjustmentsInput, EmployeeUpdateWithoutSalaryAdjustmentsInput>, EmployeeUncheckedUpdateWithoutSalaryAdjustmentsInput>
+  }
+
+  export type EmployeeCreateNestedOneWithoutPayrollsInput = {
+    create?: XOR<EmployeeCreateWithoutPayrollsInput, EmployeeUncheckedCreateWithoutPayrollsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutPayrollsInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
   export type EmployeeUpdateOneRequiredWithoutPayrollsNestedInput = {
     create?: XOR<EmployeeCreateWithoutPayrollsInput, EmployeeUncheckedCreateWithoutPayrollsInput>
     connectOrCreate?: EmployeeCreateOrConnectWithoutPayrollsInput
@@ -13054,10 +19294,6 @@ export namespace Prisma {
     create?: XOR<EmployeeCreateWithoutAdvancesInput, EmployeeUncheckedCreateWithoutAdvancesInput>
     connectOrCreate?: EmployeeCreateOrConnectWithoutAdvancesInput
     connect?: EmployeeWhereUniqueInput
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type EmployeeUpdateOneRequiredWithoutAdvancesNestedInput = {
@@ -13160,17 +19396,6 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -13185,9 +19410,31 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -13204,33 +19451,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -13250,12 +19470,53 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -13288,31 +19549,6 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type PayrollCreateWithoutEmployeeInput = {
@@ -13475,6 +19711,100 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type EmployeeSubjectCreateWithoutEmployeeInput = {
+    id?: string
+    createdAt?: Date | string
+    subject: SubjectCreateNestedOneWithoutEmployeeSubjectsInput
+  }
+
+  export type EmployeeSubjectUncheckedCreateWithoutEmployeeInput = {
+    id?: string
+    subjectId: string
+    createdAt?: Date | string
+  }
+
+  export type EmployeeSubjectCreateOrConnectWithoutEmployeeInput = {
+    where: EmployeeSubjectWhereUniqueInput
+    create: XOR<EmployeeSubjectCreateWithoutEmployeeInput, EmployeeSubjectUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type EmployeeSubjectCreateManyEmployeeInputEnvelope = {
+    data: EmployeeSubjectCreateManyEmployeeInput | EmployeeSubjectCreateManyEmployeeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TeachingAssignmentCreateWithoutEmployeeInput = {
+    id?: string
+    weekday: number
+    startTime: string
+    endTime: string
+    classGroup?: string | null
+    lessonStart?: number | null
+    lessonEnd?: number | null
+    fullDay?: boolean
+    hours: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subject: SubjectCreateNestedOneWithoutTeachingAssignmentsInput
+  }
+
+  export type TeachingAssignmentUncheckedCreateWithoutEmployeeInput = {
+    id?: string
+    subjectId: string
+    weekday: number
+    startTime: string
+    endTime: string
+    classGroup?: string | null
+    lessonStart?: number | null
+    lessonEnd?: number | null
+    fullDay?: boolean
+    hours: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TeachingAssignmentCreateOrConnectWithoutEmployeeInput = {
+    where: TeachingAssignmentWhereUniqueInput
+    create: XOR<TeachingAssignmentCreateWithoutEmployeeInput, TeachingAssignmentUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type TeachingAssignmentCreateManyEmployeeInputEnvelope = {
+    data: TeachingAssignmentCreateManyEmployeeInput | TeachingAssignmentCreateManyEmployeeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SalaryAdjustmentCreateWithoutEmployeeInput = {
+    id?: string
+    effectiveDate: Date | string
+    previousSalary: number
+    newSalary: number
+    adjustmentValue: number
+    notes?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SalaryAdjustmentUncheckedCreateWithoutEmployeeInput = {
+    id?: string
+    effectiveDate: Date | string
+    previousSalary: number
+    newSalary: number
+    adjustmentValue: number
+    notes?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SalaryAdjustmentCreateOrConnectWithoutEmployeeInput = {
+    where: SalaryAdjustmentWhereUniqueInput
+    create: XOR<SalaryAdjustmentCreateWithoutEmployeeInput, SalaryAdjustmentUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type SalaryAdjustmentCreateManyEmployeeInputEnvelope = {
+    data: SalaryAdjustmentCreateManyEmployeeInput | SalaryAdjustmentCreateManyEmployeeInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PayrollUpsertWithWhereUniqueWithoutEmployeeInput = {
     where: PayrollWhereUniqueInput
     update: XOR<PayrollUpdateWithoutEmployeeInput, PayrollUncheckedUpdateWithoutEmployeeInput>
@@ -13600,6 +19930,770 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Rescisao"> | Date | string
   }
 
+  export type EmployeeSubjectUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: EmployeeSubjectWhereUniqueInput
+    update: XOR<EmployeeSubjectUpdateWithoutEmployeeInput, EmployeeSubjectUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<EmployeeSubjectCreateWithoutEmployeeInput, EmployeeSubjectUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type EmployeeSubjectUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: EmployeeSubjectWhereUniqueInput
+    data: XOR<EmployeeSubjectUpdateWithoutEmployeeInput, EmployeeSubjectUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type EmployeeSubjectUpdateManyWithWhereWithoutEmployeeInput = {
+    where: EmployeeSubjectScalarWhereInput
+    data: XOR<EmployeeSubjectUpdateManyMutationInput, EmployeeSubjectUncheckedUpdateManyWithoutEmployeeInput>
+  }
+
+  export type EmployeeSubjectScalarWhereInput = {
+    AND?: EmployeeSubjectScalarWhereInput | EmployeeSubjectScalarWhereInput[]
+    OR?: EmployeeSubjectScalarWhereInput[]
+    NOT?: EmployeeSubjectScalarWhereInput | EmployeeSubjectScalarWhereInput[]
+    id?: StringFilter<"EmployeeSubject"> | string
+    employeeId?: StringFilter<"EmployeeSubject"> | string
+    subjectId?: StringFilter<"EmployeeSubject"> | string
+    createdAt?: DateTimeFilter<"EmployeeSubject"> | Date | string
+  }
+
+  export type TeachingAssignmentUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: TeachingAssignmentWhereUniqueInput
+    update: XOR<TeachingAssignmentUpdateWithoutEmployeeInput, TeachingAssignmentUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<TeachingAssignmentCreateWithoutEmployeeInput, TeachingAssignmentUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type TeachingAssignmentUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: TeachingAssignmentWhereUniqueInput
+    data: XOR<TeachingAssignmentUpdateWithoutEmployeeInput, TeachingAssignmentUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type TeachingAssignmentUpdateManyWithWhereWithoutEmployeeInput = {
+    where: TeachingAssignmentScalarWhereInput
+    data: XOR<TeachingAssignmentUpdateManyMutationInput, TeachingAssignmentUncheckedUpdateManyWithoutEmployeeInput>
+  }
+
+  export type TeachingAssignmentScalarWhereInput = {
+    AND?: TeachingAssignmentScalarWhereInput | TeachingAssignmentScalarWhereInput[]
+    OR?: TeachingAssignmentScalarWhereInput[]
+    NOT?: TeachingAssignmentScalarWhereInput | TeachingAssignmentScalarWhereInput[]
+    id?: StringFilter<"TeachingAssignment"> | string
+    employeeId?: StringFilter<"TeachingAssignment"> | string
+    subjectId?: StringFilter<"TeachingAssignment"> | string
+    weekday?: IntFilter<"TeachingAssignment"> | number
+    startTime?: StringFilter<"TeachingAssignment"> | string
+    endTime?: StringFilter<"TeachingAssignment"> | string
+    classGroup?: StringNullableFilter<"TeachingAssignment"> | string | null
+    lessonStart?: IntNullableFilter<"TeachingAssignment"> | number | null
+    lessonEnd?: IntNullableFilter<"TeachingAssignment"> | number | null
+    fullDay?: BoolFilter<"TeachingAssignment"> | boolean
+    hours?: FloatFilter<"TeachingAssignment"> | number
+    active?: BoolFilter<"TeachingAssignment"> | boolean
+    createdAt?: DateTimeFilter<"TeachingAssignment"> | Date | string
+    updatedAt?: DateTimeFilter<"TeachingAssignment"> | Date | string
+  }
+
+  export type SalaryAdjustmentUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: SalaryAdjustmentWhereUniqueInput
+    update: XOR<SalaryAdjustmentUpdateWithoutEmployeeInput, SalaryAdjustmentUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<SalaryAdjustmentCreateWithoutEmployeeInput, SalaryAdjustmentUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type SalaryAdjustmentUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: SalaryAdjustmentWhereUniqueInput
+    data: XOR<SalaryAdjustmentUpdateWithoutEmployeeInput, SalaryAdjustmentUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type SalaryAdjustmentUpdateManyWithWhereWithoutEmployeeInput = {
+    where: SalaryAdjustmentScalarWhereInput
+    data: XOR<SalaryAdjustmentUpdateManyMutationInput, SalaryAdjustmentUncheckedUpdateManyWithoutEmployeeInput>
+  }
+
+  export type SalaryAdjustmentScalarWhereInput = {
+    AND?: SalaryAdjustmentScalarWhereInput | SalaryAdjustmentScalarWhereInput[]
+    OR?: SalaryAdjustmentScalarWhereInput[]
+    NOT?: SalaryAdjustmentScalarWhereInput | SalaryAdjustmentScalarWhereInput[]
+    id?: StringFilter<"SalaryAdjustment"> | string
+    employeeId?: StringFilter<"SalaryAdjustment"> | string
+    effectiveDate?: DateTimeFilter<"SalaryAdjustment"> | Date | string
+    previousSalary?: FloatFilter<"SalaryAdjustment"> | number
+    newSalary?: FloatFilter<"SalaryAdjustment"> | number
+    adjustmentValue?: FloatFilter<"SalaryAdjustment"> | number
+    notes?: StringNullableFilter<"SalaryAdjustment"> | string | null
+    createdAt?: DateTimeFilter<"SalaryAdjustment"> | Date | string
+  }
+
+  export type EmployeeSubjectCreateWithoutSubjectInput = {
+    id?: string
+    createdAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutEmployeeSubjectsInput
+  }
+
+  export type EmployeeSubjectUncheckedCreateWithoutSubjectInput = {
+    id?: string
+    employeeId: string
+    createdAt?: Date | string
+  }
+
+  export type EmployeeSubjectCreateOrConnectWithoutSubjectInput = {
+    where: EmployeeSubjectWhereUniqueInput
+    create: XOR<EmployeeSubjectCreateWithoutSubjectInput, EmployeeSubjectUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type EmployeeSubjectCreateManySubjectInputEnvelope = {
+    data: EmployeeSubjectCreateManySubjectInput | EmployeeSubjectCreateManySubjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TeachingAssignmentCreateWithoutSubjectInput = {
+    id?: string
+    weekday: number
+    startTime: string
+    endTime: string
+    classGroup?: string | null
+    lessonStart?: number | null
+    lessonEnd?: number | null
+    fullDay?: boolean
+    hours: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutTeachingAssignmentsInput
+  }
+
+  export type TeachingAssignmentUncheckedCreateWithoutSubjectInput = {
+    id?: string
+    employeeId: string
+    weekday: number
+    startTime: string
+    endTime: string
+    classGroup?: string | null
+    lessonStart?: number | null
+    lessonEnd?: number | null
+    fullDay?: boolean
+    hours: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TeachingAssignmentCreateOrConnectWithoutSubjectInput = {
+    where: TeachingAssignmentWhereUniqueInput
+    create: XOR<TeachingAssignmentCreateWithoutSubjectInput, TeachingAssignmentUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type TeachingAssignmentCreateManySubjectInputEnvelope = {
+    data: TeachingAssignmentCreateManySubjectInput | TeachingAssignmentCreateManySubjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EmployeeSubjectUpsertWithWhereUniqueWithoutSubjectInput = {
+    where: EmployeeSubjectWhereUniqueInput
+    update: XOR<EmployeeSubjectUpdateWithoutSubjectInput, EmployeeSubjectUncheckedUpdateWithoutSubjectInput>
+    create: XOR<EmployeeSubjectCreateWithoutSubjectInput, EmployeeSubjectUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type EmployeeSubjectUpdateWithWhereUniqueWithoutSubjectInput = {
+    where: EmployeeSubjectWhereUniqueInput
+    data: XOR<EmployeeSubjectUpdateWithoutSubjectInput, EmployeeSubjectUncheckedUpdateWithoutSubjectInput>
+  }
+
+  export type EmployeeSubjectUpdateManyWithWhereWithoutSubjectInput = {
+    where: EmployeeSubjectScalarWhereInput
+    data: XOR<EmployeeSubjectUpdateManyMutationInput, EmployeeSubjectUncheckedUpdateManyWithoutSubjectInput>
+  }
+
+  export type TeachingAssignmentUpsertWithWhereUniqueWithoutSubjectInput = {
+    where: TeachingAssignmentWhereUniqueInput
+    update: XOR<TeachingAssignmentUpdateWithoutSubjectInput, TeachingAssignmentUncheckedUpdateWithoutSubjectInput>
+    create: XOR<TeachingAssignmentCreateWithoutSubjectInput, TeachingAssignmentUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type TeachingAssignmentUpdateWithWhereUniqueWithoutSubjectInput = {
+    where: TeachingAssignmentWhereUniqueInput
+    data: XOR<TeachingAssignmentUpdateWithoutSubjectInput, TeachingAssignmentUncheckedUpdateWithoutSubjectInput>
+  }
+
+  export type TeachingAssignmentUpdateManyWithWhereWithoutSubjectInput = {
+    where: TeachingAssignmentScalarWhereInput
+    data: XOR<TeachingAssignmentUpdateManyMutationInput, TeachingAssignmentUncheckedUpdateManyWithoutSubjectInput>
+  }
+
+  export type EmployeeCreateWithoutEmployeeSubjectsInput = {
+    id?: string
+    name: string
+    cpf: string
+    type: string
+    role: string
+    baseSalary: number
+    profilePhotoUrl?: string | null
+    startDate?: Date | string | null
+    eatsAtSchool?: boolean
+    transportDaily?: number | null
+    gasAssistance?: number | null
+    pixKey?: string | null
+    paymentMethod?: string
+    bankName?: string | null
+    accountType?: string | null
+    agency?: string | null
+    accountNumber?: string | null
+    recurringDeductions?: number
+    temporaryDeductions?: number
+    temporaryDeductionsDesc?: string | null
+    temporaryDeductionsExpiration?: string | null
+    hourlyRate?: number | null
+    cestaBasica?: number | null
+    isAulista?: boolean
+    salaryAdvance?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payrolls?: PayrollCreateNestedManyWithoutEmployeeInput
+    advances?: PayrollAdvanceCreateNestedManyWithoutEmployeeInput
+    rescisoes?: RescisaoCreateNestedManyWithoutEmployeeInput
+    teachingAssignments?: TeachingAssignmentCreateNestedManyWithoutEmployeeInput
+    salaryAdjustments?: SalaryAdjustmentCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutEmployeeSubjectsInput = {
+    id?: string
+    name: string
+    cpf: string
+    type: string
+    role: string
+    baseSalary: number
+    profilePhotoUrl?: string | null
+    startDate?: Date | string | null
+    eatsAtSchool?: boolean
+    transportDaily?: number | null
+    gasAssistance?: number | null
+    pixKey?: string | null
+    paymentMethod?: string
+    bankName?: string | null
+    accountType?: string | null
+    agency?: string | null
+    accountNumber?: string | null
+    recurringDeductions?: number
+    temporaryDeductions?: number
+    temporaryDeductionsDesc?: string | null
+    temporaryDeductionsExpiration?: string | null
+    hourlyRate?: number | null
+    cestaBasica?: number | null
+    isAulista?: boolean
+    salaryAdvance?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payrolls?: PayrollUncheckedCreateNestedManyWithoutEmployeeInput
+    advances?: PayrollAdvanceUncheckedCreateNestedManyWithoutEmployeeInput
+    rescisoes?: RescisaoUncheckedCreateNestedManyWithoutEmployeeInput
+    teachingAssignments?: TeachingAssignmentUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdjustments?: SalaryAdjustmentUncheckedCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutEmployeeSubjectsInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutEmployeeSubjectsInput, EmployeeUncheckedCreateWithoutEmployeeSubjectsInput>
+  }
+
+  export type SubjectCreateWithoutEmployeeSubjectsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teachingAssignments?: TeachingAssignmentCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectUncheckedCreateWithoutEmployeeSubjectsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teachingAssignments?: TeachingAssignmentUncheckedCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectCreateOrConnectWithoutEmployeeSubjectsInput = {
+    where: SubjectWhereUniqueInput
+    create: XOR<SubjectCreateWithoutEmployeeSubjectsInput, SubjectUncheckedCreateWithoutEmployeeSubjectsInput>
+  }
+
+  export type EmployeeUpsertWithoutEmployeeSubjectsInput = {
+    update: XOR<EmployeeUpdateWithoutEmployeeSubjectsInput, EmployeeUncheckedUpdateWithoutEmployeeSubjectsInput>
+    create: XOR<EmployeeCreateWithoutEmployeeSubjectsInput, EmployeeUncheckedCreateWithoutEmployeeSubjectsInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutEmployeeSubjectsInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutEmployeeSubjectsInput, EmployeeUncheckedUpdateWithoutEmployeeSubjectsInput>
+  }
+
+  export type EmployeeUpdateWithoutEmployeeSubjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    cpf?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    baseSalary?: FloatFieldUpdateOperationsInput | number
+    profilePhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    eatsAtSchool?: BoolFieldUpdateOperationsInput | boolean
+    transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
+    gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixKey?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountType?: NullableStringFieldUpdateOperationsInput | string | null
+    agency?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    recurringDeductions?: FloatFieldUpdateOperationsInput | number
+    temporaryDeductions?: FloatFieldUpdateOperationsInput | number
+    temporaryDeductionsDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    temporaryDeductionsExpiration?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cestaBasica?: NullableFloatFieldUpdateOperationsInput | number | null
+    isAulista?: BoolFieldUpdateOperationsInput | boolean
+    salaryAdvance?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payrolls?: PayrollUpdateManyWithoutEmployeeNestedInput
+    advances?: PayrollAdvanceUpdateManyWithoutEmployeeNestedInput
+    rescisoes?: RescisaoUpdateManyWithoutEmployeeNestedInput
+    teachingAssignments?: TeachingAssignmentUpdateManyWithoutEmployeeNestedInput
+    salaryAdjustments?: SalaryAdjustmentUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutEmployeeSubjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    cpf?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    baseSalary?: FloatFieldUpdateOperationsInput | number
+    profilePhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    eatsAtSchool?: BoolFieldUpdateOperationsInput | boolean
+    transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
+    gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixKey?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountType?: NullableStringFieldUpdateOperationsInput | string | null
+    agency?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    recurringDeductions?: FloatFieldUpdateOperationsInput | number
+    temporaryDeductions?: FloatFieldUpdateOperationsInput | number
+    temporaryDeductionsDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    temporaryDeductionsExpiration?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cestaBasica?: NullableFloatFieldUpdateOperationsInput | number | null
+    isAulista?: BoolFieldUpdateOperationsInput | boolean
+    salaryAdvance?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payrolls?: PayrollUncheckedUpdateManyWithoutEmployeeNestedInput
+    advances?: PayrollAdvanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    rescisoes?: RescisaoUncheckedUpdateManyWithoutEmployeeNestedInput
+    teachingAssignments?: TeachingAssignmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdjustments?: SalaryAdjustmentUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type SubjectUpsertWithoutEmployeeSubjectsInput = {
+    update: XOR<SubjectUpdateWithoutEmployeeSubjectsInput, SubjectUncheckedUpdateWithoutEmployeeSubjectsInput>
+    create: XOR<SubjectCreateWithoutEmployeeSubjectsInput, SubjectUncheckedCreateWithoutEmployeeSubjectsInput>
+    where?: SubjectWhereInput
+  }
+
+  export type SubjectUpdateToOneWithWhereWithoutEmployeeSubjectsInput = {
+    where?: SubjectWhereInput
+    data: XOR<SubjectUpdateWithoutEmployeeSubjectsInput, SubjectUncheckedUpdateWithoutEmployeeSubjectsInput>
+  }
+
+  export type SubjectUpdateWithoutEmployeeSubjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teachingAssignments?: TeachingAssignmentUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type SubjectUncheckedUpdateWithoutEmployeeSubjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teachingAssignments?: TeachingAssignmentUncheckedUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type EmployeeCreateWithoutTeachingAssignmentsInput = {
+    id?: string
+    name: string
+    cpf: string
+    type: string
+    role: string
+    baseSalary: number
+    profilePhotoUrl?: string | null
+    startDate?: Date | string | null
+    eatsAtSchool?: boolean
+    transportDaily?: number | null
+    gasAssistance?: number | null
+    pixKey?: string | null
+    paymentMethod?: string
+    bankName?: string | null
+    accountType?: string | null
+    agency?: string | null
+    accountNumber?: string | null
+    recurringDeductions?: number
+    temporaryDeductions?: number
+    temporaryDeductionsDesc?: string | null
+    temporaryDeductionsExpiration?: string | null
+    hourlyRate?: number | null
+    cestaBasica?: number | null
+    isAulista?: boolean
+    salaryAdvance?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payrolls?: PayrollCreateNestedManyWithoutEmployeeInput
+    advances?: PayrollAdvanceCreateNestedManyWithoutEmployeeInput
+    rescisoes?: RescisaoCreateNestedManyWithoutEmployeeInput
+    employeeSubjects?: EmployeeSubjectCreateNestedManyWithoutEmployeeInput
+    salaryAdjustments?: SalaryAdjustmentCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutTeachingAssignmentsInput = {
+    id?: string
+    name: string
+    cpf: string
+    type: string
+    role: string
+    baseSalary: number
+    profilePhotoUrl?: string | null
+    startDate?: Date | string | null
+    eatsAtSchool?: boolean
+    transportDaily?: number | null
+    gasAssistance?: number | null
+    pixKey?: string | null
+    paymentMethod?: string
+    bankName?: string | null
+    accountType?: string | null
+    agency?: string | null
+    accountNumber?: string | null
+    recurringDeductions?: number
+    temporaryDeductions?: number
+    temporaryDeductionsDesc?: string | null
+    temporaryDeductionsExpiration?: string | null
+    hourlyRate?: number | null
+    cestaBasica?: number | null
+    isAulista?: boolean
+    salaryAdvance?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payrolls?: PayrollUncheckedCreateNestedManyWithoutEmployeeInput
+    advances?: PayrollAdvanceUncheckedCreateNestedManyWithoutEmployeeInput
+    rescisoes?: RescisaoUncheckedCreateNestedManyWithoutEmployeeInput
+    employeeSubjects?: EmployeeSubjectUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdjustments?: SalaryAdjustmentUncheckedCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutTeachingAssignmentsInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutTeachingAssignmentsInput, EmployeeUncheckedCreateWithoutTeachingAssignmentsInput>
+  }
+
+  export type SubjectCreateWithoutTeachingAssignmentsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employeeSubjects?: EmployeeSubjectCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectUncheckedCreateWithoutTeachingAssignmentsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employeeSubjects?: EmployeeSubjectUncheckedCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectCreateOrConnectWithoutTeachingAssignmentsInput = {
+    where: SubjectWhereUniqueInput
+    create: XOR<SubjectCreateWithoutTeachingAssignmentsInput, SubjectUncheckedCreateWithoutTeachingAssignmentsInput>
+  }
+
+  export type EmployeeUpsertWithoutTeachingAssignmentsInput = {
+    update: XOR<EmployeeUpdateWithoutTeachingAssignmentsInput, EmployeeUncheckedUpdateWithoutTeachingAssignmentsInput>
+    create: XOR<EmployeeCreateWithoutTeachingAssignmentsInput, EmployeeUncheckedCreateWithoutTeachingAssignmentsInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutTeachingAssignmentsInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutTeachingAssignmentsInput, EmployeeUncheckedUpdateWithoutTeachingAssignmentsInput>
+  }
+
+  export type EmployeeUpdateWithoutTeachingAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    cpf?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    baseSalary?: FloatFieldUpdateOperationsInput | number
+    profilePhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    eatsAtSchool?: BoolFieldUpdateOperationsInput | boolean
+    transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
+    gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixKey?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountType?: NullableStringFieldUpdateOperationsInput | string | null
+    agency?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    recurringDeductions?: FloatFieldUpdateOperationsInput | number
+    temporaryDeductions?: FloatFieldUpdateOperationsInput | number
+    temporaryDeductionsDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    temporaryDeductionsExpiration?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cestaBasica?: NullableFloatFieldUpdateOperationsInput | number | null
+    isAulista?: BoolFieldUpdateOperationsInput | boolean
+    salaryAdvance?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payrolls?: PayrollUpdateManyWithoutEmployeeNestedInput
+    advances?: PayrollAdvanceUpdateManyWithoutEmployeeNestedInput
+    rescisoes?: RescisaoUpdateManyWithoutEmployeeNestedInput
+    employeeSubjects?: EmployeeSubjectUpdateManyWithoutEmployeeNestedInput
+    salaryAdjustments?: SalaryAdjustmentUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutTeachingAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    cpf?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    baseSalary?: FloatFieldUpdateOperationsInput | number
+    profilePhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    eatsAtSchool?: BoolFieldUpdateOperationsInput | boolean
+    transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
+    gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixKey?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountType?: NullableStringFieldUpdateOperationsInput | string | null
+    agency?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    recurringDeductions?: FloatFieldUpdateOperationsInput | number
+    temporaryDeductions?: FloatFieldUpdateOperationsInput | number
+    temporaryDeductionsDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    temporaryDeductionsExpiration?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cestaBasica?: NullableFloatFieldUpdateOperationsInput | number | null
+    isAulista?: BoolFieldUpdateOperationsInput | boolean
+    salaryAdvance?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payrolls?: PayrollUncheckedUpdateManyWithoutEmployeeNestedInput
+    advances?: PayrollAdvanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    rescisoes?: RescisaoUncheckedUpdateManyWithoutEmployeeNestedInput
+    employeeSubjects?: EmployeeSubjectUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdjustments?: SalaryAdjustmentUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type SubjectUpsertWithoutTeachingAssignmentsInput = {
+    update: XOR<SubjectUpdateWithoutTeachingAssignmentsInput, SubjectUncheckedUpdateWithoutTeachingAssignmentsInput>
+    create: XOR<SubjectCreateWithoutTeachingAssignmentsInput, SubjectUncheckedCreateWithoutTeachingAssignmentsInput>
+    where?: SubjectWhereInput
+  }
+
+  export type SubjectUpdateToOneWithWhereWithoutTeachingAssignmentsInput = {
+    where?: SubjectWhereInput
+    data: XOR<SubjectUpdateWithoutTeachingAssignmentsInput, SubjectUncheckedUpdateWithoutTeachingAssignmentsInput>
+  }
+
+  export type SubjectUpdateWithoutTeachingAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employeeSubjects?: EmployeeSubjectUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type SubjectUncheckedUpdateWithoutTeachingAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employeeSubjects?: EmployeeSubjectUncheckedUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type EmployeeCreateWithoutSalaryAdjustmentsInput = {
+    id?: string
+    name: string
+    cpf: string
+    type: string
+    role: string
+    baseSalary: number
+    profilePhotoUrl?: string | null
+    startDate?: Date | string | null
+    eatsAtSchool?: boolean
+    transportDaily?: number | null
+    gasAssistance?: number | null
+    pixKey?: string | null
+    paymentMethod?: string
+    bankName?: string | null
+    accountType?: string | null
+    agency?: string | null
+    accountNumber?: string | null
+    recurringDeductions?: number
+    temporaryDeductions?: number
+    temporaryDeductionsDesc?: string | null
+    temporaryDeductionsExpiration?: string | null
+    hourlyRate?: number | null
+    cestaBasica?: number | null
+    isAulista?: boolean
+    salaryAdvance?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payrolls?: PayrollCreateNestedManyWithoutEmployeeInput
+    advances?: PayrollAdvanceCreateNestedManyWithoutEmployeeInput
+    rescisoes?: RescisaoCreateNestedManyWithoutEmployeeInput
+    employeeSubjects?: EmployeeSubjectCreateNestedManyWithoutEmployeeInput
+    teachingAssignments?: TeachingAssignmentCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutSalaryAdjustmentsInput = {
+    id?: string
+    name: string
+    cpf: string
+    type: string
+    role: string
+    baseSalary: number
+    profilePhotoUrl?: string | null
+    startDate?: Date | string | null
+    eatsAtSchool?: boolean
+    transportDaily?: number | null
+    gasAssistance?: number | null
+    pixKey?: string | null
+    paymentMethod?: string
+    bankName?: string | null
+    accountType?: string | null
+    agency?: string | null
+    accountNumber?: string | null
+    recurringDeductions?: number
+    temporaryDeductions?: number
+    temporaryDeductionsDesc?: string | null
+    temporaryDeductionsExpiration?: string | null
+    hourlyRate?: number | null
+    cestaBasica?: number | null
+    isAulista?: boolean
+    salaryAdvance?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payrolls?: PayrollUncheckedCreateNestedManyWithoutEmployeeInput
+    advances?: PayrollAdvanceUncheckedCreateNestedManyWithoutEmployeeInput
+    rescisoes?: RescisaoUncheckedCreateNestedManyWithoutEmployeeInput
+    employeeSubjects?: EmployeeSubjectUncheckedCreateNestedManyWithoutEmployeeInput
+    teachingAssignments?: TeachingAssignmentUncheckedCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutSalaryAdjustmentsInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutSalaryAdjustmentsInput, EmployeeUncheckedCreateWithoutSalaryAdjustmentsInput>
+  }
+
+  export type EmployeeUpsertWithoutSalaryAdjustmentsInput = {
+    update: XOR<EmployeeUpdateWithoutSalaryAdjustmentsInput, EmployeeUncheckedUpdateWithoutSalaryAdjustmentsInput>
+    create: XOR<EmployeeCreateWithoutSalaryAdjustmentsInput, EmployeeUncheckedCreateWithoutSalaryAdjustmentsInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutSalaryAdjustmentsInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutSalaryAdjustmentsInput, EmployeeUncheckedUpdateWithoutSalaryAdjustmentsInput>
+  }
+
+  export type EmployeeUpdateWithoutSalaryAdjustmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    cpf?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    baseSalary?: FloatFieldUpdateOperationsInput | number
+    profilePhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    eatsAtSchool?: BoolFieldUpdateOperationsInput | boolean
+    transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
+    gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixKey?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountType?: NullableStringFieldUpdateOperationsInput | string | null
+    agency?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    recurringDeductions?: FloatFieldUpdateOperationsInput | number
+    temporaryDeductions?: FloatFieldUpdateOperationsInput | number
+    temporaryDeductionsDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    temporaryDeductionsExpiration?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cestaBasica?: NullableFloatFieldUpdateOperationsInput | number | null
+    isAulista?: BoolFieldUpdateOperationsInput | boolean
+    salaryAdvance?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payrolls?: PayrollUpdateManyWithoutEmployeeNestedInput
+    advances?: PayrollAdvanceUpdateManyWithoutEmployeeNestedInput
+    rescisoes?: RescisaoUpdateManyWithoutEmployeeNestedInput
+    employeeSubjects?: EmployeeSubjectUpdateManyWithoutEmployeeNestedInput
+    teachingAssignments?: TeachingAssignmentUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutSalaryAdjustmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    cpf?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    baseSalary?: FloatFieldUpdateOperationsInput | number
+    profilePhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    eatsAtSchool?: BoolFieldUpdateOperationsInput | boolean
+    transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
+    gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
+    pixKey?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountType?: NullableStringFieldUpdateOperationsInput | string | null
+    agency?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    recurringDeductions?: FloatFieldUpdateOperationsInput | number
+    temporaryDeductions?: FloatFieldUpdateOperationsInput | number
+    temporaryDeductionsDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    temporaryDeductionsExpiration?: NullableStringFieldUpdateOperationsInput | string | null
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cestaBasica?: NullableFloatFieldUpdateOperationsInput | number | null
+    isAulista?: BoolFieldUpdateOperationsInput | boolean
+    salaryAdvance?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payrolls?: PayrollUncheckedUpdateManyWithoutEmployeeNestedInput
+    advances?: PayrollAdvanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    rescisoes?: RescisaoUncheckedUpdateManyWithoutEmployeeNestedInput
+    employeeSubjects?: EmployeeSubjectUncheckedUpdateManyWithoutEmployeeNestedInput
+    teachingAssignments?: TeachingAssignmentUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
   export type EmployeeCreateWithoutPayrollsInput = {
     id?: string
     name: string
@@ -13607,6 +20701,9 @@ export namespace Prisma {
     type: string
     role: string
     baseSalary: number
+    profilePhotoUrl?: string | null
+    startDate?: Date | string | null
+    eatsAtSchool?: boolean
     transportDaily?: number | null
     gasAssistance?: number | null
     pixKey?: string | null
@@ -13628,6 +20725,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     advances?: PayrollAdvanceCreateNestedManyWithoutEmployeeInput
     rescisoes?: RescisaoCreateNestedManyWithoutEmployeeInput
+    employeeSubjects?: EmployeeSubjectCreateNestedManyWithoutEmployeeInput
+    teachingAssignments?: TeachingAssignmentCreateNestedManyWithoutEmployeeInput
+    salaryAdjustments?: SalaryAdjustmentCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutPayrollsInput = {
@@ -13637,6 +20737,9 @@ export namespace Prisma {
     type: string
     role: string
     baseSalary: number
+    profilePhotoUrl?: string | null
+    startDate?: Date | string | null
+    eatsAtSchool?: boolean
     transportDaily?: number | null
     gasAssistance?: number | null
     pixKey?: string | null
@@ -13658,6 +20761,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     advances?: PayrollAdvanceUncheckedCreateNestedManyWithoutEmployeeInput
     rescisoes?: RescisaoUncheckedCreateNestedManyWithoutEmployeeInput
+    employeeSubjects?: EmployeeSubjectUncheckedCreateNestedManyWithoutEmployeeInput
+    teachingAssignments?: TeachingAssignmentUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdjustments?: SalaryAdjustmentUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutPayrollsInput = {
@@ -13683,6 +20789,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     baseSalary?: FloatFieldUpdateOperationsInput | number
+    profilePhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    eatsAtSchool?: BoolFieldUpdateOperationsInput | boolean
     transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
     gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
     pixKey?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13704,6 +20813,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     advances?: PayrollAdvanceUpdateManyWithoutEmployeeNestedInput
     rescisoes?: RescisaoUpdateManyWithoutEmployeeNestedInput
+    employeeSubjects?: EmployeeSubjectUpdateManyWithoutEmployeeNestedInput
+    teachingAssignments?: TeachingAssignmentUpdateManyWithoutEmployeeNestedInput
+    salaryAdjustments?: SalaryAdjustmentUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutPayrollsInput = {
@@ -13713,6 +20825,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     baseSalary?: FloatFieldUpdateOperationsInput | number
+    profilePhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    eatsAtSchool?: BoolFieldUpdateOperationsInput | boolean
     transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
     gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
     pixKey?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13734,6 +20849,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     advances?: PayrollAdvanceUncheckedUpdateManyWithoutEmployeeNestedInput
     rescisoes?: RescisaoUncheckedUpdateManyWithoutEmployeeNestedInput
+    employeeSubjects?: EmployeeSubjectUncheckedUpdateManyWithoutEmployeeNestedInput
+    teachingAssignments?: TeachingAssignmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdjustments?: SalaryAdjustmentUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateWithoutAdvancesInput = {
@@ -13743,6 +20861,9 @@ export namespace Prisma {
     type: string
     role: string
     baseSalary: number
+    profilePhotoUrl?: string | null
+    startDate?: Date | string | null
+    eatsAtSchool?: boolean
     transportDaily?: number | null
     gasAssistance?: number | null
     pixKey?: string | null
@@ -13764,6 +20885,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     payrolls?: PayrollCreateNestedManyWithoutEmployeeInput
     rescisoes?: RescisaoCreateNestedManyWithoutEmployeeInput
+    employeeSubjects?: EmployeeSubjectCreateNestedManyWithoutEmployeeInput
+    teachingAssignments?: TeachingAssignmentCreateNestedManyWithoutEmployeeInput
+    salaryAdjustments?: SalaryAdjustmentCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutAdvancesInput = {
@@ -13773,6 +20897,9 @@ export namespace Prisma {
     type: string
     role: string
     baseSalary: number
+    profilePhotoUrl?: string | null
+    startDate?: Date | string | null
+    eatsAtSchool?: boolean
     transportDaily?: number | null
     gasAssistance?: number | null
     pixKey?: string | null
@@ -13794,6 +20921,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     payrolls?: PayrollUncheckedCreateNestedManyWithoutEmployeeInput
     rescisoes?: RescisaoUncheckedCreateNestedManyWithoutEmployeeInput
+    employeeSubjects?: EmployeeSubjectUncheckedCreateNestedManyWithoutEmployeeInput
+    teachingAssignments?: TeachingAssignmentUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdjustments?: SalaryAdjustmentUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutAdvancesInput = {
@@ -13819,6 +20949,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     baseSalary?: FloatFieldUpdateOperationsInput | number
+    profilePhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    eatsAtSchool?: BoolFieldUpdateOperationsInput | boolean
     transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
     gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
     pixKey?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13840,6 +20973,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payrolls?: PayrollUpdateManyWithoutEmployeeNestedInput
     rescisoes?: RescisaoUpdateManyWithoutEmployeeNestedInput
+    employeeSubjects?: EmployeeSubjectUpdateManyWithoutEmployeeNestedInput
+    teachingAssignments?: TeachingAssignmentUpdateManyWithoutEmployeeNestedInput
+    salaryAdjustments?: SalaryAdjustmentUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutAdvancesInput = {
@@ -13849,6 +20985,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     baseSalary?: FloatFieldUpdateOperationsInput | number
+    profilePhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    eatsAtSchool?: BoolFieldUpdateOperationsInput | boolean
     transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
     gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
     pixKey?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13870,6 +21009,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payrolls?: PayrollUncheckedUpdateManyWithoutEmployeeNestedInput
     rescisoes?: RescisaoUncheckedUpdateManyWithoutEmployeeNestedInput
+    employeeSubjects?: EmployeeSubjectUncheckedUpdateManyWithoutEmployeeNestedInput
+    teachingAssignments?: TeachingAssignmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdjustments?: SalaryAdjustmentUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateWithoutRescisoesInput = {
@@ -13879,6 +21021,9 @@ export namespace Prisma {
     type: string
     role: string
     baseSalary: number
+    profilePhotoUrl?: string | null
+    startDate?: Date | string | null
+    eatsAtSchool?: boolean
     transportDaily?: number | null
     gasAssistance?: number | null
     pixKey?: string | null
@@ -13900,6 +21045,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     payrolls?: PayrollCreateNestedManyWithoutEmployeeInput
     advances?: PayrollAdvanceCreateNestedManyWithoutEmployeeInput
+    employeeSubjects?: EmployeeSubjectCreateNestedManyWithoutEmployeeInput
+    teachingAssignments?: TeachingAssignmentCreateNestedManyWithoutEmployeeInput
+    salaryAdjustments?: SalaryAdjustmentCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutRescisoesInput = {
@@ -13909,6 +21057,9 @@ export namespace Prisma {
     type: string
     role: string
     baseSalary: number
+    profilePhotoUrl?: string | null
+    startDate?: Date | string | null
+    eatsAtSchool?: boolean
     transportDaily?: number | null
     gasAssistance?: number | null
     pixKey?: string | null
@@ -13930,6 +21081,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     payrolls?: PayrollUncheckedCreateNestedManyWithoutEmployeeInput
     advances?: PayrollAdvanceUncheckedCreateNestedManyWithoutEmployeeInput
+    employeeSubjects?: EmployeeSubjectUncheckedCreateNestedManyWithoutEmployeeInput
+    teachingAssignments?: TeachingAssignmentUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdjustments?: SalaryAdjustmentUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutRescisoesInput = {
@@ -13955,6 +21109,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     baseSalary?: FloatFieldUpdateOperationsInput | number
+    profilePhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    eatsAtSchool?: BoolFieldUpdateOperationsInput | boolean
     transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
     gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
     pixKey?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13976,6 +21133,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payrolls?: PayrollUpdateManyWithoutEmployeeNestedInput
     advances?: PayrollAdvanceUpdateManyWithoutEmployeeNestedInput
+    employeeSubjects?: EmployeeSubjectUpdateManyWithoutEmployeeNestedInput
+    teachingAssignments?: TeachingAssignmentUpdateManyWithoutEmployeeNestedInput
+    salaryAdjustments?: SalaryAdjustmentUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutRescisoesInput = {
@@ -13985,6 +21145,9 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     baseSalary?: FloatFieldUpdateOperationsInput | number
+    profilePhotoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    eatsAtSchool?: BoolFieldUpdateOperationsInput | boolean
     transportDaily?: NullableFloatFieldUpdateOperationsInput | number | null
     gasAssistance?: NullableFloatFieldUpdateOperationsInput | number | null
     pixKey?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14006,6 +21169,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payrolls?: PayrollUncheckedUpdateManyWithoutEmployeeNestedInput
     advances?: PayrollAdvanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    employeeSubjects?: EmployeeSubjectUncheckedUpdateManyWithoutEmployeeNestedInput
+    teachingAssignments?: TeachingAssignmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdjustments?: SalaryAdjustmentUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type PayrollCreateManyEmployeeInput = {
@@ -14071,6 +21237,38 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type EmployeeSubjectCreateManyEmployeeInput = {
+    id?: string
+    subjectId: string
+    createdAt?: Date | string
+  }
+
+  export type TeachingAssignmentCreateManyEmployeeInput = {
+    id?: string
+    subjectId: string
+    weekday: number
+    startTime: string
+    endTime: string
+    classGroup?: string | null
+    lessonStart?: number | null
+    lessonEnd?: number | null
+    fullDay?: boolean
+    hours: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SalaryAdjustmentCreateManyEmployeeInput = {
+    id?: string
+    effectiveDate: Date | string
+    previousSalary: number
+    newSalary: number
+    adjustmentValue: number
+    notes?: string | null
+    createdAt?: Date | string
   }
 
   export type PayrollUpdateWithoutEmployeeInput = {
@@ -14264,6 +21462,190 @@ export namespace Prisma {
     totalBruto?: FloatFieldUpdateOperationsInput | number
     totalLiquido?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmployeeSubjectUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: SubjectUpdateOneRequiredWithoutEmployeeSubjectsNestedInput
+  }
+
+  export type EmployeeSubjectUncheckedUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmployeeSubjectUncheckedUpdateManyWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeachingAssignmentUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    weekday?: IntFieldUpdateOperationsInput | number
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    classGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonStart?: NullableIntFieldUpdateOperationsInput | number | null
+    lessonEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    fullDay?: BoolFieldUpdateOperationsInput | boolean
+    hours?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: SubjectUpdateOneRequiredWithoutTeachingAssignmentsNestedInput
+  }
+
+  export type TeachingAssignmentUncheckedUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    weekday?: IntFieldUpdateOperationsInput | number
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    classGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonStart?: NullableIntFieldUpdateOperationsInput | number | null
+    lessonEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    fullDay?: BoolFieldUpdateOperationsInput | boolean
+    hours?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeachingAssignmentUncheckedUpdateManyWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    weekday?: IntFieldUpdateOperationsInput | number
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    classGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonStart?: NullableIntFieldUpdateOperationsInput | number | null
+    lessonEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    fullDay?: BoolFieldUpdateOperationsInput | boolean
+    hours?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryAdjustmentUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    effectiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    previousSalary?: FloatFieldUpdateOperationsInput | number
+    newSalary?: FloatFieldUpdateOperationsInput | number
+    adjustmentValue?: FloatFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryAdjustmentUncheckedUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    effectiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    previousSalary?: FloatFieldUpdateOperationsInput | number
+    newSalary?: FloatFieldUpdateOperationsInput | number
+    adjustmentValue?: FloatFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryAdjustmentUncheckedUpdateManyWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    effectiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    previousSalary?: FloatFieldUpdateOperationsInput | number
+    newSalary?: FloatFieldUpdateOperationsInput | number
+    adjustmentValue?: FloatFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmployeeSubjectCreateManySubjectInput = {
+    id?: string
+    employeeId: string
+    createdAt?: Date | string
+  }
+
+  export type TeachingAssignmentCreateManySubjectInput = {
+    id?: string
+    employeeId: string
+    weekday: number
+    startTime: string
+    endTime: string
+    classGroup?: string | null
+    lessonStart?: number | null
+    lessonEnd?: number | null
+    fullDay?: boolean
+    hours: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmployeeSubjectUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutEmployeeSubjectsNestedInput
+  }
+
+  export type EmployeeSubjectUncheckedUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmployeeSubjectUncheckedUpdateManyWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeachingAssignmentUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    weekday?: IntFieldUpdateOperationsInput | number
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    classGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonStart?: NullableIntFieldUpdateOperationsInput | number | null
+    lessonEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    fullDay?: BoolFieldUpdateOperationsInput | boolean
+    hours?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutTeachingAssignmentsNestedInput
+  }
+
+  export type TeachingAssignmentUncheckedUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    weekday?: IntFieldUpdateOperationsInput | number
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    classGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonStart?: NullableIntFieldUpdateOperationsInput | number | null
+    lessonEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    fullDay?: BoolFieldUpdateOperationsInput | boolean
+    hours?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeachingAssignmentUncheckedUpdateManyWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    weekday?: IntFieldUpdateOperationsInput | number
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    classGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    lessonStart?: NullableIntFieldUpdateOperationsInput | number | null
+    lessonEnd?: NullableIntFieldUpdateOperationsInput | number | null
+    fullDay?: BoolFieldUpdateOperationsInput | boolean
+    hours?: FloatFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

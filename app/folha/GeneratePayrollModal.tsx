@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Plus, X, Calculator } from "lucide-react";
+import { useMemo, useState } from "react";
+import { X, Calculator } from "lucide-react";
 import { generatePayrollForEmployee } from "./actions";
+import { calculateAulistaMonthlyLessons, countScheduledWorkDays } from "@/lib/work-schedule";
 
 type Employee = {
     id: string;
@@ -18,6 +19,16 @@ type Employee = {
     isAulista: boolean;
     hourlyRate: number | null;
     salaryAdvance: number;
+    teachingAssignments?: {
+        weekday: number;
+        hours: number | null;
+        startTime: string;
+        endTime: string;
+        lessonStart?: number | null;
+        lessonEnd?: number | null;
+        fullDay?: boolean | null;
+        subject?: { name: string };
+    }[];
 };
 
 function getWeekdaysBetween(startDate: string, endDate: string) {
@@ -33,7 +44,7 @@ function getWeekdaysBetween(startDate: string, endDate: string) {
     if (start > end) return 0;
 
     let weekdays = 0;
-    let current = new Date(start);
+    const current = new Date(start);
     while (current <= end) {
         const dayOfWeek = current.getDay();
         if (dayOfWeek !== 0 && dayOfWeek !== 6) {
@@ -71,12 +82,18 @@ export default function GeneratePayrollModal({
 
     const [startDate, setStartDate] = useState(defaultStart);
     const [endDate, setEndDate] = useState(defaultEnd);
-    const [workingDays, setWorkingDays] = useState(getWeekdaysBetween(defaultStart, defaultEnd));
+    const workingDays = useMemo(() => {
+        const scheduleDays = selectedUser?.teachingAssignments?.length
+            ? countScheduledWorkDays(startDate, endDate, selectedUser.teachingAssignments)
+            : 0;
+        return scheduleDays || getWeekdaysBetween(startDate, endDate);
+    }, [startDate, endDate, selectedUser]);
 
-    // Update workingDays whenever startDate or endDate changes
-    useEffect(() => {
-        setWorkingDays(getWeekdaysBetween(startDate, endDate));
-    }, [startDate, endDate]);
+    const aulistaLessonSummary = useMemo(() => {
+        return selectedUser?.teachingAssignments?.length
+            ? calculateAulistaMonthlyLessons(selectedUser.teachingAssignments)
+            : { weeklyLessons: 0, monthlyLessons: 0, equivalentClockHours: 0 };
+    }, [selectedUser]);
 
     async function handleSubmit(formData: FormData) {
         await generatePayrollForEmployee(formData);
@@ -106,6 +123,8 @@ export default function GeneratePayrollModal({
                         <form action={handleSubmit} className="p-6 space-y-4 overflow-y-auto">
                             <input type="hidden" name="month" value={currentMonth} />
                             <input type="hidden" name="year" value={currentYear} />
+                            <input type="hidden" name="periodStart" value={startDate} />
+                            <input type="hidden" name="periodEnd" value={endDate} />
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="col-span-2">
@@ -173,16 +192,21 @@ export default function GeneratePayrollModal({
 
                                 {selectedUser?.isAulista && (
                                     <div className="col-span-2 bg-amber-50/50 p-4 rounded-xl border border-amber-100">
-                                        <label className="block text-sm font-bold text-amber-900 mb-1 uppercase tracking-tight">Horas Aula no Período</label>
+                                        <label className="block text-sm font-bold text-amber-900 mb-1 uppercase tracking-tight">Aulas do mês (regra 4,5 semanas)</label>
                                         <input 
                                             required 
                                             name="hoursAulista" 
                                             type="number" 
                                             step="0.01" 
-                                            placeholder="Ex: 60.90" 
+                                            defaultValue={aulistaLessonSummary.monthlyLessons || undefined}
+                                            key={`hours-${selectedUser.id}-${aulistaLessonSummary.monthlyLessons}`}
+                                            placeholder="Ex: 108" 
                                             className="w-full border border-amber-200 rounded-lg px-3 py-2 bg-white text-wine-950 focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold text-lg" 
                                         />
-                                        <p className="text-[10px] text-amber-700 mt-1">O cálculo aplicará automaticamente DSR (16.67%) e Hora Atividade (5%)</p>
+                                        <p className="text-[10px] text-amber-700 mt-1">
+                                            {aulistaLessonSummary.weeklyLessons} aulas/semana x 4,5 = {aulistaLessonSummary.monthlyLessons} aulas/mês · equivalente a {aulistaLessonSummary.equivalentClockHours} horas relógio
+                                        </p>
+                                        <p className="text-[10px] text-amber-700 mt-1">O cálculo aplicará automaticamente Hora Atividade (5%) e DSR de 16,67% sobre o valor das aulas</p>
                                     </div>
                                 )}
 

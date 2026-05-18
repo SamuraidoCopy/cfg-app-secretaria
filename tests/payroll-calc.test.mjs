@@ -23,6 +23,7 @@ const {
   calculateIRRF,
   calculateIRRFBase,
   calculateProgressiveIRRF,
+  calculateTeacherComponents,
   isIRRF2026ReductionEffective,
 } = compiledModule.exports;
 
@@ -65,4 +66,14 @@ test("covers the 2026 reduction range boundaries", () => {
 test("keeps dependent deductions and the legal-vs-simplified base choice", () => {
   assert.equal(calculateIRRFBase(7000, 700), 6300.00);
   assert.equal(calculateIRRFBase(7000, 700, 2), 5920.82);
+});
+
+test("calculates aulista components with DSR as 16.67% of class salary", () => {
+  const baseAulas = 24 * 4.5 * 20;
+  const result = calculateTeacherComponents(baseAulas);
+
+  assert.equal(baseAulas, 2160);
+  assert.equal(result.horaAtividade, 108);
+  assert.equal(result.dsr, 360.07);
+  assert.equal(result.baseInss, 2628.07);
 });
