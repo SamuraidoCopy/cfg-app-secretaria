@@ -157,6 +157,7 @@ export async function generatePayrollForEmployee(formData: FormData) {
                     absenceDeduction,
                     absencesVT,
                     transportDeduction,
+                    bonuses: totalBonuses,
                     salaryAdvance,
                     hoursAulista,
                     netTotal: Number((salaryProportional + transportTotal + totalBonuses - otherDeductions - absenceDeduction - salaryAdvance).toFixed(2)),

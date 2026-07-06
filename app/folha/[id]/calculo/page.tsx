@@ -127,7 +127,7 @@ export default async function CalculoFolhaPage({ params }: { params: Promise<{ i
                                 Proventos (Ganhos)
                             </h3>
                             <div className="bg-emerald-50/50 rounded-xl border border-emerald-100/50 p-4 space-y-3">
-                                {employee.isAulista ? (() => {
+                                {employee.isAulista && isCLT ? (() => {
                                     const aulasBase = (payroll.hoursAulista || 0) * (employee.hourlyRate || 0);
                                     const teacherComponents = calculateTeacherComponents(aulasBase);
                                     return (
@@ -156,7 +156,8 @@ export default async function CalculoFolhaPage({ params }: { params: Promise<{ i
                                     </>
                                     );
                                 })() : (() => {
-                                    const isTeacher = employee.role.toUpperCase().includes("PROFESSOR");
+                                    // Hora Atividade é direito exclusivo de professores CLT — PJ e voluntários não recebem
+                                    const isTeacher = isCLT && employee.role.toUpperCase().includes("PROFESSOR");
                                     const horaAtividade = isTeacher ? payroll.baseSalary * 0.05 : 0;
                                     return (
                                         <>

@@ -38,11 +38,17 @@ type Payroll = {
 export default function EditPayrollModal({ payroll }: { payroll: Payroll }) {
     const [isOpen, setIsOpen] = useState(false);
 
+    // O servidor grava bonuses = bônus manual + cesta básica (+ ajuda gasolina p/ PJ e voluntário).
+    // O campo do formulário deve exibir apenas o bônus manual, senão cada salvamento re-soma os automáticos.
+    const isPjOrVoluntario = payroll.employee.type === "PJ" || payroll.employee.type === "VOLUNTARIO";
+    const autoBonuses = (payroll.employee.cestaBasica || 0) + (isPjOrVoluntario ? (payroll.employee.gasAssistance || 0) : 0);
+    const manualBonuses = Math.max(0, (payroll.bonuses || 0) - autoBonuses);
+
     const [workingDays, setWorkingDays] = useState(payroll.workingDays);
     const [absences, setAbsences] = useState(payroll.absences);
     const [absencesVT, setAbsencesVT] = useState(payroll.absencesVT);
     const [otherDeductions, setOtherDeductions] = useState(payroll.otherDeductions || 0);
-    const [bonuses, setBonuses] = useState(Math.max(0, (payroll.bonuses || 0) - (payroll.employee.cestaBasica || 0)));
+    const [bonuses, setBonuses] = useState(manualBonuses);
     const [salaryAdvance, setSalaryAdvance] = useState(payroll.salaryAdvance || 0);
     const [hoursAulista, setHoursAulista] = useState(payroll.hoursAulista || 0);
 
@@ -50,8 +56,8 @@ export default function EditPayrollModal({ payroll }: { payroll: Payroll }) {
         setWorkingDays(payroll.workingDays);
         setAbsences(payroll.absences);
         setAbsencesVT(payroll.absencesVT);
-        setOtherDeductions(payroll.otherDeductions);
-        setBonuses(payroll.bonuses);
+        setOtherDeductions(payroll.otherDeductions || 0);
+        setBonuses(manualBonuses);
         setSalaryAdvance(payroll.salaryAdvance || 0);
         setHoursAulista(payroll.hoursAulista || 0);
         setIsOpen(true);
@@ -197,6 +203,11 @@ export default function EditPayrollModal({ payroll }: { payroll: Payroll }) {
                                         defaultValue={bonuses}
                                         className="w-full border border-wine-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-wine-500/50 text-emerald-600 font-bold bg-emerald-50/50 shadow-sm"
                                     />
+                                    {autoBonuses > 0 && (
+                                        <span className="text-[10px] text-wine-700">
+                                            Cesta básica / ajuda gasolina (R$ {autoBonuses.toFixed(2)}) somadas automaticamente — não incluir aqui
+                                        </span>
+                                    )}
                                 </div>
                             </div>
 
