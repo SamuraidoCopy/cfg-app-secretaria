@@ -179,7 +179,7 @@ export async function generatePayrollForEmployee(formData: FormData) {
                     bonuses: totalBonuses,
                     salaryAdvance,
                     hoursAulista,
-                    netTotal: salaryProportional + transportTotal + totalBonuses - otherDeductions - absenceDeduction - salaryAdvance,
+                    netTotal: Number((salaryProportional + transportTotal + totalBonuses - otherDeductions - absenceDeduction - salaryAdvance).toFixed(2)),
                 }
             });
             revalidatePath("/folha");

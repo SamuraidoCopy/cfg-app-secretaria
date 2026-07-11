@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 import {
     calculateProgressiveINSS,
     inssTable2026,
-    calculateIRRF,
 } from "@/lib/payroll-calc";
 
 export async function getCLTEmployees() {
@@ -135,10 +134,10 @@ export async function calcularERescisao(input: RescisaoInput): Promise<RescisaoR
     const avisoPrevioIndeniz = (semJustaCausa && indenizado) ? Number(salario.toFixed(2)) : 0;
 
     // --- DESCONTOS ---
-    const inss = calcularINSS(saldoSalario);
+    const inss = calculateProgressiveINSS(saldoSalario, inssTable2026);
     // Para o 13º, a base de cálculo do INSS na rescisão inclui tanto o proporcional quanto o indenizado (Aviso Prévio)
-    const inss13 = calcularINSS(decimoTerceiroProp + decimoTerceiroInd);
-    const irrf = 0; // Para esses valores de exemplo não há IRRF, mas pode ser expandido depois
+    const inss13 = calculateProgressiveINSS(decimoTerceiroProp + decimoTerceiroInd, inssTable2026);
+    const irrf = 0; // Verbas rescisórias típicas ficam abaixo da faixa de isenção 2026 (R$ 5.000); expandir se necessário
 
     // --- FGTS (Informativo) ---
     const baseFgts = saldoSalario + decimoTerceiroProp + decimoTerceiroInd + avisoPrevioIndeniz;
@@ -239,30 +238,4 @@ export async function salvarRescisao(input: RescisaoInput, result: RescisaoResul
 
     revalidatePath("/rescisao");
     revalidatePath("/colaboradores");
-}
-
-function calcularINSS(valor: number): number {
-    if (valor <= 0) return 0;
-    // Tabela INSS 2024 (Progressiva)
-    let inss = 0;
-    if (valor <= 1412.00) {
-        inss = valor * 0.075;
-    } else if (valor <= 2666.68) {
-        inss = (valor - 1412.00) * 0.09 + 105.90;
-    } else if (valor <= 4000.03) {
-        inss = (valor - 2666.68) * 0.12 + 105.90 + 112.92;
-    } else if (valor <= 7786.02) {
-        inss = (valor - 4000.03) * 0.14 + 105.90 + 112.92 + 160.00;
-    } else {
-        inss = 908.85; // Teto
-    }
-    return Number(inss.toFixed(2));
-}
-
-function calcularIRRF(valor: number): number {
-    // Simplificado: IRRF para os valores de base deste caso costuma ser 0
-    // Mas aqui está uma lógica básica se necessário
-    if (valor <= 2259.20) return 0;
-    if (valor <= 2826.65) return Number((valor * 0.075 - 169.44).toFixed(2));
-    return 0; // Simplificação para o caso real apresentado
 }
