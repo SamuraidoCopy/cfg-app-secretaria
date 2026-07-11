@@ -41,3 +41,10 @@ yarn-error.log*
 next-env.d.ts
 
 /app/generated/prisma
+
+# local databases
+*.db
+
+# PDF parse debug dumps (contêm dados pessoais)
+pdf_parse_raw.txt
+raw_test.txt
