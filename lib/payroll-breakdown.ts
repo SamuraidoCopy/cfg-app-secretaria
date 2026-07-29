@@ -155,11 +155,14 @@ export function buildPayrollBreakdown({ employee, payroll }: PayrollBreakdownInp
     earnings.push({ id: "bonuses", label: "Bônus / Adicionais", value: bonuses });
   }
   if (positive(payroll.transportTotal) > 0) {
+    const scheduledTransportDays = positive(payroll.workingDays);
+    const absentTransportDays = positive(payroll.absencesVT);
+    const paidTransportDays = Math.max(0, scheduledTransportDays - absentTransportDays);
     earnings.push({
       id: "transport",
       label: "Vale Transporte (Recebimento)",
       value: payroll.transportTotal ?? 0,
-      description: `${payroll.workingDays ?? 0} dias - ${payroll.absencesVT} faltas VT × ${formatCurrency(positive(employee.transportDaily))}`,
+      description: `${scheduledTransportDays} dias previstos - ${absentTransportDays} faltas VT = ${paidTransportDays} dias pagos × ${formatCurrency(positive(employee.transportDaily))}`,
     });
   }
 
@@ -187,14 +190,6 @@ export function buildPayrollBreakdown({ employee, payroll }: PayrollBreakdownInp
       description: `${payroll.absences} dias`,
     });
   }
-  if (positive(payroll.transportDeduction) > 0) {
-    deductions.push({
-      id: "transport-absence",
-      label: "Desconto VT (Faltas)",
-      value: payroll.transportDeduction,
-      description: `${payroll.absencesVT} faltas VT × ${formatCurrency(positive(employee.transportDaily))}`,
-    });
-  }
   if (positive(payroll.salaryAdvance) > 0) {
     deductions.push({ id: "advance", label: "Adiantamento Mensal", value: payroll.salaryAdvance });
   }
@@ -207,9 +202,7 @@ export function buildPayrollBreakdown({ employee, payroll }: PayrollBreakdownInp
     });
   }
 
-  const gross = payroll.grossEarnings > 0
-    ? payroll.grossEarnings
-    : payroll.baseSalary + payroll.bonuses + positive(payroll.transportTotal);
+  const gross = earnings.reduce((total, earning) => total + earning.value, 0);
   const totalDeductions = deductions.reduce((total, deduction) => total + deduction.value, 0);
 
   return {

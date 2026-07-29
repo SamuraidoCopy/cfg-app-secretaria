@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PayrollCalculationDetails from "@/app/components/PayrollCalculationDetails";
 import { buildPayrollBreakdown, type PayrollBreakdownInput } from "@/lib/payroll-breakdown";
+import PayrollPrintPage from "./PayrollPrintPage";
 import { getEmployeesList, getMonthlyReport, getCollaboratorReport, getEmployeeRegistrationReport } from "./actions";
 
 // Define some typings based on our Prisma schema output
@@ -110,6 +111,7 @@ export default function ReportClient() {
 
     const [isLoading, setIsLoading] = useState(false);
     const [selectedPayrollDetails, setSelectedPayrollDetails] = useState<ReturnType<typeof buildPayrollBreakdown> | null>(null);
+    const payrollDialogRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
         // Initial fetch for employees list
@@ -158,6 +160,14 @@ export default function ReportClient() {
         }
     }, [activeTab]);
 
+    useEffect(() => {
+        const dialog = payrollDialogRef.current;
+        if (selectedPayrollDetails && dialog && !dialog.open) {
+            dialog.showModal();
+        }
+    }, [selectedPayrollDetails]);
+
+    const closePayrollDetails = () => setSelectedPayrollDetails(null);
 
     const handlePrint = () => {
         window.print();
@@ -363,17 +373,10 @@ export default function ReportClient() {
 
                         <div className="print-payroll-calculations hidden print:block">
                             {monthlyData?.payrolls.filter((p) => !p.isRescisao).map((p) => (
-                                <section key={`print-monthly-${p.id}`} className="hidden print:block print:break-before-page">
-                                    <div className="mb-6 border-b-2 border-black pb-3">
-                                        <p className="text-xs font-bold uppercase tracking-widest">Memória de cálculo</p>
-                                        <h4 className="text-xl font-black">{p.employee.name} · {getMonthName(p.month)} / {p.year}</h4>
-                                    </div>
-                                    <PayrollCalculationDetails
-                                        breakdown={buildPayrollBreakdown({ employee: p.employee, payroll: p })}
-                                        variant="dialog"
-                                        panelId={`print-monthly-payroll-${p.id}`}
-                                    />
-                                </section>
+                                <PayrollPrintPage
+                                    key={`print-monthly-${p.id}`}
+                                    breakdown={buildPayrollBreakdown({ employee: p.employee, payroll: p })}
+                                />
                             ))}
                         </div>
 
@@ -517,17 +520,10 @@ export default function ReportClient() {
 
                         <div className="print-payroll-calculations hidden print:block">
                             {collaboratorData?.payrolls.filter((p) => !p.isRescisao).map((p) => (
-                                <section key={`print-collaborator-${p.id}`} className="hidden print:block print:break-before-page">
-                                    <div className="mb-6 border-b-2 border-black pb-3">
-                                        <p className="text-xs font-bold uppercase tracking-widest">Memória de cálculo</p>
-                                        <h4 className="text-xl font-black">{p.employee.name} · {getMonthName(p.month)} / {p.year}</h4>
-                                    </div>
-                                    <PayrollCalculationDetails
-                                        breakdown={buildPayrollBreakdown({ employee: p.employee, payroll: p })}
-                                        variant="dialog"
-                                        panelId={`print-collaborator-payroll-${p.id}`}
-                                    />
-                                </section>
+                                <PayrollPrintPage
+                                    key={`print-collaborator-${p.id}`}
+                                    breakdown={buildPayrollBreakdown({ employee: p.employee, payroll: p })}
+                                />
                             ))}
                         </div>
 
@@ -757,13 +753,15 @@ export default function ReportClient() {
             )}
 
             {selectedPayrollDetails ? (
-                <div
-                    className="fixed inset-0 z-[999] flex items-center justify-center bg-wine-950/45 p-2 backdrop-blur-sm print:hidden sm:p-3"
-                    role="dialog"
-                    aria-modal="true"
+                <dialog
+                    ref={payrollDialogRef}
+                    data-testid="payroll-details-dialog"
+                    className="m-auto max-h-[calc(100dvh-1rem)] w-[min(96vw,72rem)] overflow-hidden rounded-[28px] bg-cream-50 p-0 shadow-2xl backdrop:bg-wine-950/45 backdrop:backdrop-blur-sm print:hidden"
                     aria-labelledby="payroll-details-dialog-title"
+                    onCancel={closePayrollDetails}
+                    onClose={closePayrollDetails}
                 >
-                    <div className="flex max-h-[calc(100dvh-1rem)] w-full max-w-6xl flex-col overflow-hidden rounded-[28px] bg-cream-50 shadow-2xl">
+                    <div className="flex max-h-[calc(100dvh-1rem)] min-w-0 flex-col">
                         <div className="flex shrink-0 items-center justify-between border-b border-wine-100 bg-white px-5 py-3 sm:px-7">
                             <div>
                                 <p className="text-xs font-bold uppercase tracking-widest text-wine-500">Memória de cálculo</p>
@@ -771,13 +769,13 @@ export default function ReportClient() {
                             </div>
                             <button
                                 type="button"
-                                onClick={() => setSelectedPayrollDetails(null)}
+                                onClick={closePayrollDetails}
                                 className="rounded-xl border border-wine-200 bg-white px-4 py-2 text-sm font-bold text-wine-800 transition-colors hover:bg-wine-50"
                             >
                                 Fechar detalhes
                             </button>
                         </div>
-                        <div className="min-h-0 overflow-hidden p-3 sm:p-4">
+                        <div data-testid="payroll-dialog-body" className="min-h-0 min-w-0 overflow-x-hidden overflow-y-auto p-3 sm:p-4">
                             <PayrollCalculationDetails
                                 breakdown={selectedPayrollDetails}
                                 variant="dialog"
@@ -785,89 +783,9 @@ export default function ReportClient() {
                             />
                         </div>
                     </div>
-                </div>
+                </dialog>
             ) : null}
 
-            {/* Global Print Styles specific to Report */}
-            <style dangerouslySetInnerHTML={{
-                __html: `
-        @media print {
-          @page { margin: 1.5cm; size: A4 portrait; }
-          aside, nav, .print\\:hidden { display: none !important; }
-          
-          /* Scorched Earth Reset: Universal Visibility */
-          *, *::before, *::after {
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-            animation: none !important;
-            transition: none !important;
-          }
-
-          html, body, #__next, [data-nextjs-scroll-focus-boundary], main, #root, .flex-1, .bg-white, div, section, article { 
-            height: auto !important; 
-            min-height: 0 !important;
-            max-height: none !important;
-            overflow: visible !important; 
-            display: block !important;
-            position: static !important;
-            float: none !important;
-          }
-
-          body { background-color: white !important; font-family: sans-serif; color: black !important; }
-          .bg-white { background-color: white !important; }
-          
-          /* Colors for Print */
-          .text-wine-900 { color: #612232 !important; }
-          .text-wine-800 { color: #722636 !important; }
-          .text-wine-600 { color: #a2384f !important; }
-          .text-wine-400 { color: #cf7c8c !important; }
-          
-          /* Table Stability */
-          table { width: 100% !important; border-collapse: collapse !important; table-layout: fixed !important; page-break-inside: auto !important; display: table !important; }
-          thead { display: table-header-group !important; }
-          tfoot { display: table-footer-group !important; }
-          tr { page-break-inside: avoid !important; page-break-after: auto !important; display: table-row !important; }
-          th, td { border-bottom: 1px solid #eee !important; overflow: visible !important; display: table-cell !important; }
-
-          button[aria-controls*="payroll-details"] { display: none !important; }
-          .print-payroll-calculations > section {
-            break-before: page !important;
-            page-break-before: always !important;
-          }
-          .print-payroll-calculations .payroll-calculation-details,
-          .print-payroll-calculations .payroll-calculation-details section,
-          .print-payroll-calculations .payroll-calculation-details aside {
-            break-inside: auto !important;
-            page-break-inside: auto !important;
-          }
-          .print-payroll-calculations .payroll-calculation-details > div {
-            display: grid !important;
-            grid-template-columns: 30% minmax(0, 1fr) !important;
-            gap: 7mm !important;
-          }
-          .print-payroll-calculations .payroll-breakdown-sections {
-            display: grid !important;
-            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-            gap: 4mm !important;
-          }
-          .print-payroll-calculations .payroll-calculation-details aside { display: block !important; }
-          .print-payroll-calculations .payroll-calculation-details section { margin: 0 !important; }
-          .print-payroll-calculations .payroll-calculation-details p,
-          .print-payroll-calculations .payroll-calculation-details dt,
-          .print-payroll-calculations .payroll-calculation-details dd,
-          .print-payroll-calculations .payroll-calculation-details span { font-size: 8pt !important; }
-          
-          /* Remove UI Noise */
-          .shadow-premium, .glass-card, [class*="shadow-"], [class*="backdrop-blur"] { 
-            box-shadow: none !important; 
-            border: none !important; 
-            background: transparent !important; 
-            backdrop-filter: none !important;
-          }
-        }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-      `}} />
         </div>
     );
 }

@@ -5,26 +5,27 @@ import { test } from "node:test";
 const source = readFileSync(new URL("../app/relatorios/ReportClient.tsx", import.meta.url), "utf8");
 const reportPageSource = readFileSync(new URL("../app/relatorios/page.tsx", import.meta.url), "utf8");
 
-test("opens each regular payroll calculation in an accessible dialog without expanding the report table", () => {
+test("uses the native dialog top layer for payroll details", () => {
   assert.match(source, /selectedPayrollDetails/);
   assert.match(source, /setSelectedPayrollDetails\(buildPayrollBreakdown\(breakdownInput\)\)/);
-  assert.match(source, /role="dialog"/);
-  assert.match(source, /aria-modal="true"/);
+  assert.match(source, /<dialog/);
+  assert.match(source, /showModal\(\)/);
+  assert.match(source, /onCancel=/);
+  assert.match(source, /data-testid="payroll-details-dialog"/);
+  assert.match(source, /overflow-y-auto/);
+  assert.match(source, /overflow-x-hidden/);
   assert.match(source, /Fechar detalhes/);
-  assert.match(source, /z-\[999\]/);
-  assert.doesNotMatch(source, /overflow-y-auto p-4 sm:p-6/);
+  assert.doesNotMatch(source, /role="dialog"/);
+  assert.doesNotMatch(source, /fixed inset-0 z-\[999\]/);
   assert.doesNotMatch(reportPageSource, /relative z-0/);
   assert.doesNotMatch(source, /toggleExpandedPayrollId/);
   assert.doesNotMatch(source, /monthly-payroll-details-/);
   assert.doesNotMatch(source, /collaborator-payroll-details-/);
 });
 
-test("prints a complete calculation section for every regular payroll after the report summary", () => {
-  assert.match(source, /print-payroll-calculations/);
-  assert.match(source, /print:break-before-page/);
+test("prints regular payrolls through one scoped A4 page component", () => {
+  assert.match(source, /<PayrollPrintPage/);
   assert.match(source, /filter\(\(p\) => !p\.isRescisao\)/);
-  assert.match(source, /print-payroll-calculations \.payroll-calculation-details > div/);
-  assert.match(source, /grid-template-columns: 30% minmax\(0, 1fr\)/);
-  assert.match(source, /variant="dialog"/);
-  assert.doesNotMatch(source, /break-inside: avoid-page/);
+  assert.doesNotMatch(source, /Scorched Earth Reset/);
+  assert.doesNotMatch(source, /dangerouslySetInnerHTML/);
 });

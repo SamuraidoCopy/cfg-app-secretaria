@@ -83,7 +83,7 @@ test("does not render the FGTS section for PJ breakdowns without fgtsValue", () 
       status: "PENDING",
       fgtsValue: null,
     },
-    variant: "embedded",
+    variant: "dialog",
     panelId: "pj-calculation-panel",
   }));
 
@@ -99,6 +99,20 @@ test("uses a compact two-column composition inside the details dialog", () => {
     variant: "dialog",
   }));
 
-  assert.match(html, /grid min-w-0 grid-cols-1 gap-4 md:grid-cols-3/);
-  assert.match(html, /min-w-0 md:col-span-2/);
+  assert.match(html, /grid min-w-0 grid-cols-1 gap-3 lg:grid-cols-\[28%_minmax\(0,1fr\)\]/);
+  assert.match(html, /payroll-breakdown-sections grid min-w-0 grid-cols-1 gap-3 xl:grid-cols-2/);
+});
+
+test("renders a compact print variant with reconciled labels", () => {
+  const PayrollCalculationDetails = loadComponent();
+  const html = renderToStaticMarkup(createElement(PayrollCalculationDetails, {
+    breakdown: cltBreakdown,
+    variant: "print",
+    panelId: "print-payroll-1",
+  }));
+
+  assert.match(html, /data-variant="print"/);
+  assert.match(html, /Total de Créditos/);
+  assert.match(html, /Total de Descontos/);
+  assert.match(html, /Valor Líquido a Receber/);
 });

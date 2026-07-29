@@ -50,6 +50,7 @@ test("builds the detailed CLT aulista payroll breakdown from persisted values", 
       hourlyRate: 31.12,
       cestaBasica: 0,
       isAulista: true,
+      transportDaily: 10.60,
     },
     payroll: {
       id: "payroll-clt-aulista",
@@ -58,6 +59,7 @@ test("builds the detailed CLT aulista payroll breakdown from persisted values", 
       status: "PAID",
       baseSalary: 0,
       hoursAulista: 81.03,
+      workingDays: 14,
       transportTotal: 127.20,
       absences: 0,
       absenceDeduction: 0,
@@ -79,11 +81,19 @@ test("builds the detailed CLT aulista payroll breakdown from persisted values", 
   assert.equal(item(breakdown.earnings, "dsr").value, 420.36);
   assert.equal(item(breakdown.earnings, "activity").value, 126.08);
   assert.equal(item(breakdown.earnings, "transport").value, 127.20);
+  assert.equal(
+    item(breakdown.earnings, "transport").description,
+    "14 dias previstos - 2 faltas VT = 12 dias pagos × R$ 10,60",
+  );
   assert.equal(item(breakdown.deductions, "inss").value, 257.91);
-  assert.equal(item(breakdown.deductions, "transport-absence").value, 21.20);
-  assert.equal(breakdown.totals.gross, 3068.09);
-  assert.equal(breakdown.totals.deductions, 279.11);
+  assert.equal(breakdown.deductions.some((entry) => entry.id === "transport-absence"), false);
+  assert.equal(breakdown.totals.gross, 3195.29);
+  assert.equal(breakdown.totals.deductions, 257.91);
   assert.equal(breakdown.totals.net, 2937.38);
+  assert.equal(
+    Number((breakdown.totals.gross - breakdown.totals.deductions).toFixed(2)),
+    breakdown.totals.net,
+  );
   assert.equal(breakdown.fgtsValue, 245.45);
 });
 
@@ -219,4 +229,102 @@ test("hides residual CLT taxes and FGTS from a PJ breakdown totals", () => {
     breakdown.totals.deductions,
     breakdown.deductions.reduce((total, entry) => total + entry.value, 0),
   );
+});
+
+function assertReconciled(breakdown) {
+  const credits = breakdown.earnings.reduce((sum, entry) => sum + entry.value, 0);
+  const deductions = breakdown.deductions.reduce((sum, entry) => sum + entry.value, 0);
+
+  assert.equal(breakdown.totals.gross, Number(credits.toFixed(2)));
+  assert.equal(breakdown.totals.deductions, Number(deductions.toFixed(2)));
+  assert.ok(
+    Math.abs(breakdown.totals.gross - breakdown.totals.deductions - breakdown.totals.net) <= 0.01,
+    `breakdown ${breakdown.payrollId} is not reconciled`,
+  );
+}
+
+test("reconciles a monthly CLT absence exactly once", () => {
+  const breakdown = buildPayrollBreakdown({
+    employee: {
+      id: "employee-clt-monthly",
+      name: "Joana",
+      type: "CLT",
+      role: "Coordenadora",
+      baseSalary: 2500,
+      hourlyRate: null,
+      cestaBasica: 0,
+      isAulista: false,
+      transportDaily: 10.60,
+    },
+    payroll: {
+      id: "payroll-clt-monthly",
+      month: 7,
+      year: 2026,
+      status: "PAID",
+      baseSalary: 2500,
+      workingDays: 22,
+      transportTotal: 212,
+      absences: 1,
+      absenceDeduction: 100,
+      absencesVT: 2,
+      transportDeduction: 21.20,
+      otherDeductions: 50,
+      bonuses: 0,
+      grossEarnings: 2400,
+      inssDeduction: 200,
+      irrfDeduction: 0,
+      fgtsValue: 192,
+      salaryAdvance: 0,
+      hoursAulista: null,
+      netTotal: 2362,
+    },
+  });
+
+  assert.equal(breakdown.deductions.some((entry) => entry.id === "transport-absence"), false);
+  assertReconciled(breakdown);
+});
+
+test("reconciles PJ without CLT-only deductions", () => {
+  const breakdown = buildPayrollBreakdown({
+    employee: {
+      id: "employee-pj-reconciled",
+      name: "Empresa Teste",
+      type: "PJ",
+      role: "Consultoria",
+      baseSalary: 3000,
+      hourlyRate: null,
+      cestaBasica: 0,
+      isAulista: false,
+      transportDaily: 10,
+    },
+    payroll: {
+      id: "payroll-pj-reconciled",
+      month: 7,
+      year: 2026,
+      status: "PENDING",
+      baseSalary: 3000,
+      workingDays: 20,
+      transportTotal: 190,
+      absences: 1,
+      absenceDeduction: 100,
+      absencesVT: 1,
+      transportDeduction: 10,
+      otherDeductions: 25,
+      bonuses: 0,
+      grossEarnings: 2900,
+      inssDeduction: 257.91,
+      irrfDeduction: 80.42,
+      fgtsValue: 240,
+      salaryAdvance: 300,
+      hoursAulista: null,
+      netTotal: 2765,
+    },
+  });
+
+  assert.equal(
+    breakdown.deductions.some((entry) => ["inss", "irrf", "transport-absence"].includes(entry.id)),
+    false,
+  );
+  assert.equal(breakdown.fgtsValue, null);
+  assertReconciled(breakdown);
 });

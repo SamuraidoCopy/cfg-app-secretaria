@@ -1,8 +1,10 @@
 import type { PayrollBreakdown, PayrollBreakdownItem } from "@/lib/payroll-breakdown";
 
+export type PayrollCalculationDetailsVariant = "standalone" | "dialog" | "print";
+
 export interface PayrollCalculationDetailsProps {
   breakdown: PayrollBreakdown;
-  variant?: "standalone" | "dialog";
+  variant?: PayrollCalculationDetailsVariant;
   panelId?: string;
 }
 
@@ -38,19 +40,23 @@ export default function PayrollCalculationDetails({
   panelId,
 }: PayrollCalculationDetailsProps) {
   const id = panelId ?? `payroll-calculation-${breakdown.payrollId}`;
-  const isDialog = variant === "dialog";
+  const isDialog = variant !== "standalone";
+  const isPrint = variant === "print";
+  const compact = isDialog || isPrint;
   const isPaid = breakdown.status === "PAID";
   const statusLabel = isPaid ? "PAGO" : "PENDENTE";
-  const shellClasses = variant === "dialog"
-    ? "grid min-w-0 grid-cols-1 gap-4 md:grid-cols-3"
-    : "grid grid-cols-1 gap-6 lg:grid-cols-3";
-  const detailClasses = variant === "dialog" ? "min-w-0 md:col-span-2" : "lg:col-span-2";
+  const shellClasses = isPrint
+    ? "grid min-w-0 grid-cols-[28%_minmax(0,1fr)] gap-3"
+    : isDialog
+      ? "grid min-w-0 grid-cols-1 gap-3 lg:grid-cols-[28%_minmax(0,1fr)]"
+      : "grid grid-cols-1 gap-6 lg:grid-cols-3";
+  const detailClasses = compact ? "min-w-0" : "lg:col-span-2";
 
   return (
     <section id={id} className="payroll-calculation-details w-full" aria-label={`Memória de cálculo de ${breakdown.employee.name}`}>
-      <div className={shellClasses}>
-        <aside className={isDialog ? "min-w-0 space-y-3" : "min-w-0 space-y-4"}>
-          <section className={`rounded-[24px] border border-wine-100/50 bg-white shadow-premium ${isDialog ? "p-4" : "p-5"}`}>
+      <div data-variant={variant} className={shellClasses}>
+        <aside className={compact ? "min-w-0 space-y-3" : "min-w-0 space-y-4"}>
+          <section className={`rounded-[24px] border border-wine-100/50 bg-white shadow-premium ${compact ? "p-3" : "p-5"}`}>
             <h2 className="mb-1 text-lg font-bold text-wine-950">Dados do Colaborador</h2>
             <p className={isDialog ? "mb-2 text-xs text-wine-600" : "mb-4 text-xs text-wine-600"}>Informações base para o cálculo</p>
             <dl className="divide-y divide-wine-50">
@@ -64,7 +70,7 @@ export default function PayrollCalculationDetails({
             </dl>
           </section>
 
-          <section className={`flex items-center justify-between rounded-[24px] border shadow-premium ${isDialog ? "p-4" : "p-5"} ${isPaid ? "border-emerald-200 bg-emerald-50" : "border-rose-200 bg-rose-50"}`}>
+          <section className={`flex items-center justify-between rounded-[24px] border shadow-premium ${compact ? "p-3" : "p-5"} ${isPaid ? "border-emerald-200 bg-emerald-50" : "border-rose-200 bg-rose-50"}`}>
             <div>
               <h3 className={`text-xs font-bold uppercase tracking-widest ${isPaid ? "text-emerald-700" : "text-rose-700"}`}>Status do Pagamento</h3>
               <p className="mt-1 text-2xl font-black tracking-tight text-wine-950">{statusLabel}</p>
@@ -73,13 +79,13 @@ export default function PayrollCalculationDetails({
           </section>
         </aside>
 
-        <section className={`rounded-[24px] border border-wine-100/50 bg-cream-50/40 shadow-premium ${isDialog ? "p-4" : "p-5"} ${detailClasses}`}>
-          <div className={`${isDialog ? "mb-3 pb-3" : "mb-6 pb-4"} border-b border-wine-100`}>
+        <section className={`rounded-[24px] border border-wine-100/50 bg-cream-50/40 shadow-premium ${compact ? "p-3" : "p-5"} ${detailClasses}`}>
+          <div className={`${compact ? "mb-3 pb-3" : "mb-6 pb-4"} border-b border-wine-100`}>
             <h2 className="text-xl font-bold text-wine-950">Detalhamento do Cálculo</h2>
             <p className="mt-1 text-sm text-wine-600">Competência: {breakdown.competency}</p>
           </div>
 
-          <div className={isDialog ? "payroll-breakdown-sections grid min-w-0 grid-cols-2 gap-3" : ""}>
+          <div className={isDialog ? "payroll-breakdown-sections grid min-w-0 grid-cols-1 gap-3 xl:grid-cols-2" : ""}>
             <section className={isDialog ? "min-w-0" : "mb-6"}>
               <h3 className={`${isDialog ? "mb-2" : "mb-3"} flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-emerald-700`}>
                 <span className="grid h-5 w-5 place-items-center rounded-sm bg-emerald-100">+</span>
@@ -87,7 +93,7 @@ export default function PayrollCalculationDetails({
               </h3>
               <div className={`rounded-xl border border-emerald-100/50 bg-emerald-50/50 ${isDialog ? "space-y-2 p-3" : "space-y-3 p-4"}`}>
                 {breakdown.earnings.map((item) => <DetailItem compact={isDialog} key={item.id} item={item} tone="earning" />)}
-                <TotalLine compact={isDialog} label="Total de Vencimentos Acumulado" value={formatCurrency(breakdown.totals.gross)} tone="earning" />
+                <TotalLine compact={isDialog} label="Total de Créditos" value={formatCurrency(breakdown.totals.gross)} tone="earning" />
               </div>
             </section>
 
@@ -98,7 +104,7 @@ export default function PayrollCalculationDetails({
               </h3>
               <div className={`rounded-xl border border-rose-100/50 bg-rose-50/50 ${isDialog ? "space-y-2 p-3" : "space-y-3 p-4"}`}>
                 {breakdown.deductions.map((item) => <DetailItem compact={isDialog} key={item.id} item={item} tone="deduction" />)}
-                <TotalLine compact={isDialog} label="Total de Descontos Acumulado" value={`-${formatCurrency(breakdown.totals.deductions)}`} tone="deduction" />
+                <TotalLine compact={isDialog} label="Total de Descontos" value={`-${formatCurrency(breakdown.totals.deductions)}`} tone="deduction" />
               </div>
             </section>
           </div>
