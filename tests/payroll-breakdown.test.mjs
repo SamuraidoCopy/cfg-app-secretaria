@@ -42,6 +42,8 @@ function item(items, id) {
 test("builds the detailed CLT aulista payroll breakdown from persisted values", () => {
   const breakdown = buildPayrollBreakdown({
     employee: {
+      id: "employee-clt-aulista",
+      name: "Maria da Silva",
       type: "CLT",
       role: "Professora",
       baseSalary: 0,
@@ -50,6 +52,10 @@ test("builds the detailed CLT aulista payroll breakdown from persisted values", 
       isAulista: true,
     },
     payroll: {
+      id: "payroll-clt-aulista",
+      month: 7,
+      year: 2026,
+      status: "PAID",
       baseSalary: 0,
       hoursAulista: 81.03,
       transportTotal: 127.20,
@@ -92,6 +98,8 @@ test("passes the unrounded class base to the teacher component calculator", () =
 
   buildWithSpy({
     employee: {
+      id: "employee-clt-spy",
+      name: "Maria da Silva",
       type: "CLT",
       role: "Professora",
       baseSalary: 0,
@@ -100,6 +108,10 @@ test("passes the unrounded class base to the teacher component calculator", () =
       isAulista: true,
     },
     payroll: {
+      id: "payroll-clt-spy",
+      month: 7,
+      year: 2026,
+      status: "PAID",
       baseSalary: 0,
       hoursAulista: 81.03,
       transportTotal: 0,
@@ -124,6 +136,8 @@ test("passes the unrounded class base to the teacher component calculator", () =
 test("includes only positive conditional earnings for a non-hourly CLT teacher", () => {
   const breakdown = buildPayrollBreakdown({
     employee: {
+      id: "employee-clt-teacher",
+      name: "Ana Souza",
       type: "CLT",
       role: "Professora Coordenadora",
       baseSalary: 4000,
@@ -132,6 +146,10 @@ test("includes only positive conditional earnings for a non-hourly CLT teacher",
       isAulista: false,
     },
     payroll: {
+      id: "payroll-clt-teacher",
+      month: 7,
+      year: 2026,
+      status: "PENDING",
       baseSalary: 4000,
       transportTotal: 0,
       absences: 0,
@@ -162,6 +180,8 @@ test("includes only positive conditional earnings for a non-hourly CLT teacher",
 test("hides residual CLT taxes and FGTS from a PJ breakdown totals", () => {
   const breakdown = buildPayrollBreakdown({
     employee: {
+      id: "employee-pj",
+      name: "Carla Lima",
       type: "PJ",
       role: "Consultora",
       baseSalary: 3000,
@@ -170,6 +190,10 @@ test("hides residual CLT taxes and FGTS from a PJ breakdown totals", () => {
       isAulista: false,
     },
     payroll: {
+      id: "payroll-pj",
+      month: 7,
+      year: 2026,
+      status: "PENDING",
       baseSalary: 3000,
       transportTotal: 200,
       absences: 1,

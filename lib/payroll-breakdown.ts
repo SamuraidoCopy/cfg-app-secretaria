@@ -1,6 +1,8 @@
 import { calculateTeacherComponents } from "./payroll-calc";
 
 export interface PayrollBreakdownEmployee {
+  id: string;
+  name: string;
   type: string;
   role: string;
   baseSalary: number;
@@ -11,6 +13,10 @@ export interface PayrollBreakdownEmployee {
 }
 
 export interface PayrollBreakdownPayroll {
+  id: string;
+  month: number;
+  year: number;
+  status: string;
   baseSalary: number;
   workingDays?: number | null;
   transportTotal?: number | null;
@@ -42,6 +48,11 @@ export interface PayrollBreakdownItem {
 }
 
 export interface PayrollBreakdown {
+  payrollId: string;
+  competency: string;
+  employee: PayrollBreakdownEmployee;
+  baseSalary: number;
+  status: string;
   earnings: PayrollBreakdownItem[];
   deductions: PayrollBreakdownItem[];
   totals: {
@@ -60,6 +71,11 @@ const currency = new Intl.NumberFormat("pt-BR", {
 const number = new Intl.NumberFormat("pt-BR", {
   maximumFractionDigits: 2,
 });
+
+const months = [
+  "janeiro", "fevereiro", "março", "abril", "maio", "junho",
+  "julho", "agosto", "setembro", "outubro", "novembro", "dezembro",
+];
 
 function roundCurrency(value: number): number {
   return Number(value.toFixed(2));
@@ -197,6 +213,11 @@ export function buildPayrollBreakdown({ employee, payroll }: PayrollBreakdownInp
   const totalDeductions = deductions.reduce((total, deduction) => total + deduction.value, 0);
 
   return {
+    payrollId: payroll.id,
+    competency: `${months[payroll.month - 1] ?? "competência"} de ${payroll.year}`,
+    employee,
+    baseSalary: payroll.baseSalary,
+    status: payroll.status,
     earnings,
     deductions,
     totals: {
