@@ -361,6 +361,22 @@ export default function ReportClient() {
                             </div>
                         )}
 
+                        <div className="print-payroll-calculations hidden print:block">
+                            {monthlyData?.payrolls.filter((p) => !p.isRescisao).map((p) => (
+                                <section key={`print-monthly-${p.id}`} className="hidden print:block print:break-before-page">
+                                    <div className="mb-6 border-b-2 border-black pb-3">
+                                        <p className="text-xs font-bold uppercase tracking-widest">Memória de cálculo</p>
+                                        <h4 className="text-xl font-black">{p.employee.name} · {getMonthName(p.month)} / {p.year}</h4>
+                                    </div>
+                                    <PayrollCalculationDetails
+                                        breakdown={buildPayrollBreakdown({ employee: p.employee, payroll: p })}
+                                        variant="standalone"
+                                        panelId={`print-monthly-payroll-${p.id}`}
+                                    />
+                                </section>
+                            ))}
+                        </div>
+
                         <div className="mt-12 pt-8 border-t border-wine-100 hidden print:block text-center">
                             <div className="w-64 border-t-2 border-black mx-auto mb-2"></div>
                             <p className="text-xs font-bold uppercase tracking-widest">Assinatura Responsável Financeiro</p>
@@ -498,6 +514,22 @@ export default function ReportClient() {
                                 </table>
                             </div>
                         )}
+
+                        <div className="print-payroll-calculations hidden print:block">
+                            {collaboratorData?.payrolls.filter((p) => !p.isRescisao).map((p) => (
+                                <section key={`print-collaborator-${p.id}`} className="hidden print:block print:break-before-page">
+                                    <div className="mb-6 border-b-2 border-black pb-3">
+                                        <p className="text-xs font-bold uppercase tracking-widest">Memória de cálculo</p>
+                                        <h4 className="text-xl font-black">{p.employee.name} · {getMonthName(p.month)} / {p.year}</h4>
+                                    </div>
+                                    <PayrollCalculationDetails
+                                        breakdown={buildPayrollBreakdown({ employee: p.employee, payroll: p })}
+                                        variant="standalone"
+                                        panelId={`print-collaborator-payroll-${p.id}`}
+                                    />
+                                </section>
+                            ))}
+                        </div>
 
                         <div className="mt-16 text-center text-[10px] font-black uppercase tracking-widest text-wine-300 print:hidden italic">
                             Este documento é um extrato informativo extraído do sistema de gestão escolar.
