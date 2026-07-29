@@ -151,9 +151,9 @@ test("includes only positive conditional earnings for a non-hourly CLT teacher",
 
   assert.deepEqual(
     Array.from(breakdown.earnings, (entry) => entry.id),
-    ["salary", "activity", "food-basket", "bonuses"],
+    ["salary", "activity", "basic-basket", "bonuses"],
   );
-  assert.equal(item(breakdown.earnings, "food-basket").value, 250);
+  assert.equal(item(breakdown.earnings, "basic-basket").value, 250);
   assert.equal(item(breakdown.earnings, "bonuses").value, 100);
   assert.equal(breakdown.earnings.some((entry) => entry.id === "transport"), false);
   assert.equal(breakdown.earnings.every((entry) => entry.value > 0), true);

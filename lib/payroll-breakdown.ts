@@ -129,7 +129,7 @@ export function buildPayrollBreakdown({ employee, payroll }: PayrollBreakdownInp
   const bonuses = payroll.bonuses - cestaBasica;
   if (cestaBasica > 0) {
     earnings.push({
-      id: "food-basket",
+      id: "basic-basket",
       label: "Cesta Básica",
       value: cestaBasica,
       description: "Benefício",
