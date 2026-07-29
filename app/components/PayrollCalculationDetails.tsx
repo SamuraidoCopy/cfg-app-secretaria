@@ -2,7 +2,7 @@ import type { PayrollBreakdown, PayrollBreakdownItem } from "@/lib/payroll-break
 
 export interface PayrollCalculationDetailsProps {
   breakdown: PayrollBreakdown;
-  variant?: "standalone" | "embedded";
+  variant?: "standalone" | "dialog";
   panelId?: string;
 }
 
@@ -40,15 +40,15 @@ export default function PayrollCalculationDetails({
   const id = panelId ?? `payroll-calculation-${breakdown.payrollId}`;
   const isPaid = breakdown.status === "PAID";
   const statusLabel = isPaid ? "PAGO" : "PENDENTE";
-  const shellClasses = variant === "standalone"
-    ? "grid grid-cols-1 gap-6 lg:grid-cols-3"
-    : "grid grid-cols-1 gap-4 xl:grid-cols-3";
-  const detailClasses = variant === "standalone" ? "lg:col-span-2" : "xl:col-span-2";
+  const shellClasses = variant === "dialog"
+    ? "grid min-w-0 grid-cols-1 gap-4 md:grid-cols-3"
+    : "grid grid-cols-1 gap-6 lg:grid-cols-3";
+  const detailClasses = variant === "dialog" ? "min-w-0 md:col-span-2" : "lg:col-span-2";
 
   return (
     <section id={id} className="payroll-calculation-details w-full" aria-label={`Memória de cálculo de ${breakdown.employee.name}`}>
       <div className={shellClasses}>
-        <aside className="space-y-4">
+        <aside className="min-w-0 space-y-4">
           <section className="rounded-[24px] border border-wine-100/50 bg-white p-5 shadow-premium">
             <h2 className="mb-1 text-lg font-bold text-wine-950">Dados do Colaborador</h2>
             <p className="mb-4 text-xs text-wine-600">Informações base para o cálculo</p>

@@ -1,10 +1,8 @@
 "use client";
 
-import { Fragment, useEffect, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { useEffect, useState } from "react";
 import PayrollCalculationDetails from "@/app/components/PayrollCalculationDetails";
 import { buildPayrollBreakdown, type PayrollBreakdownInput } from "@/lib/payroll-breakdown";
-import { toggleExpandedPayrollId } from "@/lib/payroll-report-expansion";
 import { getEmployeesList, getMonthlyReport, getCollaboratorReport, getEmployeeRegistrationReport } from "./actions";
 
 // Define some typings based on our Prisma schema output
@@ -111,7 +109,7 @@ export default function ReportClient() {
     const [registrationData, setRegistrationData] = useState<RegistrationEmployeeInfo[]>([]);
 
     const [isLoading, setIsLoading] = useState(false);
-    const [expandedPayrollIds, setExpandedPayrollIds] = useState<Set<string>>(() => new Set());
+    const [selectedPayrollDetails, setSelectedPayrollDetails] = useState<ReturnType<typeof buildPayrollBreakdown> | null>(null);
 
     useEffect(() => {
         // Initial fetch for employees list
@@ -163,10 +161,6 @@ export default function ReportClient() {
 
     const handlePrint = () => {
         window.print();
-    };
-
-    const togglePayrollDetails = (id: string) => {
-        setExpandedPayrollIds((current) => toggleExpandedPayrollId(current, id));
     };
 
     const getMonthName = (m: number) => {
@@ -322,13 +316,11 @@ export default function ReportClient() {
                                         {monthlyData?.payrolls.map(p => {
                                             const adds = (p.transportTotal || 0) + p.bonuses;
                                             const deducs = p.absenceDeduction + p.transportDeduction + p.otherDeductions;
-                                            const isMonthlyExpanded = expandedPayrollIds.has(p.id);
                                             const breakdownInput: PayrollBreakdownInput | null = p.isRescisao
                                                 ? null
                                                 : { employee: p.employee, payroll: p };
                                             return (
-                                                <Fragment key={p.id}>
-                                                <tr className="hover:bg-wine-50/50 transition-colors group print:break-inside-avoid">
+                                                <tr key={p.id} className="hover:bg-wine-50/50 transition-colors group print:break-inside-avoid">
                                                     <td className="px-4 py-5 whitespace-nowrap print:whitespace-normal font-bold text-wine-900 group-hover:text-wine-700 print:text-black print:text-[9pt]">
                                                         <div className="flex items-center gap-2">
                                                             {p.employee?.name}
@@ -336,16 +328,14 @@ export default function ReportClient() {
                                                                 <span className="bg-amber-100 text-amber-800 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-tighter print:border print:border-amber-200">Rescisão</span>
                                                             )}
                                                         </div>
-                                                        {!p.isRescisao && (
+                                                        {breakdownInput && (
                                                             <button
                                                                 type="button"
-                                                                onClick={() => togglePayrollDetails(p.id)}
-                                                                aria-expanded={isMonthlyExpanded}
-                                                                aria-controls={`monthly-payroll-details-${p.id}`}
+                                                                onClick={() => setSelectedPayrollDetails(buildPayrollBreakdown(breakdownInput))}
+                                                                aria-haspopup="dialog"
                                                                 className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-wine-700 hover:text-wine-900 print:hidden"
                                                             >
-                                                                {isMonthlyExpanded ? "Ocultar detalhes" : "Ver detalhes"}
-                                                                <ChevronDown className={`h-3.5 w-3.5 transition-transform ${isMonthlyExpanded ? "rotate-180" : ""}`} aria-hidden="true" />
+                                                                Ver detalhes
                                                             </button>
                                                         )}
                                                     </td>
@@ -355,20 +345,6 @@ export default function ReportClient() {
                                                     <td className="px-4 py-5 whitespace-nowrap text-right text-red-500 font-bold print:text-[9pt]">-{formatCurrency(deducs)}</td>
                                                     <td className="px-4 py-5 whitespace-nowrap text-right font-black text-wine-900 text-lg print:text-black print:text-[11pt]">{formatCurrency(p.netTotal)}</td>
                                                 </tr>
-                                                {breakdownInput ? (
-                                                    <tr className="bg-cream-50/40 print:break-inside-avoid">
-                                                        <td colSpan={6} className="px-4 pb-6 pt-1 print:p-0">
-                                                            <div hidden={!isMonthlyExpanded} className="mt-2 print:block">
-                                                                <PayrollCalculationDetails
-                                                                    breakdown={buildPayrollBreakdown(breakdownInput)}
-                                                                    variant="embedded"
-                                                                    panelId={`monthly-payroll-details-${p.id}`}
-                                                                />
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                ) : null}
-                                                </Fragment>
                                             )
                                         })}
                                     </tbody>
@@ -481,13 +457,11 @@ export default function ReportClient() {
                                         {collaboratorData?.payrolls.map(p => {
                                             const adds = (p.transportTotal || 0) + p.bonuses;
                                             const deducs = p.absenceDeduction + p.transportDeduction + p.otherDeductions;
-                                            const isCollaboratorExpanded = expandedPayrollIds.has(p.id);
                                             const breakdownInput: PayrollBreakdownInput | null = p.isRescisao
                                                 ? null
                                                 : { employee: p.employee, payroll: p };
                                             return (
-                                                <Fragment key={p.id}>
-                                                <tr className="hover:bg-wine-50/50 transition-colors group print:break-inside-avoid">
+                                                <tr key={p.id} className="hover:bg-wine-50/50 transition-colors group print:break-inside-avoid">
                                                     <td className="px-4 py-5 whitespace-nowrap print:whitespace-normal font-bold text-wine-900 capitalize print:text-black print:text-[9pt]">
                                                         <div className="flex items-center gap-2">
                                                             {getMonthName(p.month).substring(0, 3)} / {p.year}
@@ -495,16 +469,14 @@ export default function ReportClient() {
                                                                 <span className="bg-amber-100 text-amber-800 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-tighter print:border print:border-amber-200">Rescisão</span>
                                                             )}
                                                         </div>
-                                                        {!p.isRescisao && (
+                                                        {breakdownInput && (
                                                             <button
                                                                 type="button"
-                                                                onClick={() => togglePayrollDetails(p.id)}
-                                                                aria-expanded={isCollaboratorExpanded}
-                                                                aria-controls={`collaborator-payroll-details-${p.id}`}
+                                                                onClick={() => setSelectedPayrollDetails(buildPayrollBreakdown(breakdownInput))}
+                                                                aria-haspopup="dialog"
                                                                 className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-wine-700 hover:text-wine-900 print:hidden"
                                                             >
-                                                                {isCollaboratorExpanded ? "Ocultar detalhes" : "Ver detalhes"}
-                                                                <ChevronDown className={`h-3.5 w-3.5 transition-transform ${isCollaboratorExpanded ? "rotate-180" : ""}`} aria-hidden="true" />
+                                                                Ver detalhes
                                                             </button>
                                                         )}
                                                     </td>
@@ -513,20 +485,6 @@ export default function ReportClient() {
                                                     <td className="px-4 py-5 whitespace-nowrap text-right text-red-500 font-bold hidden sm:table-cell print:table-cell print:text-[9pt]">-{formatCurrency(deducs)}</td>
                                                     <td className="px-4 py-5 whitespace-nowrap text-right font-black text-wine-900 text-lg print:text-black print:text-[11pt]">{formatCurrency(p.netTotal)}</td>
                                                 </tr>
-                                                {breakdownInput ? (
-                                                    <tr className="bg-cream-50/40 print:break-inside-avoid">
-                                                        <td colSpan={5} className="px-4 pb-6 pt-1 print:p-0">
-                                                            <div hidden={!isCollaboratorExpanded} className="mt-2 print:block">
-                                                                <PayrollCalculationDetails
-                                                                    breakdown={buildPayrollBreakdown(breakdownInput)}
-                                                                    variant="embedded"
-                                                                    panelId={`collaborator-payroll-details-${p.id}`}
-                                                                />
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                ) : null}
-                                                </Fragment>
                                             )
                                         })}
                                     </tbody>
@@ -765,6 +723,38 @@ export default function ReportClient() {
                     </div>
                 </div>
             )}
+
+            {selectedPayrollDetails ? (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-wine-950/45 p-3 backdrop-blur-sm print:hidden sm:p-6"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="payroll-details-dialog-title"
+                >
+                    <div className="flex max-h-full w-full max-w-6xl flex-col overflow-hidden rounded-[28px] bg-cream-50 shadow-2xl">
+                        <div className="flex items-center justify-between border-b border-wine-100 bg-white px-5 py-4 sm:px-7">
+                            <div>
+                                <p className="text-xs font-bold uppercase tracking-widest text-wine-500">Memória de cálculo</p>
+                                <h2 id="payroll-details-dialog-title" className="text-lg font-black text-wine-950 sm:text-xl">{selectedPayrollDetails.employee.name}</h2>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => setSelectedPayrollDetails(null)}
+                                className="rounded-xl border border-wine-200 bg-white px-4 py-2 text-sm font-bold text-wine-800 transition-colors hover:bg-wine-50"
+                            >
+                                Fechar detalhes
+                            </button>
+                        </div>
+                        <div className="overflow-y-auto p-4 sm:p-6">
+                            <PayrollCalculationDetails
+                                breakdown={selectedPayrollDetails}
+                                variant="dialog"
+                                panelId={`payroll-details-dialog-${selectedPayrollDetails.payrollId}`}
+                            />
+                        </div>
+                    </div>
+                </div>
+            ) : null}
 
             {/* Global Print Styles specific to Report */}
             <style dangerouslySetInnerHTML={{

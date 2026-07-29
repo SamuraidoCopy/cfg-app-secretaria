@@ -91,3 +91,14 @@ test("does not render the FGTS section for PJ breakdowns without fgtsValue", () 
   assert.match(html, /PENDENTE/);
   assert.doesNotMatch(html, /Recolhimento FGTS/);
 });
+
+test("uses a compact two-column composition inside the details dialog", () => {
+  const PayrollCalculationDetails = loadComponent();
+  const html = renderToStaticMarkup(createElement(PayrollCalculationDetails, {
+    breakdown: cltBreakdown,
+    variant: "dialog",
+  }));
+
+  assert.match(html, /grid min-w-0 grid-cols-1 gap-4 md:grid-cols-3/);
+  assert.match(html, /min-w-0 md:col-span-2/);
+});
