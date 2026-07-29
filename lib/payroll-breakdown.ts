@@ -81,8 +81,9 @@ export function buildPayrollBreakdown({ employee, payroll }: PayrollBreakdownInp
   if (isCLT && employee.isAulista) {
     const hours = positive(payroll.hoursAulista);
     const hourlyRate = positive(employee.hourlyRate);
-    const classes = roundCurrency(hours * hourlyRate);
-    const teacherComponents = calculateTeacherComponents(classes);
+    const classesBase = hours * hourlyRate;
+    const classes = roundCurrency(classesBase);
+    const teacherComponents = calculateTeacherComponents(classesBase);
 
     earnings.push(
       {

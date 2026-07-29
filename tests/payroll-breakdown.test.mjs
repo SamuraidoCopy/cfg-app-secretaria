@@ -24,10 +24,14 @@ function compileModule(path, require = () => {
 }
 
 const payrollCalc = compileModule("../lib/payroll-calc.ts");
-const { buildPayrollBreakdown } = compileModule("../lib/payroll-breakdown.ts", (dependency) => {
-  if (dependency === "./payroll-calc") return payrollCalc;
-  throw new Error(`Unexpected dependency: ${dependency}`);
-});
+function loadPayrollBreakdown(calculator = payrollCalc) {
+  return compileModule("../lib/payroll-breakdown.ts", (dependency) => {
+    if (dependency === "./payroll-calc") return calculator;
+    throw new Error(`Unexpected dependency: ${dependency}`);
+  });
+}
+
+const { buildPayrollBreakdown } = loadPayrollBreakdown();
 
 function item(items, id) {
   const found = items.find((entry) => entry.id === id);
@@ -75,4 +79,44 @@ test("builds the detailed CLT aulista payroll breakdown from persisted values", 
   assert.equal(breakdown.totals.deductions, 279.11);
   assert.equal(breakdown.totals.net, 2937.38);
   assert.equal(breakdown.fgtsValue, 245.45);
+});
+
+test("passes the unrounded class base to the teacher component calculator", () => {
+  let receivedBase = null;
+  const { buildPayrollBreakdown: buildWithSpy } = loadPayrollBreakdown({
+    calculateTeacherComponents(base) {
+      receivedBase = base;
+      return { dsr: 420.36, horaAtividade: 126.08, baseInss: 3068.09 };
+    },
+  });
+
+  buildWithSpy({
+    employee: {
+      type: "CLT",
+      role: "Professora",
+      baseSalary: 0,
+      hourlyRate: 31.12,
+      cestaBasica: 0,
+      isAulista: true,
+    },
+    payroll: {
+      baseSalary: 0,
+      hoursAulista: 81.03,
+      transportTotal: 0,
+      absences: 0,
+      absenceDeduction: 0,
+      absencesVT: 0,
+      transportDeduction: 0,
+      otherDeductions: 0,
+      bonuses: 0,
+      grossEarnings: 3068.09,
+      inssDeduction: 0,
+      irrfDeduction: 0,
+      fgtsValue: 0,
+      salaryAdvance: 0,
+      netTotal: 3068.09,
+    },
+  });
+
+  assert.equal(receivedBase, 2521.6536);
 });
