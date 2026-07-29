@@ -20,9 +20,10 @@ vinculos CLT e PJ.
   verbas, bases, descontos, encargos e totais efetivamente calculados na folha.
 - [ ] AC-4 — Para colaboradores PJ, a memoria detalhada apresenta apenas os itens
   aplicaveis ao contrato PJ e nao exibe rubricas, bases ou descontos exclusivos de CLT.
-- [ ] AC-5 — A impressao do Relatorio Mensal e do Relatorio por Colaborador exibe
-  integralmente todas as memorias detalhadas regulares, mesmo que estejam recolhidas
-  na tela, sem cortar ou ocultar conteudo.
+- [ ] AC-5 — A impressao do Relatorio Mensal e do Relatorio por Colaborador abre e
+  exibe integralmente todas as memorias detalhadas de pagamentos regulares, mesmo
+  que estejam recolhidas na tela, sem cortar ou ocultar conteudo. Rescisoes
+  continuam somente resumidas, sem memoria detalhada nesta entrega.
 - [ ] AC-6 — A pagina individual do colaborador reutiliza a mesma apresentacao de
   memoria detalhada usada nos relatorios, mantendo dados, regras e textos consistentes.
 - [ ] AC-7 — Depois que os dados do relatorio forem carregados, abrir ou imprimir a
