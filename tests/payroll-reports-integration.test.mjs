@@ -18,3 +18,10 @@ test("opens each regular payroll calculation in an accessible dialog without exp
   assert.doesNotMatch(source, /monthly-payroll-details-/);
   assert.doesNotMatch(source, /collaborator-payroll-details-/);
 });
+
+test("prints a complete calculation section for every regular payroll after the report summary", () => {
+  assert.match(source, /print-payroll-calculations/);
+  assert.match(source, /print:break-before-page/);
+  assert.match(source, /filter\(\(p\) => !p\.isRescisao\)/);
+  assert.match(source, /variant="standalone"/);
+});
