@@ -1,0 +1,62 @@
+.page {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm;
+  }
+
+  .page {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    break-before: page;
+    page-break-before: always;
+    break-inside: avoid-page;
+    page-break-inside: avoid;
+    color: #111;
+  }
+
+  .page:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .header {
+    margin: 0 0 3mm;
+    padding: 0 0 2mm;
+    border-bottom: 1px solid #111;
+  }
+
+  .header p {
+    margin: 0;
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .header h2 {
+    margin: 1mm 0 0;
+    font-size: 11pt;
+    line-height: 1.15;
+  }
+
+  .endMarker {
+    margin: 2mm 0 0;
+    text-align: right;
+    font-size: 6pt;
+    color: #555;
+  }
+
+  .page :global([data-variant="print"]) {
+    font-size: 7.5pt;
+    line-height: 1.15;
+  }
+
+  .page :global([data-variant="print"] .shadow-premium),
+  .page :global([data-variant="print"] [class*="shadow-"]) {
+    box-shadow: none !important;
+  }
+}

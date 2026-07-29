@@ -5,29 +5,80 @@ import { WEEKDAY_LABELS, type Weekday } from "@/lib/work-schedule";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 
+type PayrollReportEmployee = {
+    id: string;
+    name: string;
+    role: string;
+    type: string;
+    baseSalary: number;
+    hourlyRate: number | null;
+    cestaBasica: number | null;
+    isAulista: boolean;
+    transportDaily: number | null;
+};
+
 type PaymentReportItem = {
     id: string;
+    employeeId: string;
     month: number;
     year: number;
     baseSalary: number;
     workingDays: number | null;
     transportTotal: number | null;
     absences: number;
+    absencesVT: number;
     absenceDeduction: number;
     transportDeduction: number;
     otherDeductions: number;
     bonuses: number;
+    grossEarnings: number;
+    inssDeduction: number;
+    irrfDeduction: number;
+    fgtsValue: number;
+    salaryAdvance: number;
+    hoursAulista: number | null;
     netTotal: number;
     status: string;
-    employee: {
-        id: string;
-        name: string;
-        role: string;
-        cpf: string;
-        baseSalary: number;
-    };
+    employee: PayrollReportEmployee;
     isRescisao?: boolean;
 };
+
+const payrollEmployeeSelect = {
+    id: true,
+    name: true,
+    role: true,
+    type: true,
+    baseSalary: true,
+    hourlyRate: true,
+    cestaBasica: true,
+    isAulista: true,
+    transportDaily: true,
+} as const;
+
+const payrollReportSelect = {
+    id: true,
+    employeeId: true,
+    month: true,
+    year: true,
+    baseSalary: true,
+    workingDays: true,
+    transportTotal: true,
+    absences: true,
+    absencesVT: true,
+    absenceDeduction: true,
+    transportDeduction: true,
+    otherDeductions: true,
+    bonuses: true,
+    grossEarnings: true,
+    inssDeduction: true,
+    irrfDeduction: true,
+    fgtsValue: true,
+    salaryAdvance: true,
+    hoursAulista: true,
+    netTotal: true,
+    status: true,
+    employee: { select: payrollEmployeeSelect },
+} as const;
 
 export async function getEmployeesList() {
     const session = await getServerSession(authOptions);
@@ -140,18 +191,14 @@ export async function getMonthlyReport(month: number, year: number) {
         const [payrolls, rescisoes] = await Promise.all([
             prisma.payroll.findMany({
                 where: { month, year },
-                include: {
-                    employee: {
-                        select: { id: true, name: true, role: true, cpf: true, baseSalary: true }
-                    }
-                },
+                select: payrollReportSelect,
                 orderBy: { employee: { name: 'asc' } }
             }),
             prisma.rescisao.findMany({
                 where: { month, year },
                 include: {
                     employee: {
-                        select: { id: true, name: true, role: true, cpf: true, baseSalary: true }
+                        select: payrollEmployeeSelect
                     }
                 }
             })
@@ -160,16 +207,24 @@ export async function getMonthlyReport(month: number, year: number) {
         // Mapear rescisões para o formato do relatório
         const mappedRescisoes = rescisoes.map(r => ({
             id: r.id,
+            employeeId: r.employeeId,
             month: r.month,
             year: r.year,
             baseSalary: r.employee.baseSalary,
             workingDays: null,
             transportTotal: 0,
             absences: 0,
+            absencesVT: 0,
             absenceDeduction: 0,
             transportDeduction: 0,
             otherDeductions: r.inss + r.inss13 + (r.irrf || 0),
             bonuses: r.totalBruto - r.employee.baseSalary, // Diferença como bônus para fechar o bruto
+            grossEarnings: r.totalBruto,
+            inssDeduction: r.inss + r.inss13,
+            irrfDeduction: r.irrf,
+            fgtsValue: 0,
+            salaryAdvance: 0,
+            hoursAulista: null,
             netTotal: r.totalLiquido,
             status: r.status,
             employee: r.employee,
@@ -207,11 +262,7 @@ export async function getCollaboratorReport(employeeId: string) {
         const [payrolls, rescisoes] = await Promise.all([
             prisma.payroll.findMany({
                 where: { employeeId },
-                include: {
-                    employee: {
-                        select: { id: true, name: true, role: true, cpf: true, baseSalary: true }
-                    }
-                },
+                select: payrollReportSelect,
                 orderBy: [{ year: 'desc' }, { month: 'desc' }],
                 take: 24
             }),
@@ -219,7 +270,7 @@ export async function getCollaboratorReport(employeeId: string) {
                 where: { employeeId },
                 include: {
                     employee: {
-                        select: { id: true, name: true, role: true, cpf: true, baseSalary: true }
+                        select: payrollEmployeeSelect
                     }
                 }
             })
@@ -227,16 +278,24 @@ export async function getCollaboratorReport(employeeId: string) {
 
         const mappedRescisoes = rescisoes.map(r => ({
             id: r.id,
+            employeeId: r.employeeId,
             month: r.month,
             year: r.year,
             baseSalary: r.employee.baseSalary,
             workingDays: null,
             transportTotal: 0,
             absences: 0,
+            absencesVT: 0,
             absenceDeduction: 0,
             transportDeduction: 0,
             otherDeductions: r.inss + r.inss13 + (r.irrf || 0),
             bonuses: r.totalBruto - r.employee.baseSalary,
+            grossEarnings: r.totalBruto,
+            inssDeduction: r.inss + r.inss13,
+            irrfDeduction: r.irrf,
+            fgtsValue: 0,
+            salaryAdvance: 0,
+            hoursAulista: null,
             netTotal: r.totalLiquido,
             status: r.status,
             employee: r.employee,

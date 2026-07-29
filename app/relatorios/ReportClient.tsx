@@ -1,6 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import PayrollCalculationDetails from "@/app/components/PayrollCalculationDetails";
+import { buildPayrollBreakdown, type PayrollBreakdownInput } from "@/lib/payroll-breakdown";
+import PayrollPrintPage from "./PayrollPrintPage";
 import { getEmployeesList, getMonthlyReport, getCollaboratorReport, getEmployeeRegistrationReport } from "./actions";
 
 // Define some typings based on our Prisma schema output
@@ -8,26 +11,16 @@ type EmployeeInfo = {
     id: string;
     name: string;
     role: string;
-    cpf: string;
+    type: string;
     baseSalary: number;
+    hourlyRate: number | null;
+    cestaBasica: number | null;
+    isAulista: boolean;
+    transportDaily: number | null;
 };
 
-type PayrollInfo = {
-    id: string;
-    month: number;
-    year: number;
-    baseSalary: number;
-    workingDays: number | null;
-    transportTotal: number | null;
-    absences: number;
-    absenceDeduction: number;
-    transportDeduction: number;
-    otherDeductions: number;
-    bonuses: number;
-    netTotal: number;
-    status: string;
-    employeeId?: string;
-    employee?: EmployeeInfo;
+type PayrollInfo = PayrollBreakdownInput["payroll"] & {
+    employee: EmployeeInfo;
     isRescisao?: boolean;
 };
 
@@ -117,6 +110,8 @@ export default function ReportClient() {
     const [registrationData, setRegistrationData] = useState<RegistrationEmployeeInfo[]>([]);
 
     const [isLoading, setIsLoading] = useState(false);
+    const [selectedPayrollDetails, setSelectedPayrollDetails] = useState<ReturnType<typeof buildPayrollBreakdown> | null>(null);
+    const payrollDialogRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
         // Initial fetch for employees list
@@ -165,6 +160,14 @@ export default function ReportClient() {
         }
     }, [activeTab]);
 
+    useEffect(() => {
+        const dialog = payrollDialogRef.current;
+        if (selectedPayrollDetails && dialog && !dialog.open) {
+            dialog.showModal();
+        }
+    }, [selectedPayrollDetails]);
+
+    const closePayrollDetails = () => setSelectedPayrollDetails(null);
 
     const handlePrint = () => {
         window.print();
@@ -323,6 +326,9 @@ export default function ReportClient() {
                                         {monthlyData?.payrolls.map(p => {
                                             const adds = (p.transportTotal || 0) + p.bonuses;
                                             const deducs = p.absenceDeduction + p.transportDeduction + p.otherDeductions;
+                                            const breakdownInput: PayrollBreakdownInput | null = p.isRescisao
+                                                ? null
+                                                : { employee: p.employee, payroll: p };
                                             return (
                                                 <tr key={p.id} className="hover:bg-wine-50/50 transition-colors group print:break-inside-avoid">
                                                     <td className="px-4 py-5 whitespace-nowrap print:whitespace-normal font-bold text-wine-900 group-hover:text-wine-700 print:text-black print:text-[9pt]">
@@ -332,6 +338,16 @@ export default function ReportClient() {
                                                                 <span className="bg-amber-100 text-amber-800 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-tighter print:border print:border-amber-200">Rescisão</span>
                                                             )}
                                                         </div>
+                                                        {breakdownInput && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setSelectedPayrollDetails(buildPayrollBreakdown(breakdownInput))}
+                                                                aria-haspopup="dialog"
+                                                                className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-wine-700 hover:text-wine-900 print:hidden"
+                                                            >
+                                                                Ver detalhes
+                                                            </button>
+                                                        )}
                                                     </td>
                                                     <td className="px-4 py-5 whitespace-nowrap print:whitespace-normal text-wine-400 hidden sm:table-cell print:table-cell print:text-black print:text-[9pt]">{p.employee?.role}</td>
                                                     <td className="px-4 py-5 whitespace-nowrap text-right text-wine-400 font-medium print:text-black print:text-[9pt]">{formatCurrency(p.baseSalary)}</td>
@@ -354,6 +370,15 @@ export default function ReportClient() {
                                 </table>
                             </div>
                         )}
+
+                        <div className="print-payroll-calculations hidden print:block">
+                            {monthlyData?.payrolls.filter((p) => !p.isRescisao).map((p) => (
+                                <PayrollPrintPage
+                                    key={`print-monthly-${p.id}`}
+                                    breakdown={buildPayrollBreakdown({ employee: p.employee, payroll: p })}
+                                />
+                            ))}
+                        </div>
 
                         <div className="mt-12 pt-8 border-t border-wine-100 hidden print:block text-center">
                             <div className="w-64 border-t-2 border-black mx-auto mb-2"></div>
@@ -451,6 +476,9 @@ export default function ReportClient() {
                                         {collaboratorData?.payrolls.map(p => {
                                             const adds = (p.transportTotal || 0) + p.bonuses;
                                             const deducs = p.absenceDeduction + p.transportDeduction + p.otherDeductions;
+                                            const breakdownInput: PayrollBreakdownInput | null = p.isRescisao
+                                                ? null
+                                                : { employee: p.employee, payroll: p };
                                             return (
                                                 <tr key={p.id} className="hover:bg-wine-50/50 transition-colors group print:break-inside-avoid">
                                                     <td className="px-4 py-5 whitespace-nowrap print:whitespace-normal font-bold text-wine-900 capitalize print:text-black print:text-[9pt]">
@@ -460,6 +488,16 @@ export default function ReportClient() {
                                                                 <span className="bg-amber-100 text-amber-800 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-tighter print:border print:border-amber-200">Rescisão</span>
                                                             )}
                                                         </div>
+                                                        {breakdownInput && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setSelectedPayrollDetails(buildPayrollBreakdown(breakdownInput))}
+                                                                aria-haspopup="dialog"
+                                                                className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-wine-700 hover:text-wine-900 print:hidden"
+                                                            >
+                                                                Ver detalhes
+                                                            </button>
+                                                        )}
                                                     </td>
                                                     <td className="px-4 py-5 whitespace-nowrap text-right text-wine-400 font-medium print:text-black print:text-[9pt]">{formatCurrency(p.baseSalary)}</td>
                                                     <td className="px-4 py-5 whitespace-nowrap text-right text-emerald-600 font-bold hidden sm:table-cell print:table-cell print:text-[9pt]">+{formatCurrency(adds)}</td>
@@ -479,6 +517,15 @@ export default function ReportClient() {
                                 </table>
                             </div>
                         )}
+
+                        <div className="print-payroll-calculations hidden print:block">
+                            {collaboratorData?.payrolls.filter((p) => !p.isRescisao).map((p) => (
+                                <PayrollPrintPage
+                                    key={`print-collaborator-${p.id}`}
+                                    breakdown={buildPayrollBreakdown({ employee: p.employee, payroll: p })}
+                                />
+                            ))}
+                        </div>
 
                         <div className="mt-16 text-center text-[10px] font-black uppercase tracking-widest text-wine-300 print:hidden italic">
                             Este documento é um extrato informativo extraído do sistema de gestão escolar.
@@ -705,58 +752,40 @@ export default function ReportClient() {
                 </div>
             )}
 
-            {/* Global Print Styles specific to Report */}
-            <style dangerouslySetInnerHTML={{
-                __html: `
-        @media print {
-          @page { margin: 1.5cm; size: A4 portrait; }
-          aside, nav, .print\\:hidden { display: none !important; }
-          
-          /* Scorched Earth Reset: Universal Visibility */
-          *, *::before, *::after {
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-            animation: none !important;
-            transition: none !important;
-          }
+            {selectedPayrollDetails ? (
+                <dialog
+                    ref={payrollDialogRef}
+                    data-testid="payroll-details-dialog"
+                    className="m-auto max-h-[calc(100dvh-1rem)] w-[min(96vw,72rem)] overflow-hidden rounded-[28px] bg-cream-50 p-0 shadow-2xl backdrop:bg-wine-950/45 backdrop:backdrop-blur-sm print:hidden"
+                    aria-labelledby="payroll-details-dialog-title"
+                    onCancel={closePayrollDetails}
+                    onClose={closePayrollDetails}
+                >
+                    <div className="flex max-h-[calc(100dvh-1rem)] min-w-0 flex-col">
+                        <div className="flex shrink-0 items-center justify-between border-b border-wine-100 bg-white px-5 py-3 sm:px-7">
+                            <div>
+                                <p className="text-xs font-bold uppercase tracking-widest text-wine-500">Memória de cálculo</p>
+                                <h2 id="payroll-details-dialog-title" className="text-lg font-black text-wine-950 sm:text-xl">{selectedPayrollDetails.employee.name}</h2>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={closePayrollDetails}
+                                className="rounded-xl border border-wine-200 bg-white px-4 py-2 text-sm font-bold text-wine-800 transition-colors hover:bg-wine-50"
+                            >
+                                Fechar detalhes
+                            </button>
+                        </div>
+                        <div data-testid="payroll-dialog-body" className="min-h-0 min-w-0 overflow-x-hidden overflow-y-auto p-3 sm:p-4">
+                            <PayrollCalculationDetails
+                                breakdown={selectedPayrollDetails}
+                                variant="dialog"
+                                panelId={`payroll-details-dialog-${selectedPayrollDetails.payrollId}`}
+                            />
+                        </div>
+                    </div>
+                </dialog>
+            ) : null}
 
-          html, body, #__next, [data-nextjs-scroll-focus-boundary], main, #root, .flex-1, .bg-white, div, section, article { 
-            height: auto !important; 
-            min-height: 0 !important;
-            max-height: none !important;
-            overflow: visible !important; 
-            display: block !important;
-            position: static !important;
-            float: none !important;
-          }
-
-          body { background-color: white !important; font-family: sans-serif; color: black !important; }
-          .bg-white { background-color: white !important; }
-          
-          /* Colors for Print */
-          .text-wine-900 { color: #612232 !important; }
-          .text-wine-800 { color: #722636 !important; }
-          .text-wine-600 { color: #a2384f !important; }
-          .text-wine-400 { color: #cf7c8c !important; }
-          
-          /* Table Stability */
-          table { width: 100% !important; border-collapse: collapse !important; table-layout: fixed !important; page-break-inside: auto !important; display: table !important; }
-          thead { display: table-header-group !important; }
-          tfoot { display: table-footer-group !important; }
-          tr { page-break-inside: avoid !important; page-break-after: auto !important; display: table-row !important; }
-          th, td { border-bottom: 1px solid #eee !important; overflow: visible !important; display: table-cell !important; }
-          
-          /* Remove UI Noise */
-          .shadow-premium, .glass-card, [class*="shadow-"], [class*="backdrop-blur"] { 
-            box-shadow: none !important; 
-            border: none !important; 
-            background: transparent !important; 
-            backdrop-filter: none !important;
-          }
-        }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-      `}} />
         </div>
     );
 }
