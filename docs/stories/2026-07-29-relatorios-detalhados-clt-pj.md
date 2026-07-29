@@ -4,9 +4,9 @@ Status: In Progress
 
 ## Objetivo
 
-Como usuario autorizado da folha, quero consultar e imprimir a memoria detalhada
-dos calculos no Relatorio Mensal e no Relatorio por Colaborador, para conferir a
-composicao da folha por pessoa e competencia sem perder as regras distintas de
+Como responsavel autorizado da folha, quero poder abrir e imprimir a memoria de
+calculo de CADA PAGAMENTO dentro do Relatorio Mensal e de CADA COMPETENCIA em Por
+Colaborador, para conferir a composicao da folha sem perder as regras distintas de
 vinculos CLT e PJ.
 
 ## Acceptance Criteria
