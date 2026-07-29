@@ -120,3 +120,41 @@ test("passes the unrounded class base to the teacher component calculator", () =
 
   assert.equal(receivedBase, 2521.6536);
 });
+
+test("hides residual CLT taxes and FGTS from a PJ breakdown totals", () => {
+  const breakdown = buildPayrollBreakdown({
+    employee: {
+      type: "PJ",
+      role: "Consultora",
+      baseSalary: 3000,
+      hourlyRate: null,
+      cestaBasica: 0,
+      isAulista: false,
+    },
+    payroll: {
+      baseSalary: 3000,
+      transportTotal: 200,
+      absences: 1,
+      absenceDeduction: 100,
+      absencesVT: 0,
+      transportDeduction: 0,
+      otherDeductions: 25,
+      bonuses: 0,
+      grossEarnings: 3000,
+      inssDeduction: 257.91,
+      irrfDeduction: 80.42,
+      fgtsValue: 240,
+      salaryAdvance: 300,
+      netTotal: 2575,
+    },
+  });
+
+  assert.equal(breakdown.deductions.some((entry) => entry.id === "inss"), false);
+  assert.equal(breakdown.deductions.some((entry) => entry.id === "irrf"), false);
+  assert.equal(breakdown.fgtsValue, null);
+  assert.equal(breakdown.totals.deductions, 425);
+  assert.equal(
+    breakdown.totals.deductions,
+    breakdown.deductions.reduce((total, entry) => total + entry.value, 0),
+  );
+});

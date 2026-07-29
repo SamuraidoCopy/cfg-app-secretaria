@@ -1,7 +1,7 @@
 import { calculateTeacherComponents } from "./payroll-calc";
 
 export interface PayrollBreakdownEmployee {
-  type: string;
+  type: "CLT" | "PJ" | "VOLUNTARIO";
   role: string;
   baseSalary: number;
   hourlyRate: number | null;
@@ -49,7 +49,7 @@ export interface PayrollBreakdown {
     deductions: number;
     net: number;
   };
-  fgtsValue: number;
+  fgtsValue: number | null;
 }
 
 const currency = new Intl.NumberFormat("pt-BR", {
@@ -194,13 +194,7 @@ export function buildPayrollBreakdown({ employee, payroll }: PayrollBreakdownInp
   const gross = payroll.grossEarnings > 0
     ? payroll.grossEarnings
     : payroll.baseSalary + payroll.bonuses + positive(payroll.transportTotal);
-  const totalDeductions =
-    payroll.inssDeduction +
-    payroll.irrfDeduction +
-    payroll.absenceDeduction +
-    payroll.transportDeduction +
-    payroll.salaryAdvance +
-    payroll.otherDeductions;
+  const totalDeductions = deductions.reduce((total, deduction) => total + deduction.value, 0);
 
   return {
     earnings,
@@ -210,6 +204,6 @@ export function buildPayrollBreakdown({ employee, payroll }: PayrollBreakdownInp
       deductions: roundCurrency(totalDeductions),
       net: payroll.netTotal,
     },
-    fgtsValue: payroll.fgtsValue,
+    fgtsValue: isCLT ? payroll.fgtsValue : null,
   };
 }
