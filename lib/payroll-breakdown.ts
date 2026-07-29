@@ -1,7 +1,7 @@
 import { calculateTeacherComponents } from "./payroll-calc";
 
 export interface PayrollBreakdownEmployee {
-  type: "CLT" | "PJ" | "VOLUNTARIO";
+  type: string;
   role: string;
   baseSalary: number;
   hourlyRate: number | null;
