@@ -12,30 +12,33 @@ vinculos CLT e PJ.
 ## Acceptance Criteria
 
 - [ ] AC-1 — No Relatorio Mensal, cada colaborador possui uma expansao individual
-  que apresenta a memoria detalhada do calculo daquela competencia.
+  que abre somente a memoria detalhada do pagamento selecionado, na competencia
+  daquele pagamento.
 - [ ] AC-2 — No Relatorio por Colaborador, cada competencia disponivel possui uma
-  expansao individual com a memoria detalhada do calculo correspondente.
+  expansao individual que abre somente a memoria detalhada da competencia selecionada.
 - [ ] AC-3 — Para colaboradores CLT, a memoria detalhada apresenta fielmente as
   verbas, bases, descontos, encargos e totais efetivamente calculados na folha.
 - [ ] AC-4 — Para colaboradores PJ, a memoria detalhada apresenta apenas os itens
   aplicaveis ao contrato PJ e nao exibe rubricas, bases ou descontos exclusivos de CLT.
-- [ ] AC-5 — A impressao do Relatorio Mensal e do Relatorio por Colaborador inclui
-  integralmente as expansoes abertas, sem cortar ou ocultar a memoria detalhada.
+- [ ] AC-5 — A impressao do Relatorio Mensal e do Relatorio por Colaborador exibe
+  integralmente todas as memorias detalhadas regulares, mesmo que estejam recolhidas
+  na tela, sem cortar ou ocultar conteudo.
 - [ ] AC-6 — A pagina individual do colaborador reutiliza a mesma apresentacao de
   memoria detalhada usada nos relatorios, mantendo dados, regras e textos consistentes.
 - [ ] AC-7 — Depois que os dados do relatorio forem carregados, abrir ou imprimir a
   memoria detalhada nao dispara consulta adicional ao banco nem requisicao de calculo.
 - [ ] AC-8 — A mudanca preserva os comportamentos atuais de rescisao e de relatorio
   cadastral, inclusive seus dados, rotas e acoes de impressao.
-- [ ] AC-9 — Antes de encerrar a implementacao, os quality gates definidos para os
-  arquivos alterados passam e os cenarios CLT, PJ, rescisao, cadastral e impressao
-  sao verificados e registrados nesta story.
+- [ ] AC-9 — Antes de encerrar a implementacao, lint, typecheck, `npm test` e build
+  passam; os cenarios CLT, PJ, rescisao, cadastral e impressao sao verificados e
+  registrados nesta story.
 
 ## Restrições
 
 - Nao alterar formulas de calculo, schema do banco ou a geracao de PDF nesta story.
 - A implementacao deve partir de testes (TDD) para qualquer logica nova ou alterada.
 - Esta story documenta o comportamento esperado; nao contem implementacao de codigo.
+- Preservar as alteracoes nao relacionadas existentes no worktree principal.
 
 ## Checklist de implementação
 
