@@ -370,7 +370,7 @@ export default function ReportClient() {
                                     </div>
                                     <PayrollCalculationDetails
                                         breakdown={buildPayrollBreakdown({ employee: p.employee, payroll: p })}
-                                        variant="standalone"
+                                        variant="dialog"
                                         panelId={`print-monthly-payroll-${p.id}`}
                                     />
                                 </section>
@@ -524,7 +524,7 @@ export default function ReportClient() {
                                     </div>
                                     <PayrollCalculationDetails
                                         breakdown={buildPayrollBreakdown({ employee: p.employee, payroll: p })}
-                                        variant="standalone"
+                                        variant="dialog"
                                         panelId={`print-collaborator-payroll-${p.id}`}
                                     />
                                 </section>
@@ -830,14 +830,32 @@ export default function ReportClient() {
           th, td { border-bottom: 1px solid #eee !important; overflow: visible !important; display: table-cell !important; }
 
           button[aria-controls*="payroll-details"] { display: none !important; }
-          .payroll-calculation-details,
-          .payroll-calculation-details > div,
-          .payroll-calculation-details section,
-          .payroll-calculation-details aside {
-            break-inside: avoid-page !important;
-            page-break-inside: avoid !important;
+          .print-payroll-calculations > section {
+            break-before: page !important;
+            page-break-before: always !important;
           }
-          .payroll-calculation-details aside { display: block !important; }
+          .print-payroll-calculations .payroll-calculation-details,
+          .print-payroll-calculations .payroll-calculation-details section,
+          .print-payroll-calculations .payroll-calculation-details aside {
+            break-inside: auto !important;
+            page-break-inside: auto !important;
+          }
+          .print-payroll-calculations .payroll-calculation-details > div {
+            display: grid !important;
+            grid-template-columns: 30% minmax(0, 1fr) !important;
+            gap: 7mm !important;
+          }
+          .print-payroll-calculations .payroll-breakdown-sections {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 4mm !important;
+          }
+          .print-payroll-calculations .payroll-calculation-details aside { display: block !important; }
+          .print-payroll-calculations .payroll-calculation-details section { margin: 0 !important; }
+          .print-payroll-calculations .payroll-calculation-details p,
+          .print-payroll-calculations .payroll-calculation-details dt,
+          .print-payroll-calculations .payroll-calculation-details dd,
+          .print-payroll-calculations .payroll-calculation-details span { font-size: 8pt !important; }
           
           /* Remove UI Noise */
           .shadow-premium, .glass-card, [class*="shadow-"], [class*="backdrop-blur"] { 

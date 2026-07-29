@@ -79,7 +79,7 @@ export default function PayrollCalculationDetails({
             <p className="mt-1 text-sm text-wine-600">Competência: {breakdown.competency}</p>
           </div>
 
-          <div className={isDialog ? "grid min-w-0 grid-cols-2 gap-3" : ""}>
+          <div className={isDialog ? "payroll-breakdown-sections grid min-w-0 grid-cols-2 gap-3" : ""}>
             <section className={isDialog ? "min-w-0" : "mb-6"}>
               <h3 className={`${isDialog ? "mb-2" : "mb-3"} flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-emerald-700`}>
                 <span className="grid h-5 w-5 place-items-center rounded-sm bg-emerald-100">+</span>
