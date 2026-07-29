@@ -121,6 +121,44 @@ test("passes the unrounded class base to the teacher component calculator", () =
   assert.equal(receivedBase, 2521.6536);
 });
 
+test("includes only positive conditional earnings for a non-hourly CLT teacher", () => {
+  const breakdown = buildPayrollBreakdown({
+    employee: {
+      type: "CLT",
+      role: "Professora Coordenadora",
+      baseSalary: 4000,
+      hourlyRate: null,
+      cestaBasica: 250,
+      isAulista: false,
+    },
+    payroll: {
+      baseSalary: 4000,
+      transportTotal: 0,
+      absences: 0,
+      absenceDeduction: 0,
+      absencesVT: 0,
+      transportDeduction: 0,
+      otherDeductions: 0,
+      bonuses: 350,
+      grossEarnings: 4550,
+      inssDeduction: 0,
+      irrfDeduction: 0,
+      fgtsValue: 364,
+      salaryAdvance: 0,
+      netTotal: 4550,
+    },
+  });
+
+  assert.deepEqual(
+    Array.from(breakdown.earnings, (entry) => entry.id),
+    ["salary", "activity", "food-basket", "bonuses"],
+  );
+  assert.equal(item(breakdown.earnings, "food-basket").value, 250);
+  assert.equal(item(breakdown.earnings, "bonuses").value, 100);
+  assert.equal(breakdown.earnings.some((entry) => entry.id === "transport"), false);
+  assert.equal(breakdown.earnings.every((entry) => entry.value > 0), true);
+});
+
 test("hides residual CLT taxes and FGTS from a PJ breakdown totals", () => {
   const breakdown = buildPayrollBreakdown({
     employee: {
