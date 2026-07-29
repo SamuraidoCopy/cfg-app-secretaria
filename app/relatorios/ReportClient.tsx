@@ -726,13 +726,13 @@ export default function ReportClient() {
 
             {selectedPayrollDetails ? (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-wine-950/45 p-3 backdrop-blur-sm print:hidden sm:p-6"
+                    className="fixed inset-0 z-[999] flex items-center justify-center bg-wine-950/45 p-2 backdrop-blur-sm print:hidden sm:p-3"
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby="payroll-details-dialog-title"
                 >
-                    <div className="flex max-h-full w-full max-w-6xl flex-col overflow-hidden rounded-[28px] bg-cream-50 shadow-2xl">
-                        <div className="flex items-center justify-between border-b border-wine-100 bg-white px-5 py-4 sm:px-7">
+                    <div className="flex max-h-[calc(100dvh-1rem)] w-full max-w-6xl flex-col overflow-hidden rounded-[28px] bg-cream-50 shadow-2xl">
+                        <div className="flex shrink-0 items-center justify-between border-b border-wine-100 bg-white px-5 py-3 sm:px-7">
                             <div>
                                 <p className="text-xs font-bold uppercase tracking-widest text-wine-500">Memória de cálculo</p>
                                 <h2 id="payroll-details-dialog-title" className="text-lg font-black text-wine-950 sm:text-xl">{selectedPayrollDetails.employee.name}</h2>
@@ -745,7 +745,7 @@ export default function ReportClient() {
                                 Fechar detalhes
                             </button>
                         </div>
-                        <div className="overflow-y-auto p-4 sm:p-6">
+                        <div className="min-h-0 overflow-hidden p-3 sm:p-4">
                             <PayrollCalculationDetails
                                 breakdown={selectedPayrollDetails}
                                 variant="dialog"
