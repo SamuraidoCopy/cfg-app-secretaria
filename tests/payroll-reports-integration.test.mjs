@@ -23,5 +23,8 @@ test("prints a complete calculation section for every regular payroll after the 
   assert.match(source, /print-payroll-calculations/);
   assert.match(source, /print:break-before-page/);
   assert.match(source, /filter\(\(p\) => !p\.isRescisao\)/);
-  assert.match(source, /variant="standalone"/);
+  assert.match(source, /print-payroll-calculations \.payroll-calculation-details > div/);
+  assert.match(source, /grid-template-columns: 30% minmax\(0, 1fr\)/);
+  assert.match(source, /variant="dialog"/);
+  assert.doesNotMatch(source, /break-inside: avoid-page/);
 });
